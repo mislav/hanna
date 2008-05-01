@@ -1,7 +1,8 @@
 require 'rdoc/generator/html'
-require 'rdoc/generator/html/one_page_html'
+# require 'rdoc/generator/html/one_page_html'
 require 'haml'
 require 'sass'
+require 'yaml'
 
 # = A better RDoc HTML template
 #
@@ -46,11 +47,11 @@ module RDoc::Generator::HTML::Mislav
   CLASS_PAGE = file('class_page.html.haml')
   FILE_PAGE = file('file_page.html.haml')
 
-  BODY = file('body.html.erb')
+  BODY = file('layout.html.haml')
   
   METHOD_LIST = file('method_list.html.haml')
 
-  FR_INDEX_BODY = %{ <%= template_include %> }
+  FR_INDEX_BODY = %{FR_INDEX_BODY <%= template_include %>}
 
   FILE_INDEX = file('file_index.html.erb')
   CLASS_INDEX = FILE_INDEX
@@ -58,4 +59,3 @@ module RDoc::Generator::HTML::Mislav
 
   INDEX = file('index.html.erb')
 end 
-
