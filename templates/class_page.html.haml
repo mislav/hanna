@@ -1,0 +1,33 @@
+#classHeader
+  %table.header-table
+    %tr.top-aligned-row
+      %td
+        %strong= values["classmod"]
+      %td.class-name-in-header
+        = values["full_name"]
+    %tr.top-aligned-row
+      %td
+        %strong
+          In:
+      %td
+        - for file in values["infiles"]
+          - if file["full_path_url"]
+            %a{ :href => file["full_path_url"] }= file["full_path"]
+          - else
+            = file["full_path"]
+            
+          - if file["cvsurl"]
+            = surround '(', ')' do
+              %a{ :href => file["cvsurl"] } view source online
+          %br
+          
+    - if values["parent"] then
+      %tr.top-aligned-row
+        %td
+          %strong
+            Parent:
+        %td
+          - if values["par_url"] then
+            %a{ :href => values["par_url"] }= values["parent"]
+          - else
+            = values["parent"]

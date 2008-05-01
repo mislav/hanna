@@ -1,0 +1,135 @@
+#contextContent
+  - if values["diagram"]
+    #diagram= values["diagram"]
+  - if values["description"]
+    #description= values["description"]
+    
+  - if values["requires"]
+    #requires-list
+      %h3.section-bar Required files
+      .name-list
+        - for req in values["requires"]
+          = href req["aref"], req["name"]
+          
+  - if values["toc"]
+    #contents-list
+      %h3.section-bar Contents
+      %ul
+        - for item in values["toc"]
+          %li
+            %a{ :href => alues["href"] }= values["secname"]
+            
+  - if values["methods"]
+    #method-list
+      %h3.section-bar Methods
+      .name-list
+        - for method in values["methods"]
+          = href method["aref"], method["name"]
+
+- if values["includes"]
+  #includes
+    %h3.section-bar Included Modules
+    #includes-list
+      - for inc in values["includes"]
+        %span.include-name= href inc["aref"], inc["name"]
+
+- for section in values["sections"]
+  #section
+    - if section["sectitle"]
+      %h2.section-title
+        %a{ :name => section["secsequence"] }= section["sectitle"]
+      - if section["seccomment"]
+        .section-comment= section["seccomment"]
+    - if values["classlist"]
+      #class-list
+        %h3.section-bar Classes and Modules
+        = values["classlist"]
+    - if values["constants"]
+      #constants-list
+        %h3.section-bar Constants
+        .name-list
+          %table{ :summary => "Constants" }
+            - for const in values["constants"]
+              %tr.top-aligned-row.context-row
+                %td.context-item-name
+                  = const["name"]
+                %td
+                  \=
+                %td.context-item-value
+                  = const["value"]
+                - if values["desc"] then
+                  %td{ :width => "3em" }
+                    &nbsp;
+                  %td.context-item-desc
+                    = const["desc"]
+                    
+    - if values["aliases"]
+      #aliases-list
+        %h3.section-bar External Aliases
+        .name-list
+          %table{ :summary => "aliases" }
+            - for alia in values["aliases"]
+              %tr.top-aligned-row.context-row
+                %td.context-item-name
+                  = values["old_name"]
+                %td
+                  \-&gt;
+                %td.context-item-value
+                  = values["new_name"]
+              - if values["desc"] then
+                %tr.top-aligned-row.context-row
+                  %td
+                    &nbsp;
+                  %td.context-item-desc{ :colspan => "2" }
+                    = values["desc"]
+                    
+    - if values["attributes"]
+      #attribute-list
+        %h3.section-bar Attributes
+        .name-list
+          %table
+            - for attr in values["attributes"]
+              %tr.top-aligned-row.context-row
+                %td.context-item-name
+                  = values["name"]
+                - if values["rw"] then
+                  %td.context-item-value
+                    = "[#{values['rw']}]"
+                - else
+                  %td.context-item-value &nbsp;
+                %td.context-item-desc
+                  = values["a_desc"]
+    
+    - if section["method_list"]
+      #methods
+        - for list in section["method_list"]
+          - if list["methods"] then
+            %h3.section-bar
+              = list["type"]
+              = list["category"]
+              methods
+            - for method in list["methods"]
+              .method-detail{ :id => "method-#{method['aref']}" }
+                %a{ :name => method["aref"] }/
+                .method-heading
+                  - method_html = capture_haml do
+                    - if method["callseq"]
+                      %span.method-name= method["callseq"]
+                    - else
+                      %span.method-name= method["name"]
+                      %span.method-args= method["params"]
+                  - if method["codeurl"]
+                    %a.method-signature{ :href => method["codeurl"], :onclick => "popupCode('#{method['codeurl']}'); return false", :target => "Code" }
+                      = method_html
+                  - elsif method["sourcecode"] then
+                    %a.method-signature{ :href => "##{method['aref']}" }= method_html
+                .method-description
+                  - if method["m_desc"]
+                    = method["m_desc"]
+                  - if method["sourcecode"]
+                    - name = "#{method['aref']}-source"
+                    %p
+                      %a.source-toggle{ :href => "#", :onclick => "toggleCode('#{name}');return false" }
+                        [Source]
+                    .method-source-code{ :id => name }
+                      %pre~ method["sourcecode"]

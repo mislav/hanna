@@ -1,0 +1,17 @@
+<div id="fileHeader">
+  <h1><%= values["short_name"] %></h1>
+  <table class="header-table">
+  <tr class="top-aligned-row">
+    <td><strong>Path:</strong></td>
+    <td><%= values["full_path"] %>
+    <% if values["cvsurl"] then %>
+      &nbsp;(<a href="<%= values["cvsurl"] %>"><acronym title="Concurrent Versioning System">CVS</acronym></a>)
+    <% end %>
+    </td>
+  </tr>
+  <tr class="top-aligned-row">
+    <td><strong>Last Update:</strong></td>
+    <td><%= values["dtm_modified"] %></td>
+  </tr>
+  </table>
+</div>
