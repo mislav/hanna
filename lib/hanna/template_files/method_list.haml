@@ -1,9 +1,10 @@
-#contextContent
-  - if values["diagram"]
-    #diagram= values["diagram"]
-  - if values["description"]
-    #description= values["description"]
+- if values["diagram"]
+  #diagram= values["diagram"]
+  
+- if values["description"]
+  #description~ values["description"]
     
+#contextContent
   - if values["requires"]
     #requires-list
       %h3.section-bar Required files
@@ -17,7 +18,7 @@
       %ul
         - for item in values["toc"]
           %li
-            %a{ :href => alues["href"] }= values["secname"]
+            %a{ :href => values["href"] }= values["secname"]
             
   - if values["methods"]
     #method-list

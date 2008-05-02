@@ -1,143 +1,109 @@
+!title_font = Times, "Times New Roman", Georgia, serif
+
 body
-  :font-family Verdana,Arial,Helvetica,sans-serif
+  :font-family Verdana, Arial, Helvetica, sans-serif
   :font-size 90%
   :margin 0
-  :margin-left 40px
   :padding 0
   :background white
 
-h1
-  :margin 0
-  :color #efefef
-  :background transparent
-  :font-size 150%
+// self-clearing
+.clearing
+  &:after
+    :content "."
+    :visibility hidden
+    :height 0
+    :display block
+    :clear both
+  * html &
+    :height 1px
+  *:first-child + html
+    :overflow hidden
 
-h2, h3, h4
+h1, h2, h3, h4, h5, h6
   :margin 0
-  :color #efefef
-  :background transparent
-  :margin-top 1em
-  :color #125
-  :background transparent
+  :font-weight normal
 
 a
-  :background #eef
   :color #039
-  :text-decoration none
+  // :text-decoration none
+  &:hover
+    :background #039
+    :color #eef
 
-a:hover
-  :background #039
-  :color #eef
+table
+  :margin-bottom 1em
+  td, th
+    :padding .4em .8em
+  thead
+    :background-color #e8e8e8
+    th
+      :font-variant small-caps
+      :color #555
+  tr
+    :border-bottom 1px solid silver
 
-td > a
-  :background transparent
-  :color #039
-  :text-decoration none
-
-.section-title
-  :background #79a
-  :color #eee
-  :padding 3px
-  :margin-top 2em
-  :margin-left -30px
-  :border 1px solid #999
-  > a
-    :background transparent
-    :color #eee
-    :text-decoration none
-
-div#index
-  :margin 0
-  :margin-left -40px
-  :padding 0
+#index
   :font-size 90%
-  a
-    :margin-left 0.7em
-  .section-bar
-    :margin-left 0px
-    :padding-left 0.7em
+  h1
+    :padding .1em .7em
     :background #ccc
     :font-size small
+    :color #333
+    :border-bottom 1px solid #999
+  ol
+    :margin 0
+    :padding .5em .8em
+    :list-style none
+    li
+      :margin-left 0
 
-div#classHeader
-  :width auto
-  :color white
-  :padding 0.5em 1.5em 0.5em 1.5em
-  :margin 0
-  :margin-left -40px
-  :border-bottom 3px solid #006
-  :background #057
-  a
-    :background inherit
-    :color white
-  td
-    :background inherit
-    :color white
+div.header
+  :font-size 80%
+  :font-family Arial, Helvetica, sans-serif
+  :padding .5em 12px
+  :border-bottom 1px solid silver
+  :background #eee
+  .name
+    :font-size 1.6em
+    :font-family = !title_font
+    .type
+      :color #777
+      :font-size 80%
+      :font-variant small-caps
+  .paths, .last-update
+    :color #777
+  ol.paths
+    :margin 0
+    :padding-left .5em
+    :list-style none
+    li
+      :margin-left 0
+  .last-update .datetime
+    :color #555
 
-div#fileHeader
-  :width auto
-  :color white
-  :padding 0.5em 1.5em 0.5em 1.5em
-  :margin 0
-  :margin-left -40px
-  :border-bottom 3px solid #006
-  :background #057
-  a
-    :background inherit
-    :color white
-  td
-    :background inherit
-    :color white
-
-.class-name-in-header
-  :font-size 180%
-  :font-weight bold
-
-div#bodyContent
-  :padding 0 1.5em 0 1.5em
-
-div#description
-  :padding 0.5em 1.5em
-  :background #efefef
-  :border 1px dotted #999
-  h1
-    :color #125
-    :background transparent
-
-h5, h6
-  :color #125
-  :background transparent
-
-div#validator-badges
-  :text-align center
-  img
-    :border 0
-
-div#copyright
-  :color #333
-  :background #efefef
-  :font 0.75em sans-serif
-  :margin-top 5em
-  :margin-bottom 0
-  :padding 0.5em 2em
-
-table.header-table
-  :color white
-  :font-size small
+#content
+  :padding 12px
+  #description
+    :max-width 60em
+    p
+      :margin-top .5em
+    h1, h2, h3
+      :font-family = !title_font
+    h1
+      :font-size 2.2em
+      :margin-bottom .3em
+    h2
+      :font-size 1.8em
+      :color crimson
+      :margin .8em 0 .3em 0
+    h3
+      :font-size 1.6em
+      :margin .8em 0 .3em 0
 
 .type-note
   :font-size small
   :color #DEDEDE
-
-.xxsection-bar
-  :background #eee
-  :color #333
-  :padding 3px
-
-.section-bar
-  :color #333
-  :border-bottom 1px solid #999
-  :margin-left -20px
 
 .top-aligned-row
   :vertical-align top

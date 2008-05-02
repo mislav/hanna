@@ -1,14 +1,5 @@
-!!! strict
-%html{ :xmlns => "http://www.w3.org/1999/xhtml", 'xml:lang' => "en", :lang => "en" }
-  %head
-    %title= values["list_title"]
-    %meta{ 'http-equiv' => "Content-Type", :content => "text/html; charset=#{values["charset"]}" }
-    %link{ :rel => 'stylesheet', :href => values['style_url'], :type => 'text/css' }
-    %base{ :target => 'docwin' }/
-  %body
-    #index
-      %h1.section-bar= values["list_title"]
-      #index-entries
-        - for entry in values["entries"]
-          = link_to entry['name'], entry['href']
-          %br
+#index
+  %h1= values["list_title"]
+  %ol#index-entries
+    - for entry in values["entries"]
+      %li= link_to entry['name'], entry['href']

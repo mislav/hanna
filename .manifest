@@ -1,7 +1,7 @@
+README.markdown
 Rakefile
 bin
 bin/hanna
-html.rb
 lib
 lib/hanna
 lib/hanna/hanna.rb

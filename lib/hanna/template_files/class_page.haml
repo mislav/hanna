@@ -1,35 +1,18 @@
-#classHeader
-  %table.header-table
-    %tr.top-aligned-row
-      %td
-        %strong= values["classmod"]
-      %td.class-name-in-header
-        = values["full_name"]
-    %tr.top-aligned-row
-      %td
-        %strong
-          In:
-      %td
-        - for file in values["infiles"]
-          - if file["full_path_url"]
-            %a{ :href => file["full_path_url"] }= file["full_path"]
-          - else
-            = file["full_path"]
-            
+#class
+  .header
+    .name
+      %span.type= values["classmod"]
+      = values["full_name"]
+    %ol.paths
+      - for file in values["infiles"]
+        %li
+          = link_to file["full_path"], file["full_path_url"]
           - if file["cvsurl"]
-            = surround '(', ')' do
-              %a{ :href => file["cvsurl"] } view source online
-          %br
-          
-    - if values["parent"] then
-      %tr.top-aligned-row
-        %td
-          %strong
-            Parent:
-        %td
-          - if values["par_url"] then
-            %a{ :href => values["par_url"] }= values["parent"]
-          - else
-            = values["parent"]
+            == (#{link_to 'view online', file["cvsurl"]})
             
-~ yield
+    - if values["parent"] then
+      .parent
+        Parent:
+        = link_to values["parent"], values["par_url"]
+      
+  #content~ yield

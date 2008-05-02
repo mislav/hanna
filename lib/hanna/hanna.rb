@@ -33,17 +33,14 @@ module RDoc::Generator::HTML::Hanna
 
   STYLE = read('styles.sass')
 
-  CLASS_PAGE = read('class_page.haml')
-  FILE_PAGE = read('file_page.haml')
-
-  BODY = read('layout.haml')
-  
+  CLASS_PAGE  = read('class_page.haml')
+  FILE_PAGE   = read('file_page.haml')
   METHOD_LIST = read('method_list.haml')
 
-  FR_INDEX_BODY = nil
+  FR_INDEX_BODY = BODY = read('layout.haml')
 
-  FILE_INDEX = read('file_index.haml')
-  CLASS_INDEX = FILE_INDEX
+  FILE_INDEX   = read('file_index.haml')
+  CLASS_INDEX  = FILE_INDEX
   METHOD_INDEX = FILE_INDEX
 
   INDEX = read('index.haml')

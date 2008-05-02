@@ -1,18 +1,12 @@
-#fileHeader
-  %h1= values["short_name"]
-  %table.header-table
-    %tr.top-aligned-row
-      %td
-        %strong Path:
-      %td
-        = values["full_path"]
-        - if values["cvsurl"]
-          = surround '(', ')' do
-            %a{ :href => values["cvsurl"] } view source online
-    %tr.top-aligned-row
-      %td
-        %strong Last Update:
-      %td
-        = values["dtm_modified"]
+#file
+  .header
+    .name= values["short_name"]
+    .paths
+      = values["full_path"]
+      - if values["cvsurl"]
+        == (#{link_to 'view online', values["cvsurl"]})
+    .last-update
+      Last Update:
+      %span.datetime= values["dtm_modified"]
 
-~ yield
+  #content~ yield
