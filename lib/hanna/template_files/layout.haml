@@ -19,13 +19,13 @@
           }
 
           // Make codeblocks hidden by default
-          document.writeln('<' + 'style type="text/css">div.method-source-code { display: none }<\/style>')
+          document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
     - else
       %base{ :target => 'docwin' }/
         
   %body
     /~ debug values
-    ~ yield
+    = yield
     
     - unless values['list_title']
       #footer

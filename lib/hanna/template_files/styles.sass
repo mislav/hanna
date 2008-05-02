@@ -101,6 +101,14 @@ div.header
   :position relative
   :width 74%
   
+  pre, .method .synopsis
+    :font 14px Inconsolata, Monaco, "DejaVu Sans", Courier, "Courier New", monospace
+  pre
+    :color black
+    :background #eee
+    :border 1px solid silver
+    :padding 0 .5em .8em .5em
+  
   #description
     :max-width 60em
     p
@@ -137,10 +145,36 @@ div.header
   ol
     :padding 0 0 .5em .5em
 
-.type-note
-  :font-size small
-  :color #DEDEDE
-
+#methods
+  h3
+    :font-variant small-caps
+    :color #444
+    :font-size 1.2em
+    :margin 1em 0 .2em 0
+    
+  .method
+    :border 1px solid silver
+    :margin-top .5em
+    :background #eee
+    .synopsis
+      :color black
+      :background silver
+      :padding .2em 1em
+      :font-size 16px
+      .name
+        :font-weight bold
+      a
+        :text-decoration none
+    .description
+      :padding 0 1em
+    .source
+      :margin .5em 0
+    .source-toggle
+      :font-size 85%
+      :margin-left 1em
+  .public-class
+    :background #ffd
+    
 .top-aligned-row
   :vertical-align top
 
@@ -162,45 +196,13 @@ div.header
   :color #333
   :padding-left 2em
 
-.method-detail
-  :background #efefef
-  :padding 0
-  :margin-top 0.5em
-  :margin-bottom 1em
-  :border 1px dotted #ccc
-
-.method-heading
-  :color black
-  :background #ccc
-  :border-bottom 1px solid #666
-  :padding 0.2em 0.5em 0 0.5em
-
-.method-signature
-  :color black
-  :background inherit
-
-.method-name
-  :font-weight bold
-
-.method-args
-  :font-style italic
-
-.method-description
-  :padding 0 0.5em 0 0.5em
-
-a.source-toggle
-  :font-size 90%
-
-div.method-source-code
+#content .method .source pre
   :background #262626
   :color #ffdead
   :margin 1em
   :padding 0.5em
   :border 1px dashed #999
   :overflow hidden
-  pre
-    :color #ffdead
-    :overflow hidden
 
 .standalone-code
   :background #221111

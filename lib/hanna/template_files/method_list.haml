@@ -42,14 +42,15 @@
 - for section in values["sections"]
   #section
     - if section["sectitle"]
-      %h2.section-title
-        %a{ :name => section["secsequence"] }= section["sectitle"]
+      %h2
+        = link_to section["sectitle"], section["secsequence"]
       - if section["seccomment"]
         .section-comment= section["seccomment"]
     - if values["classlist"]
       #class-list
-        %h3.section-bar Classes and Modules
+        %h3 Classes and Modules
         = values["classlist"]
+        
     - if values["constants"]
       #constants-list
         %h3.section-bar Constants
@@ -110,32 +111,29 @@
       #methods
         - for list in section["method_list"]
           - if list["methods"] then
-            %h3.section-bar
-              = list["type"]
-              = list["category"]
-              methods
+            %h3== #{list["type"]} #{list["category"].downcase} methods
+            
             - for method in list["methods"]
-              .method-detail{ :id => "method-#{method['aref']}" }
-                %a{ :name => method["aref"] }/
-                .method-heading
+              .method{ :id => "method-#{method['aref']}", :class => "#{list['type']}-#{list['category']}".downcase }
+                %a{ :name => method["aref"] }
+                .synopsis
                   - method_html = capture_haml do
                     - if method["callseq"]
-                      %span.method-name= method["callseq"]
+                      %span.name= method["callseq"]
                     - else
-                      %span.method-name= method["name"]
-                      %span.method-args= method["params"]
+                      %span.name= method["name"]
+                      %span.arguments= method["params"]
                   - if method["codeurl"]
                     %a.method-signature{ :href => method["codeurl"], :onclick => "popupCode('#{method['codeurl']}'); return false", :target => "Code" }
                       = method_html
-                  - elsif method["sourcecode"] then
-                    %a.method-signature{ :href => "##{method['aref']}" }= method_html
-                .method-description
-                  - if method["m_desc"]
-                    = method["m_desc"]
-                  - if method["sourcecode"]
+                  - else
+                    = method_html
+                - if method["m_desc"]
+                  .description
+                    ~ method["m_desc"]
+                - if method["sourcecode"]
+                  .source
                     - name = "#{method['aref']}-source"
-                    %p
-                      %a.source-toggle{ :href => "#", :onclick => "toggleCode('#{name}');return false" }
-                        [Source]
-                    .method-source-code{ :id => name }
-                      %pre~ method["sourcecode"]
+                    %a.source-toggle{ :href => "#", :onclick => "toggleCode('#{name}'); return false" }
+                      [show source]
+                    ~ "<pre id='#{name}'>#{method["sourcecode"]}</pre>"
