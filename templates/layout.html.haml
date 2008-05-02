@@ -34,4 +34,4 @@
         
   %body
     / == <pre><code>#{CGI::escapeHTML YAML::dump(values)}</code></pre>
-    = template_include
+    = yield

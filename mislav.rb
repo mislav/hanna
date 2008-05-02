@@ -51,7 +51,7 @@ module RDoc::Generator::HTML::Mislav
   
   METHOD_LIST = file('method_list.html.haml')
 
-  FR_INDEX_BODY = %{FR_INDEX_BODY <%= template_include %>}
+  FR_INDEX_BODY = nil
 
   FILE_INDEX = file('file_index.html.erb')
   CLASS_INDEX = FILE_INDEX
