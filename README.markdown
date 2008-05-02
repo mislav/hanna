@@ -1,10 +1,41 @@
 # Hanna -- a better RDoc template
 
-Hanna is an RDoc template that scales. It's implemented in Haml, making it
-clean and readable. It's built with simplicity, beauty and ease of browsing in
-mind.
+Hanna is an RDoc template that scales. It's implemented in Haml, making the
+sources clean and readable. It's built with simplicity, beauty and ease of
+browsing in mind.
 
-Author: [Mislav][]
+Hanna is available from [GitHub][]:
+
+    gem install mislav-hanna
+
+After that you have two options. You can use the command-line tool:
+
+    hanna -h
+
+For repeated generation of API docs, it's better to set up a Rake task. Here is
+an example for [will_paginate][]:
+
+    # instead of 'rake/rdoctask':
+    require 'hanna/rdoctask'
+    
+    desc 'Generate RDoc documentation for the will_paginate plugin.'
+    Rake::RDocTask.new(:rdoc) do |rdoc|
+      rdoc.rdoc_files.include('README.rdoc', 'LICENSE', 'CHANGELOG').
+        include('lib/**/*.rb').
+        exclude('lib/will_paginate/named_scope*').
+        exclude('lib/will_paginate/array.rb').
+        exclude('lib/will_paginate/version.rb')
+      
+      rdoc.main = "README.rdoc" # page to start on
+      rdoc.title = "will_paginate documentation"
+      
+      rdoc.rdoc_dir = 'doc' # rdoc output folder
+      rdoc.options << '--webcvs=http://github.com/mislav/will_paginate/tree/master/'
+    end
+    
+Either way, it's the same as using RDoc.
+
+Hanna was crafted by [Mislav][].
 
 ## A work in progress
 
@@ -28,5 +59,7 @@ Don't like something? Think you can design better? (You probably can.)
 This is git. I welcome all submissions towards my goal.
 
 
+[GitHub]: http://gems.github.com/ "GitHub gem source"
+[will_paginate]: http://github.com/mislav/will_paginate
 [Mislav]: http://mislav.caboo.se/ "Mislav Marohnić"
 [Allison]: http://blog.evanweaver.com/files/doc/fauna/allison/ "A modern, pretty RDoc template"
