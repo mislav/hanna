@@ -15,3 +15,8 @@ RDoc::Generator::HTML.class_eval do
     @options.template_class = @template = RDoc::Generator::HTML::const_get(klass)
   end
 end
+
+# Don't ask. This works around a bug in Markup where it tries to call
+# HTML.gen_url, but RDoc::Markup::ToHtml::HTML doesn't exist. (What were they
+# thinking, I don't know.)
+RDoc::Markup::ToHtml.const_set :HTML, RDoc::Generator
