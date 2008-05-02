@@ -7,6 +7,8 @@ Rake::RDocTask.class_eval do
     
   # Create the tasks defined by this task lib.
   def define
+    @template = File.dirname(__FILE__) + '/hanna'
+    
     desc "Build the HTML documentation"
     task name
     
