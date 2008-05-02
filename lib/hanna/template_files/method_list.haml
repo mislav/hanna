@@ -3,7 +3,19 @@
   
 - if values["description"]
   #description~ values["description"]
-    
+  
+- methods = values["sections"].inject(Hash.new{|h,k| h[k] = []}){|m,s| s['method_list'].each{|ml| m["#{ml['type']} #{ml['category']}".downcase].concat ml['methods'] } if s['method_list']; m }
+
+- unless methods.empty?
+  #method-list
+    %h2 Methods
+    - for type in ['public class', 'protected class', 'public instance', 'protected instance']
+      - unless (list = methods[type]).empty?
+        %h3= type
+        %ol
+          - for method in list
+            %li= link_to method["name"], '#' + method["aref"]
+
 #contextContent
   - if values["requires"]
     #requires-list
@@ -19,13 +31,6 @@
         - for item in values["toc"]
           %li
             %a{ :href => values["href"] }= values["secname"]
-            
-  - if values["methods"]
-    #method-list
-      %h3.section-bar Methods
-      .name-list
-        - for method in values["methods"]
-          = href method["aref"], method["name"]
 
 - if values["includes"]
   #includes

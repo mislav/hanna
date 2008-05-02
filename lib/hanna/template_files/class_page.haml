@@ -13,6 +13,6 @@
     - if values["parent"] then
       .parent
         Parent:
-        = link_to values["parent"], values["par_url"]
+        %strong= link_to values["parent"], values["par_url"]
       
   #content~ yield

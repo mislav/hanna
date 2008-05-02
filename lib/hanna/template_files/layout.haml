@@ -26,3 +26,9 @@
   %body
     /~ debug values
     ~ yield
+    
+    - unless values['list_title']
+      #footer
+        = link_to '<strong>Hanna</strong> RDoc template', 'http://github.com/mislav/hanna'
+        by
+        %strong= link_to 'Mislav', 'http://mislav.caboo.se/'

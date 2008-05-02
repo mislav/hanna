@@ -31,8 +31,17 @@ a
     :background #039
     :color #eef
 
+ol
+  :margin 0
+  :padding 0
+  :list-style none
+  li
+    :margin-left 0
+    
 table
   :margin-bottom 1em
+  :font-size 1em
+  :border-collapse collapse
   td, th
     :padding .4em .8em
   thead
@@ -52,18 +61,22 @@ table
     :color #333
     :border-bottom 1px solid #999
   ol
-    :margin 0
     :padding .5em .8em
-    :list-style none
-    li
-      :margin-left 0
 
-div.header
+div.header, #footer
   :font-size 80%
-  :font-family Arial, Helvetica, sans-serif
-  :padding .5em 12px
-  :border-bottom 1px solid silver
   :background #eee
+#footer
+  :border-top 1px solid silver
+  :margin-top .5em
+  :padding .8em 2em
+  :text-align center
+  :font-variant small-caps
+  
+div.header
+  :padding .5em 12px
+  :font-family Arial, Helvetica, sans-serif
+  :border-bottom 1px solid silver
   .name
     :font-size 1.6em
     :font-family = !title_font
@@ -71,19 +84,23 @@ div.header
       :color #777
       :font-size 80%
       :font-variant small-caps
-  .paths, .last-update
+  .paths, .last-update, .parent
     :color #777
   ol.paths
-    :margin 0
     :padding-left .5em
-    :list-style none
-    li
-      :margin-left 0
   .last-update .datetime
     :color #555
+  .parent
+    :margin-top .3em
+    strong
+      :font-weight normal
+      :color #444
 
 #content
   :padding 12px
+  :position relative
+  :width 74%
+  
   #description
     :max-width 60em
     p
@@ -100,6 +117,25 @@ div.header
     h3
       :font-size 1.6em
       :margin .8em 0 .3em 0
+
+#method-list
+  :position fixed
+  :top 6em
+  :right 12px
+  :width 20%
+  :background #eee
+  :border 1px solid silver
+  :padding .5em 1em
+  h2
+    :font-size 1.3em
+  h3
+    :font-variant small-caps
+    :text-transform capitalize
+    :font-family = !title_font
+    :color #666
+    :font-size 1.1em
+  ol
+    :padding 0 0 .5em .5em
 
 .type-note
   :font-size small
