@@ -33,5 +33,5 @@
         document.writeln('<style type="text/css">div.method-source-code { display: none }<\/style>')
         
   %body
-    / == <pre><code>#{CGI::escapeHTML YAML::dump(values)}</code></pre>
-    = yield
+    /~ debug values
+    ~ yield

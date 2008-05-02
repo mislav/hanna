@@ -1,8 +1,7 @@
-require 'rdoc/generator/html'
-# require 'rdoc/generator/html/one_page_html'
 require 'haml'
 require 'sass'
-require 'yaml'
+require 'rdoc/generator/html'
+require File.dirname(__FILE__) + '/template_page_patch'
 
 # = A better RDoc HTML template
 #
@@ -28,7 +27,7 @@ module RDoc::Generator::HTML::Mislav
 
     def file(name)
       path = [name]
-      path.unshift 'templates' if name =~ /\.html(\.(erb|haml))?$/
+      path.unshift 'templates' if name =~ /\.(erb|haml)$/
       content = File.read(File.join(dir, *path))
 
       case name
@@ -53,9 +52,9 @@ module RDoc::Generator::HTML::Mislav
 
   FR_INDEX_BODY = nil
 
-  FILE_INDEX = file('file_index.html.erb')
+  FILE_INDEX = file('file_index.haml')
   CLASS_INDEX = FILE_INDEX
   METHOD_INDEX = FILE_INDEX
 
-  INDEX = file('index.html.erb')
+  INDEX = file('index.haml')
 end 
