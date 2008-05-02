@@ -61,8 +61,9 @@ RDoc::TemplatePage.class_eval do
     tree.keys.sort.inject('') do |out, name|
       unless name == '_href'
         subtree = tree[name]
+        text = parent ? "<span class='parent'>#{parent}</span>#{name}" : name
         out << '<li>'
-        out << link_to((parent ? "<span class='parent'>#{parent}</span>#{name}" : name), subtree['_href'])
+        out << (subtree['_href'] ? link_to(text, subtree['_href']) : "<span class='class'>#{text}</span>")
         if subtree.keys.size > 1
           out << "\n<ol>" << render_class_tree(subtree, parent.to_s + name) << "\n</ol>"
         end

@@ -1,4 +1,5 @@
 !title_font = Times, "Times New Roman", Georgia, serif
+!link = #039
 
 body
   :font-family Verdana, Arial, Helvetica, sans-serif
@@ -25,10 +26,10 @@ h1, h2, h3, h4, h5, h6
   :font-weight normal
 
 a
-  :color #039
-  // :text-decoration none
+  :color = !link
   &:hover
-    :background #039
+    :background = !link
+    :text-decoration none
     :color #eef
 
 ol
@@ -37,7 +38,7 @@ ol
   :list-style none
   li
     :margin-left 0
-    
+    white-space: nowrap
 table
   :margin-bottom 1em
   :font-size 1em
@@ -53,15 +54,29 @@ table
     :border-bottom 1px solid silver
 
 #index
-  :font-size 90%
+  :font 85%/1.2 Arial, Helvetica, sans-serif
+  a
+    :text-decoration none
   h1
     :padding .1em .7em
     :background #ccc
-    :font-size small
+    :font = "small-caps 1.1em" !title_font
     :color #333
     :border-bottom 1px solid #999
   ol
     :padding .5em .8em
+    li
+      :white-space nowrap
+  #index-entries.classes
+    :font-size 1.1em
+    ol
+      :padding 0
+    span.class
+      :display none
+    .class, a
+      :font-weight bold
+    .parent
+      :font-weight normal
 
 div.header, #footer
   :font-size 80%
@@ -99,7 +114,7 @@ div.header
 #content
   :padding 12px
   :position relative
-  :width 74%
+  :width 73%
   
   pre, .method .synopsis
     :font 14px Inconsolata, Monaco, "DejaVu Sans", Courier, "Courier New", monospace
@@ -110,7 +125,7 @@ div.header
     :padding 0 .5em .8em .5em
   
   #description
-    :max-width 60em
+    // :max-width 60em
     p
       :margin-top .5em
     h1, h2, h3
@@ -128,13 +143,14 @@ div.header
       :color #555
 
 #method-list
-  :position fixed
-  :top 6em
-  :right 12px
-  :width 20%
+  :position absolute
+  :top 12px
+  :right -31%
+  :width 27%
   :background #eee
   :border 1px solid silver
   :padding .5em 1em
+  :overflow hidden
   h2
     :font-size 1.3em
   h3
@@ -146,6 +162,16 @@ div.header
   ol
     :padding 0 0 .5em .5em
 
+#context
+  :font-size 85%
+  :padding-left 1.5em
+  :border-top 1px dashed silver
+  :margin-top 1em
+  h2
+    :color #333
+    :font = "bold small-caps 1.3em" !title_font
+    :margin .5em 0 .1em 0
+    
 #methods
   h3
     :font = "small-caps 1.2em" !title_font
