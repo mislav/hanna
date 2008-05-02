@@ -1,0 +1,41 @@
+#!/usr/bin/ruby
+if ARGV.size == 1 and ARGV.first == '-h'
+  puts <<-HELP
+Hanna -- a better RDoc template
+Sample usage:
+
+  hanna lib/**/*.rb
+
+Hanna passes all arguments to RDoc. To find more about RDoc options,
+see "rdoc -h". Default options:
+
+  -o doc --inline-source --charset=UTF-8
+
+HELP
+  exit 0
+end
+
+require 'rubygems'
+begin
+  gem 'rdoc', '~> 2.0.0'
+rescue Gem::LoadError
+  $stderr.puts "Hanna requires the RDoc 2.0 gem."
+  exit 1
+else
+  require 'rdoc/rdoc'
+end
+
+hanna_dir = File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib'))
+$:.unshift(hanna_dir) unless $:.include?(hanna_dir)
+
+require 'hanna/rdoc_patch'
+
+options = []
+
+options << '-T' << 'hanna/hanna.rb'
+options << '-o' << 'doc' unless ARGV.include?('-o') or ARGV.include?('--op')
+options << '--inline-source' << '--charset=UTF-8'
+
+options.concat ARGV
+
+RDoc::RDoc.new.document(options)
