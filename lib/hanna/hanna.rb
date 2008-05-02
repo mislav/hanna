@@ -1,39 +1,29 @@
 require 'haml'
 require 'sass'
 require 'rdoc/generator/html'
-require File.dirname(__FILE__) + '/template_page_patch'
+require 'hanna/template_page_patch'
 
 # = A better RDoc HTML template
 #
 # Many different kinds of awesome.
 #
-# == Authors
-#
-# * Mislav Marohnić <mislav.marohnic@gmail.com>
-# * Michael Granger <ged@FaerieMUD.org>
-#
-# Copyright (c) 2002, 2003 The FaerieMUD Consortium. Some rights reserved.
-#
-# This work is licensed under the Creative Commons Attribution License. To view
-# a copy of this license, visit http://creativecommons.org/licenses/by/1.0/ or
-# send a letter to Creative Commons, 559 Nathan Abbott Way, Stanford, California
-# 94305, USA.
+# Author: Mislav Marohnić <mislav.marohnic@gmail.com>
+# Based on the work of Michael Granger <ged@FaerieMUD.org>
 
-module RDoc::Generator::HTML::Mislav
+module RDoc::Generator::HTML::Hanna
   class << self
     def dir
-      @dir ||= File.dirname(__FILE__)
+      @dir ||= File.join File.dirname(__FILE__), 'template_files'
     end
 
-    def file(name)
-      path = [name]
-      path.unshift 'templates' if name =~ /\.(erb|haml)$/
-      content = File.read(File.join(dir, *path))
+    def read(name)
+      content = File.read(File.join(dir, name))
+      extension = name =~ /\.(\w+)$/ && $1
 
-      case name
-      when /\.sass$/
+      case extension
+      when 'sass'
         Sass::Engine.new(content)
-      when /\.haml$/
+      when 'haml'
         Haml::Engine.new(content)
       else
         content
@@ -41,20 +31,20 @@ module RDoc::Generator::HTML::Mislav
     end
   end
 
-  STYLE = file('styles.sass')
+  STYLE = read('styles.sass')
 
-  CLASS_PAGE = file('class_page.html.haml')
-  FILE_PAGE = file('file_page.html.haml')
+  CLASS_PAGE = read('class_page.haml')
+  FILE_PAGE = read('read_page.haml')
 
-  BODY = file('layout.html.haml')
+  BODY = read('layout.haml')
   
-  METHOD_LIST = file('method_list.html.haml')
+  METHOD_LIST = read('method_list.haml')
 
   FR_INDEX_BODY = nil
 
-  FILE_INDEX = file('file_index.haml')
+  FILE_INDEX = read('read_index.haml')
   CLASS_INDEX = FILE_INDEX
   METHOD_INDEX = FILE_INDEX
 
-  INDEX = file('index.haml')
+  INDEX = read('index.haml')
 end 
