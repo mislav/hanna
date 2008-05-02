@@ -16,9 +16,17 @@ module RDoc::Generator::HTML::Hanna
       @dir ||= File.join File.dirname(__FILE__), 'template_files'
     end
 
-    def read(name)
-      content = File.read(File.join(dir, name))
-      extension = name =~ /\.(\w+)$/ && $1
+    def read(*names)
+      extension = nil
+      
+      content = names.map { |name|
+        if extension
+          name += '.' + extension
+        else
+          extension = name =~ /\.(\w+)$/ && $1
+        end
+        File.read File.join(dir, name)
+      }.join('')
 
       case extension
       when 'sass'
@@ -35,7 +43,7 @@ module RDoc::Generator::HTML::Hanna
 
   CLASS_PAGE  = read('class_page.haml')
   FILE_PAGE   = read('file_page.haml')
-  METHOD_LIST = read('method_list.haml')
+  METHOD_LIST = read('method_list.haml', 'sections')
 
   FR_INDEX_BODY = BODY = read('layout.haml')
 
