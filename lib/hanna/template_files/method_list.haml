@@ -4,8 +4,7 @@
 - if values["description"]
   #description~ values["description"]
   
-- methods = values["sections"].inject(Hash.new{|h,k| h[k] = []}){|m,s| s['method_list'].each{|ml| m["#{ml['type']} #{ml['category']}".downcase].concat ml['methods'] } if s['method_list']; m }
-
+- methods = methods_from_sections values["sections"]
 - unless methods.empty?
   #method-list
     %h2 Methods
@@ -16,34 +15,32 @@
           - for method in list
             %li= link_to method["name"], '#' + method["aref"]
 
-#contextContent
+#context
   - if values["requires"]
-    #requires-list
-      %h3.section-bar Required files
-      .name-list
+    #requires
+      %h2 Required files
+      %ol
         - for req in values["requires"]
-          = href req["aref"], req["name"]
+          %li= link_to req["name"], req["aref"]
           
   - if values["toc"]
-    #contents-list
-      %h3.section-bar Contents
-      %ul
+    #contents
+      %h2 Contents
+      %ol
         - for item in values["toc"]
-          %li
-            %a{ :href => values["href"] }= values["secname"]
+          %li= link_to values["secname"], values["href"]
 
-- if values["includes"]
-  #includes
-    %h3.section-bar Included Modules
-    #includes-list
-      - for inc in values["includes"]
-        %span.include-name= href inc["aref"], inc["name"]
+  - if values["includes"]
+    #includes
+      %h2 Included modules
+      %ol
+        - for inc in values["includes"]
+          %li= link_to inc["name"], inc["aref"]
 
 - for section in values["sections"]
   #section
     - if section["sectitle"]
-      %h2
-        = link_to section["sectitle"], section["secsequence"]
+      %h2= link_to section["sectitle"], section["secsequence"]
       - if section["seccomment"]
         .section-comment= section["seccomment"]
     - if values["classlist"]
@@ -124,7 +121,7 @@
                       %span.name= method["name"]
                       %span.arguments= method["params"]
                   - if method["codeurl"]
-                    %a.method-signature{ :href => method["codeurl"], :onclick => "popupCode('#{method['codeurl']}'); return false", :target => "Code" }
+                    %a.method-signature{ :href => method["codeurl"], :onclick => "popupCode(this.href); return false", :target => "Code" }
                       = method_html
                   - else
                     = method_html

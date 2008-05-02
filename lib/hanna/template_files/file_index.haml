@@ -1,5 +1,5 @@
 #index
   %h1= values["list_title"]
-  %ol#index-entries
+  %ol#index-entries{ :class => values["list_title"].downcase }
     - for entry in values["entries"]
       %li= link_to entry['name'], entry['href']

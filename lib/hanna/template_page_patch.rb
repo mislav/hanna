@@ -21,16 +21,55 @@ RDoc::TemplatePage.class_eval do
     io.write result
   end
 
+  protected
+
+  ### View helpers ###
+
   def link_to(text, url = nil)
     href(url, text)
   end
 
   def debug(text)
-    "<pre><code>#{h YAML::dump(text)}</code></pre>"
+    "<pre>#{h YAML::dump(text)}</pre>"
   end
 
   def h(html)
     CGI::escapeHTML html
+  end
+
+  def methods_from_sections(sections)
+    sections.inject(Hash.new {|h, k| h[k] = []}) do |methods, section|
+      section['method_list'].each do |ml|
+        methods["#{ml['type']} #{ml['category']}".downcase].concat ml['methods']
+      end if section['method_list']
+      methods
+    end
+  end
+
+  def make_class_tree(entries)
+    entries.inject({}) do |tree, entry|
+      leaf = entry['name'].split('::').inject(tree) do |branch, klass|
+        branch[klass] ||= {}
+      end
+      leaf['_href'] = entry['href']
+      tree
+    end
+  end
+
+  def render_class_tree(tree, parent = nil)
+    parent = parent + '::' if parent
+    tree.keys.sort.inject('') do |out, name|
+      unless name == '_href'
+        subtree = tree[name]
+        out << '<li>'
+        out << link_to((parent ? "<span class='parent'>#{parent}</span>#{name}" : name), subtree['_href'])
+        if subtree.keys.size > 1
+          out << "\n<ol>" << render_class_tree(subtree, parent.to_s + name) << "\n</ol>"
+        end
+        out << '</li>'
+      end
+      out
+    end
   end
 
   private
