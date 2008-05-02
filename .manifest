@@ -8,11 +8,13 @@ lib/hanna/hanna.rb
 lib/hanna/rdoc_patch.rb
 lib/hanna/rdoctask.rb
 lib/hanna/template_files
+lib/hanna/template_files/class_index.haml
 lib/hanna/template_files/class_page.haml
 lib/hanna/template_files/file_index.haml
 lib/hanna/template_files/file_page.haml
 lib/hanna/template_files/index.haml
 lib/hanna/template_files/layout.haml
 lib/hanna/template_files/method_list.haml
+lib/hanna/template_files/sections.haml
 lib/hanna/template_files/styles.sass
 lib/hanna/template_page_patch.rb
