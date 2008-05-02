@@ -7,7 +7,11 @@ Rake::RDocTask.class_eval do
     
   # Create the tasks defined by this task lib.
   def define
-    @template = File.dirname(__FILE__) + '/hanna'
+    unless @template and @template != 'html'
+      @template = File.dirname(__FILE__) + '/hanna'
+    end
+    options << '--inline-source' unless options.include? '--inline-source' or options.include? '-S'
+    options << '--charset=UTF-8' if options.grep(/^(--charset$|-c\b)/).empty?
     
     desc "Build the HTML documentation"
     task name
