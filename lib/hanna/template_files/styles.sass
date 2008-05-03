@@ -1,12 +1,37 @@
 !title_font = Times, "Times New Roman", Georgia, serif
-!link = #039
+!code_font  = Inconsolata, Monaco, "DejaVu Sans", Courier, "Courier New", monospace
 
+!light_link = #369
+!link = !light_link - 40
+!light_text = #666
+
+html, body
+  :height 100%
 body
   :font-family Verdana, Arial, Helvetica, sans-serif
   :font-size 90%
   :margin 0
   :padding 0
   :background white
+    
+#wrapper
+  :min-height 100%
+  :height auto !important
+  :height 100%
+  :margin 0 auto -43px
+  :border-left 1px solid gray
+#footer-push
+  :height 43px
+div.header, #footer
+  :font-size 80%
+  :background #eee
+#footer
+  :border-top 1px solid silver
+  :margin-top 12px
+  :padding 0 2em
+  :line-height 30px
+  :text-align center
+  :font-variant small-caps
 
 // self-clearing
 .clearing
@@ -28,9 +53,17 @@ h1, h2, h3, h4, h5, h6
 a
   :color = !link
   &:hover
-    :background = !link
+    :background = !light_link
     :text-decoration none
     :color #eef
+#description, .method .description, .header
+  a
+    :color = !light_link
+    &:hover
+      :color #eee
+  h1, h2, h3
+    a
+      :color = !link
 
 ol
   :margin 0
@@ -49,7 +82,7 @@ table
     :background-color #e8e8e8
     th
       :font-variant small-caps
-      :color #555
+      :color = !light_text
   tr
     :border-bottom 1px solid silver
 
@@ -58,13 +91,14 @@ table
   a
     :text-decoration none
   h1
-    :padding .1em .7em
+    :padding .2em .5em .1em
     :background #ccc
     :font = "small-caps 1.1em" !title_font
     :color #333
-    :border-bottom 1px solid #999
+    :border-bottom 1px solid gray
+    :border-top 1px solid #aaa
   ol
-    :padding .5em .8em
+    :padding .4em .5em
     li
       :white-space nowrap
   #index-entries.classes
@@ -77,16 +111,6 @@ table
       :font-weight bold
     .parent
       :font-weight normal
-
-div.header, #footer
-  :font-size 80%
-  :background #eee
-#footer
-  :border-top 1px solid silver
-  :margin-top .5em
-  :padding .8em 2em
-  :text-align center
-  :font-variant small-caps
   
 div.header
   :padding .5em 12px
@@ -96,33 +120,42 @@ div.header
     :font-size 1.6em
     :font-family = !title_font
     .type
-      :color #777
+      :color = !light_text
       :font-size 80%
       :font-variant small-caps
+  h1.name
+    :font-size 2.2em
   .paths, .last-update, .parent
-    :color #777
+    :color = !light_text
   ol.paths
     :padding-left .5em
   .last-update .datetime
-    :color #555
+    :color = !light_text - 30
   .parent
     :margin-top .3em
     strong
       :font-weight normal
-      :color #444
+      :color = !light_text - 30
 
 #content
   :padding 12px
-  :position relative
-  :width 73%
+  div.class &
+    :position relative
+    :width 73%
   
   pre, .method .synopsis
-    :font 14px Inconsolata, Monaco, "DejaVu Sans", Courier, "Courier New", monospace
+    :font = 15px !code_font
   pre
     :color black
     :background #eee
     :border 1px solid silver
     :padding 0 .5em .8em .5em
+    :overflow auto
+  p, li
+    code, tt
+      :font = 15px !code_font
+      :background #ffffe3
+      :padding 2px 3px
   
   #description
     // :max-width 60em
@@ -132,15 +165,17 @@ div.header
       :font-family = !title_font
     h1
       :font-size 2.2em
-      :margin-bottom .3em
+      :margin-bottom .2em
+      :border-bottom 3px double #d8d8d8
+      :padding-bottom .1em
     h2
       :font-size 1.8em
-      :color #444
+      :color #0E3062
       :margin .8em 0 .3em 0
     h3
       :font-size 1.6em
       :margin .8em 0 .3em 0
-      :color #555
+      :color = !light_text
 
 #method-list
   :position absolute
@@ -193,6 +228,8 @@ div.header
         :text-decoration none
     .description
       :padding 0 1em
+      pre
+        :background #f8f8f8
     .source
       :margin .5em 0
     .source-toggle
@@ -200,27 +237,6 @@ div.header
       :margin-left 1em
   .public-class
     :background #ffd
-    
-.top-aligned-row
-  :vertical-align top
-
-.bottom-aligned-row
-  :vertical-align bottom
-
-.context-row
-
-.context-item-name
-  :font-family monospace
-  :font-weight bold
-  :color black
-
-.context-item-value
-  :font-size small
-  :color #448
-
-.context-item-desc
-  :color #333
-  :padding-left 2em
 
 #content .method .source pre
   :background #262626
@@ -230,45 +246,45 @@ div.header
   :border 1px dashed #999
   :overflow hidden
 
-.standalone-code
-  :background #221111
-  :color #ffdead
-  :overflow hidden
+  .standalone-code
+    :background #221111
+    :color #ffdead
+    :overflow hidden
 
-.ruby-constant
-  :color #7fffd4
-  :background transparent
+  .ruby-constant
+    :color #7fffd4
+    :background transparent
 
-.ruby-keyword
-  :color #00ffff
-  :background transparent
+  .ruby-keyword
+    :color #00ffff
+    :background transparent
 
-.ruby-ivar
-  :color #eedd82
-  :background transparent
+  .ruby-ivar
+    :color #eedd82
+    :background transparent
 
-.ruby-operator
-  :color #00ffee
-  :background transparent
+  .ruby-operator
+    :color #00ffee
+    :background transparent
 
-.ruby-identifier
-  :color #ffdead
-  :background transparent
+  .ruby-identifier
+    :color #ffdead
+    :background transparent
 
-.ruby-node
-  :color #ffa07a
-  :background transparent
+  .ruby-node
+    :color #ffa07a
+    :background transparent
 
-.ruby-comment
-  :color #b22222
-  :font-weight bold
-  :background transparent
+  .ruby-comment
+    :color #b22222
+    :font-weight bold
+    :background transparent
 
-.ruby-regexp
-  :color #ffa07a
-  :background transparent
+  .ruby-regexp
+    :color #ffa07a
+    :background transparent
 
-.ruby-value
-  :color #7fffd4
-  :background transparent
+  .ruby-value
+    :color #7fffd4
+    :background transparent
 

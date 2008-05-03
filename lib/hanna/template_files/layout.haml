@@ -1,10 +1,11 @@
 !!! strict
+- index = values['list_title']
 %html{ :xmlns => "http://www.w3.org/1999/xhtml", 'xml:lang' => "en", :lang => "en" }
   %head
-    %title= values['list_title'] || values['title']
+    %title= index || values['title']
     %meta{ 'http-equiv' => "Content-Type", :content => "text/html; charset=#{values['charset']}" }
     %link{ :rel => "stylesheet", :href => values["style_url"], :type => "text/css", :media => "screen" }
-    - unless values['list_title']
+    - unless index
       %script{ :type => "text/javascript" }
         :plain
           function popupCode(url) {
@@ -23,12 +24,14 @@
     - else
       %base{ :target => 'docwin' }/
         
-  %body
-    /~ debug values
-    = yield
-    
-    - unless values['list_title']
+  %body{ :class => index ? 'list' : 'page' }
+    - if index
+      #index= yield
+    - else
+      #wrapper{ :class => values["classmod"] ? 'class' : 'file' }
+        = yield
+        #footer-push
       #footer
         = link_to '<strong>Hanna</strong> RDoc template', 'http://github.com/mislav/hanna'
-        by
+        hand-crafted by
         %strong= link_to 'Mislav', 'http://mislav.caboo.se/'

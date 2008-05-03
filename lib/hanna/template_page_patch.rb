@@ -19,6 +19,9 @@ RDoc::TemplatePage.class_eval do
     end
 
     io.write result
+  rescue
+    $stderr.puts "error while writing to #{io.inspect}"
+    raise
   end
 
   protected

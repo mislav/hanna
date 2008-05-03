@@ -41,8 +41,8 @@ module RDoc::Generator::HTML::Hanna
 
   STYLE = read('styles.sass')
 
-  CLASS_PAGE  = read('class_page.haml')
-  FILE_PAGE   = read('file_page.haml')
+  CLASS_PAGE  = read('page.haml')
+  FILE_PAGE   = CLASS_PAGE
   METHOD_LIST = read('method_list.haml', 'sections')
 
   FR_INDEX_BODY = BODY = read('layout.haml')

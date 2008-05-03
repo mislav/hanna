@@ -1,9 +1,3 @@
-- if values["diagram"]
-  #diagram= values["diagram"]
-  
-- if values["description"]
-  #description~ values["description"]
-  
 - methods = methods_from_sections values["sections"]
 - unless methods.empty?
   #method-list
@@ -15,25 +9,26 @@
           - for method in list
             %li= link_to method["name"], '#' + method["aref"]
 
-#context
-  - if values["requires"]
-    #requires
-      %h2 Required files
-      %ol
-        - for req in values["requires"]
-          %li= link_to req["name"], req["aref"]
-          
-  - if values["toc"]
-    #contents
-      %h2 Contents
-      %ol
-        - for item in values["toc"]
-          %li= link_to values["secname"], values["href"]
+- if values["requires"] or values["toc"] or values["includes"]
+  #context
+    - if values["requires"]
+      #requires
+        %h2 Required files
+        %ol
+          - for req in values["requires"]
+            %li= link_to req["name"], req["aref"]
+            
+    - if values["toc"]
+      #contents
+        %h2 Contents
+        %ol
+          - for item in values["toc"]
+            %li= link_to values["secname"], values["href"]
 
-  - if values["includes"]
-    #includes
-      %h2 Included modules
-      %ol
-        - for inc in values["includes"]
-          %li= link_to inc["name"], inc["aref"]
+    - if values["includes"]
+      #includes
+        %h2 Included modules
+        %ol
+          - for inc in values["includes"]
+            %li= link_to inc["name"], inc["aref"]
 
