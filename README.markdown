@@ -4,11 +4,11 @@ Hanna is an RDoc template that scales. It's implemented in Haml, making the
 sources clean and readable. It's built with simplicity, beauty and ease of
 browsing in mind.
 
-Hanna is available from [GitHub][]:
+Hanna was made by [Mislav][] and is available from [GitHub][]:
 
     gem install mislav-hanna
 
-After that you have two options. You can use the command-line tool:
+After that you have three options. You can use the command-line tool:
 
     hanna -h
 
@@ -35,7 +35,10 @@ an example for [will_paginate][]:
     
 Either way, it's the same as using RDoc.
 
-Hanna was crafted by [Mislav][].
+The last thing you can do with Hanna is generate documentation for installed
+gems. This is a replacement for the "gem rdoc" command.
+
+    [sudo] hanna --gems haml will_paginate
 
 ## A work in progress
 

@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name    = 'hanna'
-  s.version = '0.1.1'
-  s.date    = '2008-05-02'
+  s.version = '0.1.2'
+  s.date    = '2008-05-03'
   
   s.summary = "An RDoc template that rocks"
   s.description = "Hanna is an RDoc template that scales. It's implemented in Haml, making its source clean and maintainable. It's built with simplicity, beauty and ease of browsing in mind."
