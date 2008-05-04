@@ -2,18 +2,31 @@
 
 Hanna is an RDoc template that scales. It's implemented in Haml, making the
 sources clean and readable. It's built with simplicity, beauty and ease of
-browsing in mind.
+browsing in mind. (See more in [the wiki][wiki].)
 
 Hanna was made by [Mislav][] and is available from [GitHub][]:
 
     gem install mislav-hanna
 
-After that you have three options. You can use the command-line tool:
+
+## Usage
+
+After installing, you have three options. You can use the command-line tool:
 
     hanna -h
 
-For repeated generation of API docs, it's better to set up a Rake task. Here is
-an example for [will_paginate][]:
+For repeated generation of API docs, it's better to set up a Rake task. If you
+already have an `RDocTask` set up, the only thing you need to change is this:
+
+    # replace this:
+    require 'rake/rdoctask'
+    # with this:
+    require 'hanna/rdoctask'
+
+Tip: you can do this in the Rakefile of your Rails project before running `rake
+doc:rails`.
+
+Here is an example of a task for the [will_paginate library][wp]:
 
     # instead of 'rake/rdoctask':
     require 'hanna/rdoctask'
@@ -62,7 +75,8 @@ Don't like something? Think you can design better? (You probably can.)
 This is git. I welcome all submissions towards my goal.
 
 
+[wiki]: http://github.com/mislav/hanna/wikis/home "Hanna wiki"
 [GitHub]: http://gems.github.com/ "GitHub gem source"
-[will_paginate]: http://github.com/mislav/will_paginate
+[wp]: http://github.com/mislav/will_paginate
 [Mislav]: http://mislav.caboo.se/ "Mislav Marohnić"
 [Allison]: http://blog.evanweaver.com/files/doc/fauna/allison/ "A modern, pretty RDoc template"
