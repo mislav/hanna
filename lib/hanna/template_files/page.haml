@@ -20,11 +20,14 @@
         == (#{link_to 'view online', values["cvsurl"]})
   - else
     %ol.paths
-      - for file in values["infiles"]
-        %li
+      - values["infiles"].each_with_index do |file, index|
+        %li{ :class => index > 0 ? 'other' : nil }
           = link_to file["full_path"], file["full_path_url"]
           - if file["cvsurl"]
             == (#{link_to 'view online', file["cvsurl"]})
+      - if values["infiles"].size > 1
+        %li
+          %a.show{ :href => '#', :onclick => 'this.parentNode.parentNode.className += " expanded"; this.parentNode.removeChild(this); return false' } show all
           
   - if values["parent"] then
     .parent

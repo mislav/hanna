@@ -1,4 +1,13 @@
 %h1= values["list_title"]
-%ol#index-entries{ :class => values["list_title"].downcase }
+- type = values["list_title"].downcase
+- any_hidden = false
+
+%ol#index-entries{ :class => type }
   - for entry in values["entries"]
-    %li= link_to entry['name'], entry['href']
+    - hide = type == 'files' && entry['name'] =~ /\.rb$/
+    - any_hidden = true if hide
+    %li{ :class => hide ? 'other' : nil }= link_to entry['name'], entry['href']
+
+  - if any_hidden
+    %li
+      %a.show{ :href => '#', :onclick => 'this.parentNode.parentNode.className += " expanded"; this.parentNode.removeChild(this); return false' } show all

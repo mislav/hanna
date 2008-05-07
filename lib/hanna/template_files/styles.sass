@@ -1,5 +1,7 @@
-!title_font = Times, "Times New Roman", Georgia, serif
-!code_font  = Inconsolata, Monaco, "DejaVu Sans", Courier, "Courier New", monospace
+!title_font = Georgia, serif
+!code_font_family = Monaco, "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Courier New", monospace
+!code_font_size   = 14px
+!code_font = !code_font_size !code_font_family
 
 !light_link = #369
 !link = !light_link - 40
@@ -19,11 +21,9 @@ body
   :height auto !important
   :height 100%
   :margin 0 auto -43px
-  :border-left 1px solid gray
 #footer-push
   :height 43px
 div.header, #footer
-  :font-size 80%
   :background #eee
 #footer
   :border-top 1px solid silver
@@ -32,6 +32,7 @@ div.header, #footer
   :line-height 30px
   :text-align center
   :font-variant small-caps
+  :font-size 95%
 
 // self-clearing
 .clearing
@@ -71,7 +72,12 @@ ol
   :list-style none
   li
     :margin-left 0
-    white-space: nowrap
+    :white-space nowrap
+    &.other
+      :display none
+ol.expanded li.other
+  :display list-item
+      
 table
   :margin-bottom 1em
   :font-size 1em
@@ -86,6 +92,17 @@ table
   tr
     :border-bottom 1px solid silver
 
+#index, div.header
+  a.show
+    :text-decoration underline
+    :font-style italic
+    :color = !light_text
+    &:after
+      :content " ..."
+    &:hover
+      :color black
+      :background #ffe
+      
 #index
   :font 85%/1.2 Arial, Helvetica, sans-serif
   a
@@ -93,10 +110,9 @@ table
   h1
     :padding .2em .5em .1em
     :background #ccc
-    :font = "small-caps 1.1em" !title_font
+    :font = "small-caps 1.2em" !title_font
     :color #333
     :border-bottom 1px solid gray
-    :border-top 1px solid #aaa
   ol
     :padding .4em .5em
     li
@@ -105,15 +121,16 @@ table
     :font-size 1.1em
     ol
       :padding 0
-    span.class
+    span.nodoc
       :display none
-    .class, a
+    span.nodoc, a
       :font-weight bold
     .parent
       :font-weight normal
   
 div.header
-  :padding .5em 12px
+  :font-size 80%
+  :padding .5em 2%
   :font-family Arial, Helvetica, sans-serif
   :border-bottom 1px solid silver
   .name
@@ -127,8 +144,6 @@ div.header
     :font-size 2.2em
   .paths, .last-update, .parent
     :color = !light_text
-  ol.paths
-    :padding-left .5em
   .last-update .datetime
     :color = !light_text - 30
   .parent
@@ -138,24 +153,27 @@ div.header
       :color = !light_text - 30
 
 #content
-  :padding 12px
+  :padding 12px 2%
   div.class &
     :position relative
-    :width 73%
+    :width 72%
   
   pre, .method .synopsis
-    :font = 15px !code_font
+    :font = !code_font
   pre
     :color black
     :background #eee
     :border 1px solid silver
     :padding 0 .5em .8em .5em
     :overflow auto
-  p, li
+  p, li, dd
     code, tt
-      :font = 15px !code_font
+      :font = !code_font
       :background #ffffe3
       :padding 2px 3px
+  h1, h2, h3, h4, h5, h6
+    code, tt
+      :font-size 1.1em
   
   #description
     // :max-width 60em
@@ -177,14 +195,19 @@ div.header
       :margin .8em 0 .3em 0
       :color = !light_text
 
+  #description, .method .description
+    ul
+      :margin .8em 0
+      :padding-left 1.5em
+
 #method-list
   :position absolute
   :top 12px
-  :right -31%
+  :right -29%
   :width 27%
   :background #eee
   :border 1px solid silver
-  :padding .5em 1em
+  :padding .4em 1%
   :overflow hidden
   h2
     :font-size 1.3em
@@ -221,7 +244,6 @@ div.header
       :color black
       :background silver
       :padding .2em 1em
-      :font-size 16px
       .name
         :font-weight bold
       a
@@ -236,7 +258,10 @@ div.header
       :font-size 85%
       :margin-left 1em
   .public-class
-    :background #ffd
+    :background #ffffe4
+  .public-instance .synopsis
+    :color #eee
+    :background = !light_link
 
 #content .method .source pre
   :background #262626
