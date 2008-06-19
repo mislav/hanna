@@ -42,8 +42,9 @@
 #content
   - if values["diagram"]
     #diagram= values["diagram"]
-    
-  - if values["description"]
-    #description~ values["description"]
-    
-  = yield
+
+  #text
+    - if values["description"]
+      #description~ values["description"]
+
+    = yield
