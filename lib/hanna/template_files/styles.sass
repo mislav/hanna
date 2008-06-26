@@ -6,6 +6,7 @@
 !light_link = #369
 !link = !light_link - 40
 !light_text = #666
+!dark_blue_text = #0E3062
 
 html, body
   :height 100%
@@ -62,7 +63,7 @@ a
     :color = !light_link
     &:hover
       :color #eee
-  h1, h2, h3
+  h1, h2, h3, h4, h5, h6
     a
       :color = !link
 
@@ -182,7 +183,7 @@ div.header
     // :max-width 60em
     p
       :margin-top .5em
-    h1, h2, h3
+    h1, h2, h3, h4, h5, h6
       :font-family = !title_font
     h1
       :font-size 2.2em
@@ -191,10 +192,21 @@ div.header
       :padding-bottom .1em
     h2
       :font-size 1.8em
-      :color #0E3062
+      :color !dark_blue_text
       :margin .8em 0 .3em 0
     h3
       :font-size 1.6em
+      :margin .8em 0 .3em 0
+      :color = !light_text
+    h4
+      :font-size 1.4em
+      :margin .8em 0 .3em 0
+    h5
+      :font-size 1.2em
+      :margin .8em 0 .3em 0
+      :color = !dark_blue_text
+    h6
+      :font-size 1.0em
       :margin .8em 0 .3em 0
       :color = !light_text
 
@@ -237,6 +249,10 @@ div.header
   h3
     :font = "small-caps 1.2em" !title_font
     :color #444
+    :margin 1em 0 .2em 0
+  h4
+    :font = "1.1em" !title_font
+    :color = !dark_blue_text
     :margin 1em 0 .2em 0
     
   .method
