@@ -4,17 +4,17 @@
       %h2= link_to section["sectitle"], section["secsequence"]
       - if section["seccomment"]
         .section-comment= section["seccomment"]
-    - if values["classlist"]
+    - if section["classlist"]
       #class-list
         %h3 Classes and Modules
-        = values["classlist"]
+        = section["classlist"]
         
-    - if values["constants"]
+    - if section["constants"]
       #constants-list
         %h3.section-bar Constants
         .name-list
           %table{ :summary => "Constants" }
-            - for const in values["constants"]
+            - for const in section["constants"]
               %tr.top-aligned-row.context-row
                 %td.context-item-name
                   = const["name"]
@@ -22,48 +22,48 @@
                   \=
                 %td.context-item-value
                   = const["value"]
-                - if values["desc"] then
+                - if const["desc"] then
                   %td{ :width => "3em" }
                     &nbsp;
                   %td.context-item-desc
                     = const["desc"]
                     
-    - if values["aliases"]
+    - if section["aliases"]
       #aliases-list
         %h3.section-bar External Aliases
         .name-list
           %table{ :summary => "aliases" }
-            - for alia in values["aliases"]
+            - for alia in section["aliases"]
               %tr.top-aligned-row.context-row
                 %td.context-item-name
-                  = values["old_name"]
+                  = alia["old_name"]
                 %td
                   \-&gt;
                 %td.context-item-value
-                  = values["new_name"]
-              - if values["desc"] then
+                  = alia["new_name"]
+              - if alia["desc"] then
                 %tr.top-aligned-row.context-row
                   %td
                     &nbsp;
                   %td.context-item-desc{ :colspan => "2" }
-                    = values["desc"]
+                    = alia["desc"]
                     
-    - if values["attributes"]
+    - if section["attributes"]
       #attribute-list
         %h3.section-bar Attributes
         .name-list
           %table
-            - for attr in values["attributes"]
+            - for attr in section["attributes"]
               %tr.top-aligned-row.context-row
                 %td.context-item-name
-                  = values["name"]
-                - if values["rw"] then
+                  = attr["name"]
+                - if attr["rw"] then
                   %td.context-item-value
-                    = "[#{values['rw']}]"
+                    = "[#{attr['rw']}]"
                 - else
                   %td.context-item-value &nbsp;
                 %td.context-item-desc
-                  = values["a_desc"]
+                  = attr["a_desc"]
     
     - if section["method_list"]
       #methods
