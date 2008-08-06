@@ -167,11 +167,12 @@ div.header
     :border 1px solid silver
     :padding 0 .5em .8em .5em
     :overflow auto
-  p, li, dd
+  p, li, dl
     code, tt
       :font = !code_font
       :background #ffffe3
       :padding 2px 3px
+      :line-height 1.4
   h1, h2, h3, h4, h5, h6
     code, tt
       :font-size 1.1em
@@ -214,6 +215,12 @@ div.header
     ul
       :margin .8em 0
       :padding-left 1.5em
+    ol
+      :margin .8em 0
+      :padding-left 1.5em
+      :list-style decimal
+      li
+	:white-space wrap
 
 #method-list
   :position absolute
