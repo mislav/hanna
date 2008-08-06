@@ -9,7 +9,7 @@ require 'sass'
 require 'rdoc/generator/html'
 require 'hanna/template_page_patch'
 
-module RDoc::Generator::HTML::Hanna
+module RDoc::Generator::HTML::HANNA
   class << self
     def dir
       @dir ||= File.join File.dirname(__FILE__), 'template_files'
