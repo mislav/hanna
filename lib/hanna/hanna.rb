@@ -1,14 +1,13 @@
+# = A better RDoc HTML template
+#
+# Authors: Mislav Marohnić <mislav.marohnic@gmail.com>
+#          Tony Strauss (http://github.com/DesigningPatterns)
+#          Michael Granger <ged@FaerieMUD.org>, who had maintained the original RDoc template
+
 require 'haml'
 require 'sass'
 require 'rdoc/generator/html'
 require 'hanna/template_page_patch'
-
-# = A better RDoc HTML template
-#
-# Many different kinds of awesome.
-#
-# Author: Mislav Marohnić <mislav.marohnic@gmail.com>
-# Based on the work of Michael Granger <ged@FaerieMUD.org>
 
 module RDoc::Generator::HTML::Hanna
   class << self

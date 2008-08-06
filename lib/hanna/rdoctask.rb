@@ -10,8 +10,9 @@ Rake::RDocTask.class_eval do
     unless @template and @template != 'html'
       @template = File.dirname(__FILE__) + '/hanna'
     end
+    # inline source and UTF-8 are defaults:
     options << '--inline-source' unless options.include? '--inline-source' or options.include? '-S'
-    options << '--charset=UTF-8' if options.grep(/^(--charset$|-c\b)/).empty?
+    options << '--charset=UTF-8' if options.grep(/^(--charset\b|-c\b)/).empty?
     
     desc "Build the HTML documentation"
     task name
@@ -32,9 +33,9 @@ Rake::RDocTask.class_eval do
       rm_r @rdoc_dir rescue nil
       
       begin
-        gem 'rdoc', '~> 2.0.0'
+        gem 'rdoc', '~> 2.1.0'
       rescue Gem::LoadError
-        $stderr.puts "Couldn't load RDoc 2.0 gem"
+        $stderr.puts "Couldn't load RDoc 2.1 gem"
       end
       require 'rdoc/rdoc'
       require 'hanna/rdoc_patch'
