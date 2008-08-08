@@ -54,7 +54,8 @@ module Hanna
           text = parent ? %[<span class="parent">#{parent}</span>#{name}] : name
           out << '<li>'
           out << (subtree['_href'] ? link_to(text, subtree['_href']) : %[<span class="nodoc">#{text}</span>])
-          if subtree.keys.size > 1
+          if ((subtree.keys.size > 1) || 
+              (subtree.keys.size == 1 && !subtree['_href']))
             out << "\n<ol>" << render_class_tree(subtree, parent.to_s + name) << "\n</ol>"
           end
           out << '</li>'
