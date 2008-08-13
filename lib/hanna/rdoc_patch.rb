@@ -1,6 +1,6 @@
 require 'rdoc/generator/html'
 
-# RDoc 2.0.0 is inflexible in a way that it doesn't handle absolute paths for
+# RDoc 2.1.0 is inflexible in a way that it doesn't handle absolute paths for
 # templates well. We fix that by catching an NameError in load_html_template:
 RDoc::Generator::HTML.class_eval do
   private

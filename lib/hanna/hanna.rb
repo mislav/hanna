@@ -16,22 +16,14 @@ module RDoc::Generator::HTML::HANNA
     end
 
     def read(*names)
-      extension = nil
-      
-      content = names.map { |name|
-        if extension
-          name += '.' + extension
-        else
-          extension = name =~ /\.(\w+)$/ && $1
-        end
-        File.read File.join(dir, name)
-      }.join('')
+      content = names.inject('') { |all, name| all << File.read(File.join(dir, name)) }
+      extension = names.first =~ /\.(\w+)$/ && $1
 
       case extension
       when 'sass'
         Sass::Engine.new(content)
       when 'haml'
-        Haml::Engine.new(content)
+        Haml::Engine.new(content, :format => :html4)
       else
         content
       end
@@ -42,7 +34,7 @@ module RDoc::Generator::HTML::HANNA
 
   CLASS_PAGE  = read('page.haml')
   FILE_PAGE   = CLASS_PAGE
-  METHOD_LIST = read('method_list.haml', 'sections')
+  METHOD_LIST = read('method_list.haml', 'sections.haml')
 
   FR_INDEX_BODY = BODY = read('layout.haml')
 
