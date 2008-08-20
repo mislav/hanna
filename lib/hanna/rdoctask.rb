@@ -1,3 +1,5 @@
+require 'hanna/rdoc_version'
+
 require 'rake'
 require 'rake/rdoctask'
 
@@ -31,12 +33,7 @@ Rake::RDocTask.class_eval do
     task name => [rdoc_target]
     file rdoc_target => @rdoc_files + [$rakefile] do
       rm_r @rdoc_dir rescue nil
-      
-      begin
-        gem 'rdoc', '~> 2.1.0'
-      rescue Gem::LoadError
-        $stderr.puts "Couldn't load RDoc 2.1 gem"
-      end
+      Hanna::require_rdoc
       require 'rdoc/rdoc'
       require 'hanna/rdoc_patch'
       

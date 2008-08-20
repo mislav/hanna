@@ -25,17 +25,13 @@ HELP
 end
 
 require 'rubygems'
-begin
-  gem 'rdoc', '~> 2.1.0'
-rescue Gem::LoadError
-  $stderr.puts "Hanna requires the RDoc 2.1 gem."
-  exit 1
-else
-  require 'rdoc/rdoc'
-end
 
 hanna_dir = File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib'))
 $:.unshift(hanna_dir) unless $:.include?(hanna_dir)
+
+require 'hanna/rdoc_version'
+Hanna::require_rdoc
+require 'rdoc/rdoc'
 
 require 'hanna/rdoc_patch'
 
