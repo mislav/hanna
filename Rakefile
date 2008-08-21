@@ -1,25 +1,23 @@
-desc %{Update ".manifest" with the latest list of project filenames. Respect .gitignore by excluding everything that git ignores. Update `files` and `test_files` arrays in "*.gemspec" file if it's present.}
-task :manifest do
-  list = Dir['**/*'].sort
-  spec_file = Dir['*.gemspec'].first
-  list -= [spec_file] if spec_file
-  
-  File.read('.gitignore').each_line do |glob|
-    glob = glob.chomp.sub(/^\//, '')
-    list -= Dir[glob]
-    list -= Dir["#{glob}/**/*"] if File.directory?(glob) and !File.symlink?(glob)
-    puts "excluding #{glob}"
-  end if File.exists?('.gitignore')
+#
+# This can be made cleaner by using the relative gem.
+#
+require File.join(File.dirname(__FILE__), "lib/hanna/rdoc_version")
 
-  if spec_file
-    spec = File.read spec_file
-    spec.gsub! /^(\s* s.(test_)?files \s* = \s* )( \[ [^\]]* \] | %w\( [^)]* \) )/mx do
-      assignment = $1
-      bunch = $2 ? list.grep(/^test\//) : list
-      '%s%%w(%s)' % [assignment, bunch.join(' ')]
-    end
-      
-    File.open(spec_file,   'w') {|f| f << spec }
-  end
-  File.open('.manifest', 'w') {|f| f << list.join("\n") }
+require 'echoe'
+
+Echoe.new('hanna') do |p|
+  p.version = '0.1.3'
+  
+  p.summary = "An RDoc template that rocks"
+  p.description = "Hanna is an RDoc template that scales. It's implemented in Haml, making its source clean and maintainable. It's built with simplicity, beauty and ease of browsing in mind."
+  
+  p.author = 'Mislav Marohnić'
+  p.email  = 'mislav.marohnic@gmail.com'
+  p.url    = 'http://github.com/mislav/hanna'
+  
+  p.executable_pattern = ['bin/hanna']
+  p.has_rdoc = false
+  p.runtime_dependencies = []
+  p.runtime_dependencies << ['rdoc', Hanna::RDOC_VERSION_REQUIREMENT]
+  p.runtime_dependencies << ['haml', '~> 2.0']
 end
