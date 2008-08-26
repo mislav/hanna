@@ -58,6 +58,11 @@ a
     :background = !light_link
     :text-decoration none
     :color #eef
+
+#diagram
+  img
+    :border = 0
+
 #description, .method .description, .header
   a
     :color = !light_link
@@ -293,12 +298,7 @@ div.header
   :margin 1em
   :padding 0.5em
   :border 1px dashed #999
-  :overflow hidden
-
-  .standalone-code
-    :background #221111
-    :color #ffdead
-    :overflow hidden
+  :overflow auto
 
   .ruby-constant
     :color #7fffd4
@@ -336,4 +336,3 @@ div.header
   .ruby-value
     :color #7fffd4
     :background transparent
-
