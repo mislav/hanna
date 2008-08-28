@@ -19,13 +19,15 @@ module RDoc::Generator::HTML::HANNA
       content = names.inject('') { |all, name| all << File.read(File.join(dir, name)) }
       extension = names.first =~ /\.(\w+)$/ && $1
 
-      case extension
-      when 'sass'
-        Sass::Engine.new(content)
-      when 'haml'
-        Haml::Engine.new(content, :format => :html4)
-      else
-        content
+      Hanna::TemplateHelpers.with_no_warnings do
+        case extension
+        when 'sass'
+          Sass::Engine.new(content)
+        when 'haml'
+          Haml::Engine.new(content, :format => :html4)
+        else
+          content
+        end
       end
     end
   end

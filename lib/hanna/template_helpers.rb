@@ -17,6 +17,22 @@ module Hanna
       end
     end
 
+    #
+    # We need to suppress warnings before calling into HAML because
+    # HAML has lots of uninitialized instance variable accesses.
+    #
+    def with_no_warnings
+      save = $-w
+      $-w = false
+      
+      begin
+        yield
+      ensure
+        $-w = save
+      end
+    end
+    module_function :with_no_warnings
+
     def debug(text)
       "<pre>#{h YAML::dump(text)}</pre>"
     end
