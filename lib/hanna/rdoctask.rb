@@ -10,7 +10,7 @@ Rake::RDocTask.class_eval do
   # Create the tasks defined by this task lib.
   def define
     unless @template and @template != 'html'
-      @template = File.dirname(__FILE__) + '/hanna'
+      @template = 'hanna'
     end
     # inline source and UTF-8 are defaults:
     options << '--inline-source' unless options.include? '--inline-source' or options.include? '-S'
@@ -35,7 +35,6 @@ Rake::RDocTask.class_eval do
       rm_r @rdoc_dir rescue nil
       Hanna::require_rdoc
       require 'rdoc/rdoc'
-      require 'hanna/rdoc_patch'
       
       RDoc::RDoc.new.document(option_list + @rdoc_files)
     end

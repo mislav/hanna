@@ -12,7 +12,7 @@ authors:
 autorequire: 
 bindir: bin
 
-date: 2008-08-21 00:00:00 -04:00
+date: 2008-09-19 00:00:00 -04:00
 default_executable: 
 dependencies: 
 - !ruby/object:Gem::Dependency 
@@ -23,7 +23,7 @@ dependencies:
     requirements: 
     - - ~>
       - !ruby/object:Gem::Version 
-        version: 2.1.0
+        version: 2.2.0
     version: 
 - !ruby/object:Gem::Dependency 
   name: haml
@@ -65,7 +65,6 @@ extra_rdoc_files:
 - lib/hanna/template_files/page.haml
 - lib/hanna/template_files/sections.haml
 - lib/hanna/template_files/file_index.haml
-- lib/hanna/rdoc_patch.rb
 - lib/hanna/rdoctask.rb
 - lib/hanna/hanna.rb
 - lib/hanna.rb
@@ -85,7 +84,6 @@ files:
 - lib/hanna/template_files/page.haml
 - lib/hanna/template_files/sections.haml
 - lib/hanna/template_files/file_index.haml
-- lib/hanna/rdoc_patch.rb
 - lib/hanna/rdoctask.rb
 - lib/hanna/hanna.rb
 - lib/hanna.rb

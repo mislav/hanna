@@ -13,7 +13,6 @@ lib/hanna/template_files/index.haml
 lib/hanna/template_files/page.haml
 lib/hanna/template_files/sections.haml
 lib/hanna/template_files/file_index.haml
-lib/hanna/rdoc_patch.rb
 lib/hanna/rdoctask.rb
 lib/hanna/hanna.rb
 lib/hanna.rb

@@ -11,12 +11,23 @@ Hanna was made by [Mislav][] and is available from [GitHub][]:
 
 ## Usage
 
-After installing, you have three options. You can use the command-line tool:
+After installing, you have several options.
+---
+Hanna can be used as a normal RDoc template by specifying
+  -S -T hanna
+to rdoc.  Note that Hanna requires the -S option, which inlines source
+code.
+---
+You can use the command-line tool included in the Hanna gem:
 
     hanna -h
 
-For repeated generation of API docs, it's better to set up a Rake task. If you
-already have an `RDocTask` set up, the only thing you need to change is this:
+This is a wrapper over the rdoc script that makes RDoc use the Hanna
+template.
+---
+For repeated generation of API docs, it's better to set up a Rake task.
+If you already have an RDocTask set up in your Rakefile, the only thing
+you need to change is this:
 
     # replace this:
     require 'rake/rdoctask'
@@ -46,10 +57,23 @@ Here is an example of a task for the [will_paginate library][wp]:
       rdoc.options << '--webcvs=http://github.com/mislav/will_paginate/tree/master/'
     end
     
-Either way, it's the same as using RDoc.
+Alternatively, you can use the the standard RDocTask and simply set the
+task's +template+ attribute to +hanna+ and append +--inline-source+ to its
+options attribute.
 
-The last thing you can do with Hanna is generate documentation for installed
-gems. This is a replacement for the "gem rdoc" command.
+A third alternative is to set the +RDOCOPT+ environment variable to
+
+    -T hanna -S
+
+which will make RDoc always use Hanna unless this is overridden on the
+command-line.
+--
+You also can generate documentation for installed gems, which might be more
+convenient than the
+
+  gem rdoc
+
+command (with the +RDOCOPT+ environment variable set as above).  For this, do:
 
     [sudo] hanna --gems haml will_paginate
 

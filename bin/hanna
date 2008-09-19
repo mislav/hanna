@@ -33,8 +33,6 @@ require 'hanna/rdoc_version'
 Hanna::require_rdoc
 require 'rdoc/rdoc'
 
-require 'hanna/rdoc_patch'
-
 options = []
 
 options << '-T' << 'hanna/hanna.rb'
