@@ -6,7 +6,7 @@ require File.join(File.dirname(__FILE__), "lib/hanna/rdoc_version")
 require 'echoe'
 
 Echoe.new('hanna') do |p|
-  p.version = '0.1.3'
+  p.version = '0.1.4'
   
   p.summary = "An RDoc template that rocks"
   p.description = "Hanna is an RDoc template that scales. It's implemented in Haml, making its source clean and maintainable. It's built with simplicity, beauty and ease of browsing in mind."
