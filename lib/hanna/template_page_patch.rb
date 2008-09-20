@@ -5,25 +5,23 @@ RDoc::TemplatePage.class_eval do
   include Hanna::TemplateHelpers
   
   # overwrite the original method
-  alias :old_write_html_on :write_html_on # suppresses a warning
+  alias :old_write_html_on :write_html_on # suppresses the overwrite warning
   def write_html_on(io, values)
     result = @templates.reverse.inject(nil) do |previous, template|
       case template
-        when Haml::Engine
-          with_no_warnings do
-            template.to_html(get_binding, :values => values) { previous }
-          end
-        when Sass::Engine
-          with_no_warnings do
-            template.to_css
-          end
-        when String
-          ERB.new(template).result(get_binding(values){ previous })
-        when nil
-          previous
-        else
-          raise "don't know how to handle a template of class '#{template.class.name}'"
+      when Haml::Engine
+        silence_warnings do
+          template.to_html(get_binding, :values => values) { previous }
         end
+      when Sass::Engine
+        silence_warnings { template.to_css }
+      when String
+        ERB.new(template).result(get_binding(values){ previous })
+      when nil
+        previous
+      else
+        raise "don't know how to handle a template of class '#{template.class.name}'"
+      end
     end
 
     io.write result

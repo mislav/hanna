@@ -1,17 +1,18 @@
 require 'hanna/rdoc_version'
-
 require 'rake'
 require 'rake/rdoctask'
 
 Rake::RDocTask.class_eval do
   # don't allow it
-  undef :external=
+  undef :external=, :template=
+  
+  def initialize
+    super
+    @template = 'hanna'
+  end
     
   # Create the tasks defined by this task lib.
   def define
-    unless @template and @template != 'html'
-      @template = 'hanna'
-    end
     # inline source and UTF-8 are defaults:
     options << '--inline-source' unless options.include? '--inline-source' or options.include? '-S'
     options << '--charset=UTF-8' if options.grep(/^(--charset\b|-c\b)/).empty?

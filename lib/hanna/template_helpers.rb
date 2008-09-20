@@ -17,11 +17,9 @@ module Hanna
       end
     end
 
-    #
     # We need to suppress warnings before calling into HAML because
     # HAML has lots of uninitialized instance variable accesses.
-    #
-    def with_no_warnings
+    def silence_warnings
       save = $-w
       $-w = false
       
@@ -31,7 +29,7 @@ module Hanna
         $-w = save
       end
     end
-    module_function :with_no_warnings
+    module_function :silence_warnings
 
     def debug(text)
       "<pre>#{h YAML::dump(text)}</pre>"
