@@ -35,7 +35,7 @@ require 'rdoc/rdoc'
 
 options = []
 
-options << '-T' << 'hanna/hanna.rb'
+options << '-T' << 'hanna'
 options << '--inline-source' << '--charset=UTF-8'
 
 if ARGV.first == '--gems'
