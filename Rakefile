@@ -20,4 +20,5 @@ Echoe.new('hanna') do |p|
   p.runtime_dependencies = []
   p.runtime_dependencies << ['rdoc', Hanna::RDOC_VERSION_REQUIREMENT]
   p.runtime_dependencies << ['haml', '~> 2.0']
+  p.runtime_dependencies << ['rake', '~> 0.8.2']
 end

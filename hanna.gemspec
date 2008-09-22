@@ -12,7 +12,7 @@ authors:
 autorequire: 
 bindir: bin
 
-date: 2008-09-20 00:00:00 +02:00
+date: 2008-09-22 00:00:00 +02:00
 default_executable: 
 dependencies: 
 - !ruby/object:Gem::Dependency 
@@ -34,6 +34,16 @@ dependencies:
     - - ~>
       - !ruby/object:Gem::Version 
         version: "2.0"
+    version: 
+- !ruby/object:Gem::Dependency 
+  name: rake
+  type: :runtime
+  version_requirement: 
+  version_requirements: !ruby/object:Gem::Requirement 
+    requirements: 
+    - - ~>
+      - !ruby/object:Gem::Version 
+        version: 0.8.2
     version: 
 - !ruby/object:Gem::Dependency 
   name: echoe

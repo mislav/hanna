@@ -6,13 +6,10 @@ Rake::RDocTask.class_eval do
   # don't allow it
   undef :external=, :template=
   
-  def initialize
-    super
-    @template = 'hanna'
-  end
-    
   # Create the tasks defined by this task lib.
   def define
+    @template = 'hanna'
+    
     # inline source and UTF-8 are defaults:
     options << '--inline-source' unless options.include? '--inline-source' or options.include? '-S'
     options << '--charset=UTF-8' if options.grep(/^(--charset\b|-c\b)/).empty?
@@ -32,13 +29,13 @@ Rake::RDocTask.class_eval do
       
     directory @rdoc_dir
     task name => [rdoc_target]
-    file rdoc_target => @rdoc_files + [$rakefile] do
+    file rdoc_target => @rdoc_files + [Rake.application.rakefile] do
       rm_r @rdoc_dir rescue nil
       Hanna::require_rdoc
       require 'rdoc/rdoc'
       
       RDoc::RDoc.new.document(option_list + @rdoc_files)
     end
-    self
+    return self
   end
 end
