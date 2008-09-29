@@ -47,7 +47,7 @@ if ARGV.first == '--gems'
   
   unless gem_names.empty?
     specs = gem_names.inject([]) do |arr, name|
-      found = Gem::SourceIndex.from_installed_gems.search(name)
+      found = Gem::SourceIndex.from_installed_gems.find_name(name)
       spec = found.sort_by {|s| s.version }.last
       arr << spec if spec
       arr
