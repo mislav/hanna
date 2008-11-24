@@ -24,11 +24,17 @@ HELP
   exit 0
 end
 
-require 'rubygems'
+unless RUBY_PLATFORM =~ /(:?mswin|mingw)/
+  require 'pathname'
+  hanna_dir = Pathname.new(__FILE__).realpath.dirname + '../lib'
+else
+  # windows
+  hanna_dir = File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib'))
+end
 
-hanna_dir = File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib'))
 $:.unshift(hanna_dir) unless $:.include?(hanna_dir)
 
+require 'rubygems'
 require 'hanna/rdoc_version'
 Hanna::require_rdoc
 require 'rdoc/rdoc'
