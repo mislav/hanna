@@ -4,10 +4,15 @@ Hanna is an RDoc template that scales. It's implemented in Haml, making the sour
 and readable. It's built with simplicity, beauty and ease of browsing in mind. (See more
 in [the wiki][wiki].)
 
-Hanna was made by [Mislav][] and is available from [GitHub][]:
+Hanna gem is available from [GitHub][]:
 
     gem install mislav-hanna
 
+The template was created by [Mislav][] and since then has seen contributions from:
+
+1. [Tony Strauss](http://github.com/DesigningPatterns), who participated from the early
+   start and made tons of fixes and enhancements to the template;
+2. [Hongli Lai](http://blog.phusion.nl/) with the search filter for methods.
 
 ## Usage
 
