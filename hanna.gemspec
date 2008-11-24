@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{hanna}
-  s.version = "0.1.4"
+  s.version = "0.1.5"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 1.2") if s.respond_to? :required_rubygems_version=
   s.authors = ["Mislav Marohni\304\207"]
@@ -26,18 +26,18 @@ Gem::Specification.new do |s|
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<rdoc>, ["~> 2.2.0"])
-      s.add_runtime_dependency(%q<haml>, ["~> 2.0"])
+      s.add_runtime_dependency(%q<haml>, ["~> 2.0.4"])
       s.add_runtime_dependency(%q<rake>, ["~> 0.8.2"])
       s.add_development_dependency(%q<echoe>, [">= 0"])
     else
       s.add_dependency(%q<rdoc>, ["~> 2.2.0"])
-      s.add_dependency(%q<haml>, ["~> 2.0"])
+      s.add_dependency(%q<haml>, ["~> 2.0.4"])
       s.add_dependency(%q<rake>, ["~> 0.8.2"])
       s.add_dependency(%q<echoe>, [">= 0"])
     end
   else
     s.add_dependency(%q<rdoc>, ["~> 2.2.0"])
-    s.add_dependency(%q<haml>, ["~> 2.0"])
+    s.add_dependency(%q<haml>, ["~> 2.0.4"])
     s.add_dependency(%q<rake>, ["~> 0.8.2"])
     s.add_dependency(%q<echoe>, [">= 0"])
   end
