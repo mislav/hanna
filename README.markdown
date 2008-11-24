@@ -1,8 +1,8 @@
 # Hanna -- a better RDoc template
 
-Hanna is an RDoc template that scales. It's implemented in Haml, making the
-sources clean and readable. It's built with simplicity, beauty and ease of
-browsing in mind. (See more in [the wiki][wiki].)
+Hanna is an RDoc template that scales. It's implemented in Haml, making the sources clean
+and readable. It's built with simplicity, beauty and ease of browsing in mind. (See more
+in [the wiki][wiki].)
 
 Hanna was made by [Mislav][] and is available from [GitHub][]:
 
@@ -11,31 +11,36 @@ Hanna was made by [Mislav][] and is available from [GitHub][]:
 
 ## Usage
 
-After installing, you have several options.
----
-Hanna can be used as a normal RDoc template by specifying
-  -S -T hanna
-to rdoc.  Note that Hanna requires the -S option, which inlines source
-code.
----
-You can use the command-line tool included in the Hanna gem:
+The most basic usage is to specify Hanna as a template when invoking RDoc on the
+command-line:
+
+    rdoc -o doc --inline-sorce -T hanna lib/*.rb
+    
+Hanna requires the `--inline-sorce` (or `-S`) flag.
+
+An alternative is to set the `RDOCOPT` environment variable:
+
+    RDOCOPT="-S -T hanna"
+
+This will make RDoc always use Hanna unless it is explicitly overridden.
+
+You can also use the command-line tool included in the Hanna gem:
 
     hanna -h
 
-This is a wrapper over the rdoc script that makes RDoc use the Hanna
-template.
----
-For repeated generation of API docs, it's better to set up a Rake task.
-If you already have an RDocTask set up in your Rakefile, the only thing
-you need to change is this:
+This is a wrapper over rdoc and it forwards all the parameters to it.
+
+### Rake task
+
+For repeated generation of API docs, it's better to set up a Rake task. If you already
+have an `RDocTask` set up in your Rakefile, the only thing you need to change is this:
 
     # replace this:
     require 'rake/rdoctask'
     # with this:
     require 'hanna/rdoctask'
 
-Tip: you can do this in the Rakefile of your Rails project before running `rake
-doc:rails`.
+Tip: you can do this in the Rakefile of your Rails project before running `rake doc:rails`.
 
 Here is an example of a task for the [will_paginate library][wp]:
 
@@ -56,51 +61,31 @@ Here is an example of a task for the [will_paginate library][wp]:
       rdoc.rdoc_dir = 'doc' # rdoc output folder
       rdoc.options << '--webcvs=http://github.com/mislav/will_paginate/tree/master/'
     end
-    
-Alternatively, you can use the the standard RDocTask and simply set the
-task's +template+ attribute to +hanna+ and append +--inline-source+ to its
-options attribute.
 
-A third alternative is to set the +RDOCOPT+ environment variable to
+### Generating documentation for installed gems
 
-    -T hanna -S
+You can generate documentation for installed gems, which might be more convenient than the
+`gem rdoc` command with the +RDOCOPT+ environment variable set as described. For instance,
+to generate docs for "actionpack" and "activerecord" type:
 
-which will make RDoc always use Hanna unless this is overridden on the
-command-line.
---
-You also can generate documentation for installed gems, which might be more
-convenient than the
-
-  gem rdoc
-
-command (with the +RDOCOPT+ environment variable set as above).  For this, do:
-
-    [sudo] hanna --gems haml will_paginate
-
-## A work in progress
-
-Hanna is far from done, but it is the first RDoc template that's actually
-_maintainable_.  First thing I have done is converted the original HTML
-template to Haml and Sass, cleaning up and removing the (ridiculous amount of)
-duplication.
-
-Also, the template fragments are now in _separate files_. You would have
-fainted if you seen how it was before. (It's really no wonder why there are no
-other RDoc templates around ... save one: [Allison][].)
-
-Ultimately, I'd like to lose the frameset. Currently that is far from possible
-because the whole RDoc HTML Generator is built for frames. Still, that is my
-goal.
+    [sudo] hanna --gems actionpack activerecord
 
 ## You can help
 
 Don't like something? Think you can design better? (You probably can.)
 
-This is git. I welcome all submissions towards my goal.
+I think of Hanna as the first RDoc template that's actually _maintainable_. First thing I
+have done is converted the original HTML template to Haml and Sass, cleaning up and
+removing the (ridiculous amount of) duplication. Also, the template fragments are now in
+_separate files_.
+
+Ultimately, I'd like to lose the frameset. Currently that is far from possible because the
+whole RDoc HTML Generator is built for frames. Still, that is my goal.
+
+This is git. Fork it, hack away, tell me about it!
 
 
 [wiki]: http://github.com/mislav/hanna/wikis/home "Hanna wiki"
-[GitHub]: http://gems.github.com/ "GitHub gem source"
-[wp]: http://github.com/mislav/will_paginate
+[GitHub]: http://gems.github.com/ "GitHub gem server"
+[wp]: http://github.com/mislav/will_paginate/tree/master/Rakefile
 [Mislav]: http://mislav.caboo.se/ "Mislav Marohnić"
-[Allison]: http://blog.evanweaver.com/files/doc/fauna/allison/ "A modern, pretty RDoc template"
