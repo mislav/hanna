@@ -1,9 +1,5 @@
-#
-# This can be made cleaner by using the relative gem.
-#
-require File.join(File.dirname(__FILE__), "lib/hanna/rdoc_version")
-
 require 'echoe'
+require 'lib/hanna/rdoc_version'
 
 Echoe.new('hanna') do |p|
   p.version = '0.1.4'
@@ -19,6 +15,6 @@ Echoe.new('hanna') do |p|
   p.has_rdoc = false
   p.runtime_dependencies = []
   p.runtime_dependencies << ['rdoc', Hanna::RDOC_VERSION_REQUIREMENT]
-  p.runtime_dependencies << ['haml', '~> 2.0']
+  p.runtime_dependencies << ['haml', '~> 2.0.4']
   p.runtime_dependencies << ['rake', '~> 0.8.2']
 end
