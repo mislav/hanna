@@ -12,7 +12,7 @@ authors:
 autorequire: 
 bindir: bin
 
-date: 2008-09-22 00:00:00 -04:00
+date: 2008-10-24 00:00:00 +02:00
 default_executable: 
 dependencies: 
 - !ruby/object:Gem::Dependency 
@@ -74,6 +74,7 @@ extra_rdoc_files:
 - lib/hanna/template_files/page.haml
 - lib/hanna/template_files/sections.haml
 - lib/hanna/template_files/styles.sass
+- lib/hanna/template_files/prototype-1.6.0.3.js
 - lib/hanna/template_helpers.rb
 - lib/hanna/template_page_patch.rb
 - lib/hanna.rb
@@ -92,6 +93,7 @@ files:
 - lib/hanna/template_files/page.haml
 - lib/hanna/template_files/sections.haml
 - lib/hanna/template_files/styles.sass
+- lib/hanna/template_files/prototype-1.6.0.3.js
 - lib/hanna/template_helpers.rb
 - lib/hanna/template_page_patch.rb
 - lib/hanna.rb

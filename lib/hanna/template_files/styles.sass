@@ -112,6 +112,8 @@ table
       
 #index
   :font 85%/1.2 Arial, Helvetica, sans-serif
+  .hidden
+    :display none
   a
     :text-decoration none
   h1
@@ -120,6 +122,13 @@ table
     :font = "small-caps 1.2em" !title_font
     :color #333
     :border-bottom 1px solid gray
+  form
+    :margin 0
+    :padding 0
+    input
+      :margin .4em
+      :margin-bottom 0
+      :width 90%
   ol
     :padding .4em .5em
     li
@@ -134,6 +143,9 @@ table
       :font-weight bold
     .parent
       :font-weight normal
+  #index-entries.methods
+    li
+      :margin-bottom 0.2em
   
 div.header
   :font-size 80%

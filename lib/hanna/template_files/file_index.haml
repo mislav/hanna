@@ -2,6 +2,41 @@
 - type = values["list_title"].downcase
 - any_hidden = false
 
+- if type == 'methods'
+  %script{:type => 'text/javascript'}
+    = read("prototype-1.6.0.3.js")
+  :javascript
+    $(document).observe('dom:loaded', function() {
+      new Form.Element.Observer('search', 0.3, function(element, value) {
+        performSearch();
+      });
+    });
+    
+    function performSearch() {
+      try {
+        var query = $F('search');
+        if (query == '') {
+          $$('#index-entries li').each(function(element) {
+            element.removeClassName('hidden');
+          });
+        } else {
+          $$('#index-entries li').each(function(element) {
+            element.addClassName('hidden');
+          });
+          $$('#index-entries a').each(function(element) {
+            if (element.innerHTML.stripTags().toLowerCase().sub(/\(.*/, '').indexOf(query.toLowerCase()) != -1) {
+              element.up('li').removeClassName('hidden');
+            }
+          });
+        }
+      } catch (e) {
+        alert(e);
+      }
+      return false;
+    }
+  %form{:onsubmit => 'return performSearch()'}
+    %input{:type => 'text', :id => 'search'}
+
 %ol#index-entries{ :class => type }
   - for entry in values["entries"]
     - hide = type == 'files' && entry['name'] =~ /\.rb$/

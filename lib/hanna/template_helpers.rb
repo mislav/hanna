@@ -16,6 +16,10 @@ module Hanna
         text
       end
     end
+    
+    def read(*names)
+      RDoc::Generator::HTML::HANNA.read(*names)
+    end
 
     # We need to suppress warnings before calling into HAML because
     # HAML has lots of uninitialized instance variable accesses.
