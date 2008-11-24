@@ -112,8 +112,6 @@ table
       
 #index
   :font 85%/1.2 Arial, Helvetica, sans-serif
-  .hidden
-    :display none
   a
     :text-decoration none
   h1
@@ -129,6 +127,8 @@ table
       :margin .4em
       :margin-bottom 0
       :width 90%
+    #search.untouched
+      :color #777777
   ol
     :padding .4em .5em
     li
@@ -143,9 +143,14 @@ table
       :font-weight bold
     .parent
       :font-weight normal
-  #index-entries.methods
+  #index-entries.methods, #search-results.methods
     li
       :margin-bottom 0.2em
+      a
+        .method_name
+          :margin-right 0.25em
+        .module_name
+          :color #666666
   
 div.header
   :font-size 80%

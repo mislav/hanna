@@ -17,6 +17,13 @@ module Hanna
       end
     end
     
+    # +method_text+ is in the form of "ago (ActiveSupport::TimeWithZone)".
+    def link_to_method(method_text, url = nil, classname = nil)
+      method_text =~ /\A(.+) \((.+)\)\Z/
+      method_name, module_name = $1, $2
+      link_to %Q(<span class="method_name">#{h method_name}</span> <span class="module_name">(#{h module_name})</span>), url, classname
+    end
+    
     def read(*names)
       RDoc::Generator::HTML::HANNA.read(*names)
     end
@@ -41,6 +48,23 @@ module Hanna
 
     def h(html)
       CGI::escapeHTML(html)
+    end
+    
+    # +entries+ is an array of hashes, each which has a "name" and "href" element.
+    # An entry name is in the form of "ago (ActiveSupport::TimeWithZone)".
+    # +entries+ must be already sorted by name.
+    def build_javascript_search_index(entries)
+      result = "var search_index = [\n"
+      entries.each do |entry|
+        entry["name"] =~ /\A(.+) \((.+)\)\Z/
+        method_name, module_name = $1, $2
+        html = link_to_method(entry["name"], entry["href"])
+        result << "  { method: '#{method_name.downcase}', " <<
+                      "module: '#{module_name.downcase}', " <<
+                      "html: '#{html}' },\n"
+      end
+      result << "]"
+      result
     end
 
     def methods_from_sections(sections)

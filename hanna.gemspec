@@ -94,6 +94,7 @@ files:
 - lib/hanna/template_files/sections.haml
 - lib/hanna/template_files/styles.sass
 - lib/hanna/template_files/prototype-1.6.0.3.js
+- lib/hanna/template_files/method_search.js
 - lib/hanna/template_helpers.rb
 - lib/hanna/template_page_patch.rb
 - lib/hanna.rb
