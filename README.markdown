@@ -19,9 +19,9 @@ The template was created by [Mislav][] and since then has seen contributions fro
 The most basic usage is to specify Hanna as a template when invoking RDoc on the
 command-line:
 
-    rdoc -o doc --inline-sorce -T hanna lib/*.rb
+    rdoc -o doc --inline-source -T hanna lib/*.rb
     
-Hanna requires the `--inline-sorce` (or `-S`) flag.
+Hanna requires the `--inline-source` (or `-S`) flag.
 
 An alternative is to set the `RDOCOPT` environment variable:
 
