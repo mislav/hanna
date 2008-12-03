@@ -1,4 +1,5 @@
 !title_font = Georgia, serif
+!body_font = "Lucida Grande", Verdana, Arial, Helvetica, "sans-serif"
 !code_font_family = Monaco, "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Courier New", monospace
 !code_font_size   = 14px
 !code_font = !code_font_size !code_font_family
@@ -11,7 +12,7 @@
 html, body
   :height 100%
 body
-  :font-family Verdana, Arial, Helvetica, sans-serif
+  :font-family = !body_font
   :font-size 90%
   :margin 0
   :padding 0
@@ -133,6 +134,8 @@ table
     :padding .4em .5em
     li
       :white-space nowrap
+  #index-entries li a
+    :padding 1px 2px
   #index-entries.classes
     :font-size 1.1em
     ol
@@ -151,6 +154,8 @@ table
           :margin-right 0.25em
         .module_name
           :color #666666
+        &:hover .module_name
+          :color #ddd
   
 div.header
   :font-size 80%
@@ -188,7 +193,7 @@ div.header
     :color black
     :background #eee
     :border 1px solid silver
-    :padding 0 .5em .8em .5em
+    :padding .5em .8em
     :overflow auto
   p, li, dl
     code, tt
