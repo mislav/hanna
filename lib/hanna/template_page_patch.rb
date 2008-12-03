@@ -11,7 +11,7 @@ RDoc::TemplatePage.class_eval do
       case template
       when Haml::Engine
         silence_warnings do
-          template.to_html(get_binding, :values => values) { previous }
+          template.to_html(binding, :values => values) { previous }
         end
       when Sass::Engine
         silence_warnings { template.to_css }
