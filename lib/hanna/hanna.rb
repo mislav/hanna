@@ -42,7 +42,7 @@ module RDoc::Generator::HTML::HANNA
 
   FILE_INDEX   = read('file_index.haml')
   CLASS_INDEX  = read('class_index.haml')
-  METHOD_INDEX = FILE_INDEX
+  METHOD_INDEX = read('method_index.haml')
 
   INDEX = read('index.haml')
 end 
