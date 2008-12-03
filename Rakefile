@@ -2,10 +2,10 @@ require 'echoe'
 require 'lib/hanna/rdoc_version'
 
 Echoe.new('hanna') do |p|
-  p.version = '0.1.5'
+  p.version = '0.1.6'
   
-  p.summary = "An RDoc template that rocks"
-  p.description = "Hanna is an RDoc template that scales. It's implemented in Haml, making its source clean and maintainable. It's built with simplicity, beauty and ease of browsing in mind."
+  p.summary = "An RDoc template that scales"
+  p.description = "Hanna is an RDoc implemented in Haml, making its source clean and maintainable. It's built with simplicity, beauty and ease of browsing in mind."
   
   p.author = 'Mislav Marohnić'
   p.email  = 'mislav.marohnic@gmail.com'
