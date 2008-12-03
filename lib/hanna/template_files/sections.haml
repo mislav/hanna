@@ -4,72 +4,58 @@
       %h2= link_to section["sectitle"], section["secsequence"]
       - if section["seccomment"]
         .section-comment= section["seccomment"]
+        
     - if section["classlist"]
       #class-list
-        %h3 Classes and Modules
+        %h2 Classes and Modules
         = section["classlist"]
         
     - if section["constants"]
       #constants-list
-        %h3.section-bar Constants
+        %h2 Constants
         .name-list
           %table{ :summary => "Constants" }
             - for const in section["constants"]
               %tr.top-aligned-row.context-row
-                %td.context-item-name
-                  = const["name"]
-                %td
-                  \=
-                %td.context-item-value
-                  = const["value"]
+                %td.context-item-name= const["name"]
+                %td =
+                %td.context-item-value= const["value"]
                 - if const["desc"] then
-                  %td
-                    &nbsp;
-                  %td.context-item-desc
-                    = const["desc"]
+                  %td &nbsp;
+                  %td.context-item-desc= const["desc"]
                     
     - if section["aliases"]
       #aliases-list
-        %h3.section-bar External Aliases
+        %h2 External Aliases
         .name-list
-          %table{ :summary => "aliases" }
+          %table{ :summary => "External aliases" }
             - for alia in section["aliases"]
               %tr.top-aligned-row.context-row
-                %td.context-item-name
-                  = alia["old_name"]
-                %td
-                  \-&gt;
-                %td.context-item-value
-                  = alia["new_name"]
+                %td.context-item-name= alia["old_name"]
+                %td -&gt;
+                %td.context-item-value= alia["new_name"]
               - if alia["desc"] then
                 %tr.top-aligned-row.context-row
-                  %td
-                    &nbsp;
+                  %td &nbsp;
                   %td.context-item-desc{ :colspan => "2" }
                     = alia["desc"]
                     
     - if section["attributes"]
       #attribute-list
-        %h3.section-bar Attributes
+        %h2.section-bar Attributes
         .name-list
           %table
             - for attr in section["attributes"]
               %tr.top-aligned-row.context-row
-                %td.context-item-name
-                  = attr["name"]
-                - if attr["rw"] then
-                  %td.context-item-value
-                    = "[#{attr['rw']}]"
-                - else
-                  %td.context-item-value &nbsp;
-                %td.context-item-desc
-                  = attr["a_desc"]
+                %td.context-item-name= attr["name"]
+                %td.context-item-value= attr["rw"] ? "[#{attr['rw']}]" : '&nbsp;'
+                %td.context-item-desc= attr["a_desc"]
     
     - if section["method_list"]
       #methods
         - for list in section["method_list"]
           - if list["methods"] then
-            %h3== #{list["type"]} #{list["category"].downcase} methods
+            %h2== #{list["type"]} #{list["category"].downcase} methods
             
             - for method in list["methods"]
               .method{ :id => "method-#{method['aref']}", :class => "#{list['type']}-#{list['category']}".downcase }
