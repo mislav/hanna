@@ -104,5 +104,10 @@ module Hanna
         out
       end
     end
+    
+    # primarily for removing leading whitespace in <pre> tags
+    def sanitize_code_blocks(text)
+      text.gsub(/<pre>(.+?)<\/pre>/m) { "<pre>#{$1.sub(/^\s*\n/, '')}</pre>" }
+    end
   end
 end

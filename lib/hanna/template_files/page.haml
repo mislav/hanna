@@ -45,6 +45,6 @@
 
   #text
     - if values["description"]
-      #description~ values["description"]
+      #description~ sanitize_code_blocks values["description"]
 
     = yield
