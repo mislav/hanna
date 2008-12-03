@@ -7,6 +7,7 @@ lib/hanna/template_files/class_index.haml
 lib/hanna/template_files/file_index.haml
 lib/hanna/template_files/index.haml
 lib/hanna/template_files/layout.haml
+lib/hanna/template_files/method_index.haml
 lib/hanna/template_files/method_list.haml
 lib/hanna/template_files/page.haml
 lib/hanna/template_files/sections.haml
