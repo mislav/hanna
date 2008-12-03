@@ -74,7 +74,7 @@
                     = method_html
                 - if method["m_desc"]
                   .description
-                    ~ method["m_desc"]
+                    ~ sanitize_code_blocks method["m_desc"]
                 - if method["sourcecode"]
                   .source
                     - name = "#{method['aref']}-source"
