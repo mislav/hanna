@@ -7,7 +7,10 @@
         %h3= type
         %ol
           - for method in list
-            %li= link_to method["name"], '#' + method["aref"]
+            - if method["name"].to_s.empty? && method["callseq"]
+              %li= link_to method["callseq"].gsub(/<br\s*\/?>/, "").split(/[\r\n]+/).map{ |s| s.split(/([({]+|\[\{|\s+(#?=>|&rarr;)\s+)/).first.sub(/^[A-Za-z0-9_:]+\./, "").sub(/\s+=\s+.*/, "=").strip }.uniq.join("<br />\n"), '#' + method["aref"]
+            - else
+              %li= link_to method["name"], '#' + method["aref"]
 
 - if values["requires"] or values["toc"] or values["includes"]
   #context
