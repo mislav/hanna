@@ -24,7 +24,7 @@ module RDoc::Generator::HTML::HANNA
         when 'sass'
           Sass::Engine.new(content)
         when 'haml'
-          Haml::Engine.new(content, :format => :html4)
+          Haml::Engine.new(content, :format => :html4, :filename => names.join(','))
         else
           content
         end
