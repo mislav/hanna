@@ -14,26 +14,31 @@ The template was created by [Mislav][] and since then has seen contributions fro
    start and made tons of fixes and enhancements to the template;
 2. [Hongli Lai](http://blog.phusion.nl/) with the search filter for methods.
 
+
 ## Usage
 
-The most basic usage is to specify Hanna as a template when invoking RDoc on the
-command-line:
+There is a command-line tool installed with the Hanna gem:
 
-    rdoc -o doc --inline-source -T hanna lib/*.rb
+    hanna -h
+
+This is a wrapper over `rdoc` and it forwards all the parameters to it. Manual usage
+would require specifying Hanna as a template when invoking RDoc on the command-line:
+
+    rdoc -o doc --inline-source --format=html -T hanna lib/*.rb
     
 Hanna requires the `--inline-source` (or `-S`) flag.
 
 An alternative is to set the `RDOCOPT` environment variable:
 
-    RDOCOPT="-S -T hanna"
+    RDOCOPT="-S -f html -T hanna"
 
 This will make RDoc always use Hanna unless it is explicitly overridden.
 
-You can also use the command-line tool included in the Hanna gem:
+Another neat trick is to put the following line in your .gemrc:
 
-    hanna -h
+    rdoc: --inline-source --line-numbers --format=html --template=hanna
 
-This is a wrapper over rdoc and it forwards all the parameters to it.
+This will make RubyGems use Hanna when generating documentation for installed gems.
 
 ### Rake task
 
@@ -74,6 +79,7 @@ You can generate documentation for installed gems, which might be more convenien
 to generate docs for "actionpack" and "activerecord" type:
 
     [sudo] hanna --gems actionpack activerecord
+
 
 ## You can help
 
