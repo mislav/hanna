@@ -2,7 +2,7 @@ module Hanna
   #
   # The version of RDoc that Hanna should use.
   #
-  RDOC_VERSION = '2.2.0'
+  RDOC_VERSION = '2.3.0'
   RDOC_VERSION_REQUIREMENT = "~> #{RDOC_VERSION}"
 
   #
