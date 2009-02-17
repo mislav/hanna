@@ -9,6 +9,7 @@ Rake::RDocTask.class_eval do
   # Create the tasks defined by this task lib.
   def define
     @template = 'hanna'
+    options << '--format=html'
     
     # inline source and UTF-8 are defaults:
     options << '--inline-source' unless options.include? '--inline-source' or options.include? '-S'
