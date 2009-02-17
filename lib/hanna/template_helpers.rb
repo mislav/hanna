@@ -56,9 +56,9 @@ module Hanna
     def build_javascript_search_index(entries)
       result = "var search_index = [\n"
       entries.each do |entry|
-        entry["name"] =~ /\A(.+) \((.+)\)\Z/
+        entry[:name] =~ /\A(.+) \((.+)\)\Z/
         method_name, module_name = $1, $2
-        html = link_to_method(entry["name"], entry["href"])
+        html = link_to_method(entry[:name], entry[:href])
         result << "  { method: '#{method_name.downcase}', " <<
                       "module: '#{module_name.downcase}', " <<
                       "html: '#{html}' },\n"
@@ -69,20 +69,20 @@ module Hanna
 
     def methods_from_sections(sections)
       sections.inject(Hash.new {|h, k| h[k] = []}) do |methods, section|
-        section['method_list'].each do |ml|
-          methods["#{ml['type']} #{ml['category']}".downcase].concat ml['methods']
-        end if section['method_list']
+        section[:method_list].each do |ml|
+          methods["#{ml[:type]} #{ml[:category]}".downcase].concat ml[:methods]
+        end if section[:method_list]
         methods
       end
     end
 
     def make_class_tree(entries)
       entries.inject({}) do |tree, entry|
-        if entry['href']
-          leaf = entry['name'].split('::').inject(tree) do |branch, klass|
+        if entry[:href]
+          leaf = entry[:name].split('::').inject(tree) do |branch, klass|
             branch[klass] ||= {}
           end
-          leaf['_href'] = entry['href']
+          leaf['_href'] = entry[:href]
         end
         tree
       end

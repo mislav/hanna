@@ -1,10 +1,10 @@
 !!! strict
-- index = values['list_title']
+- index = values[:list_title]
 %html{ :lang => "en" }
   %head
-    %title= values['title']
-    %meta{ 'http-equiv' => "Content-Type", :content => "text/html; charset=#{values['charset']}" }
-    %link{ :rel => "stylesheet", :href => values["style_url"], :type => "text/css", :media => "screen" }
+    %title= values[:title]
+    %meta{ 'http-equiv' => "Content-Type", :content => "text/html; charset=#{values[:charset]}" }
+    %link{ :rel => "stylesheet", :href => values[:style_url], :type => "text/css", :media => "screen" }
     - unless index
       :javascript
         function popupCode(url) {
@@ -27,7 +27,7 @@
     - if index
       #index= yield
     - else
-      #wrapper{ :class => values["classmod"] ? 'class' : 'file' }
+      #wrapper{ :class => values[:classmod] ? 'class' : 'file' }
         = yield
         #footer-push
       #footer
