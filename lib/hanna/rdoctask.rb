@@ -1,4 +1,3 @@
-require 'hanna/rdoc_version'
 require 'rake'
 require 'rake/rdoctask'
 
@@ -8,11 +7,7 @@ Rake::RDocTask.class_eval do
   
   # Create the tasks defined by this task lib.
   def define
-    @template = 'hanna'
-    options << '--format=html'
-    
-    # inline source and UTF-8 are defaults:
-    options << '--inline-source' unless options.include? '--inline-source' or options.include? '-S'
+    options << '--format=hanna'
     options << '--charset=UTF-8' if options.grep(/^(--charset\b|-c\b)/).empty?
     
     desc "Build the HTML documentation"
@@ -31,11 +26,13 @@ Rake::RDocTask.class_eval do
     directory @rdoc_dir
     task name => [rdoc_target]
     file rdoc_target => @rdoc_files + [Rake.application.rakefile] do
-      rm_r @rdoc_dir rescue nil
+      require 'hanna/rdoc_version'
       Hanna::require_rdoc
-      require 'rdoc/rdoc'
+      require 'hanna'
       
-      RDoc::RDoc.new.document(option_list + @rdoc_files)
+      options = option_list + @rdoc_files
+      options.delete('--inline-source')
+      RDoc::RDoc.new.document(options)
     end
     return self
   end
