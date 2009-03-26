@@ -1,11 +1,27 @@
-!!! Frameset
-%html{ "xml:lang" => "en", :lang => "en", :xmlns => "http://www.w3.org/1999/xhtml" }
-  %head
-    %title= values[:title]
-    %meta{ :content => "text/html; charset=#{values[:charset]}", "http-equiv" => "Content-Type" }
-  %frameset{ :cols => "20%, *", :border => "1", :frameborder => "1", :bordercolor => "gray" }
-    %frameset{ :rows => "15%, 35%, 50%" }
-      %frame{ :name => "Files", :title => "Files", :src => "fr_file_index.html" }
-      %frame{ :name => "Classes", :src => "fr_class_index.html" }
-      %frame{ :name => "Methods", :src => "fr_method_index.html" }
-    %frame{ :name => "docwin", :src => values[:initial_page] }=""
+%h1&= page_title
+
+- if main_page
+  #main.description
+    ~ sanitize_code_blocks main_page.description.sub(%r{^\s*<h1.*?/h1>}, '')
+
+%ol
+  - for klass in classes
+    %li
+      %h3= klass.full_name
+      = klass.path
+      %pre&= klass.description
+      %ol
+        - for section in klass.sections
+          %li
+            %pre&= section.description
+%h2 Files
+%ol#files
+  - for file in files
+    %li&= file.relative_name
+
+%h2 Methods
+%ol#methods
+  - for method in methods
+    %li{ :class => method.visibility }
+      %span.name= method.name
+      %span.classmod== (#{method.parent.full_name})

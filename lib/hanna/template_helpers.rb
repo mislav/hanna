@@ -1,7 +1,7 @@
 require 'yaml'
 require 'cgi'
 
-module Hanna
+class Hanna
   module TemplateHelpers
     protected
 
@@ -23,24 +23,6 @@ module Hanna
       method_name, module_name = $1, $2
       link_to %Q(<span class="method_name">#{h method_name}</span> <span class="module_name">(#{h module_name})</span>), url, classname
     end
-    
-    def read(*names)
-      RDoc::Generator::HTML::HANNA.read(*names)
-    end
-
-    # We need to suppress warnings before calling into HAML because
-    # HAML has lots of uninitialized instance variable accesses.
-    def silence_warnings
-      save = $-w
-      $-w = false
-      
-      begin
-        yield
-      ensure
-        $-w = save
-      end
-    end
-    module_function :silence_warnings
 
     def debug(text)
       "<pre>#{h YAML::dump(text)}</pre>"
@@ -108,9 +90,9 @@ module Hanna
     # primarily for removing leading whitespace in <pre> tags
     def sanitize_code_blocks(text)
       text.gsub(/<pre>(.+?)<\/pre>/m) do
-        code = $1.sub(/^\s*\n/, '')
-        indent = code.gsub(/\n[ \t]*\n/, "\n").scan(/^ */).map{ |i| i.size }.min
-        code.gsub!(/^#{' ' * indent}/, '') if indent > 0
+        code = $1.sub(/^ *\n/, '').rstrip
+        indent = code.gsub(/\n\s*\n/, "\n").scan(/^ +/).map{ |i| i.size }.min
+        code.gsub!(/^#{' ' * indent}/m, '') if indent > 0
         
         "<pre>#{code}</pre>"
       end

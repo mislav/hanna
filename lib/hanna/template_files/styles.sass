@@ -1,5 +1,5 @@
 !title_font = Georgia, serif
-!body_font = "Lucida Grande", Verdana, Arial, Helvetica, "sans-serif"
+!body_font = "Lucida Grande", Helvetica, "sans-serif"
 !code_font_family = Monaco, "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Courier New", monospace
 !code_font_size   = 14px
 !code_font = !code_font_size !code_font_family
@@ -26,7 +26,7 @@ body
   :margin 0 auto -43px
 #footer-push
   :height 43px
-div.header, #footer
+#header, #footer
   :background #eee
 #footer
   :border-top 1px solid silver
@@ -65,7 +65,7 @@ a
   img
     :border = 0
 
-#description, .method .description, .header
+.description, #header
   a
     :color = !light_link
     &:hover
@@ -100,7 +100,7 @@ table
   tr
     :border-bottom 1px solid silver
 
-#index, div.header
+#index, #header
   a.show
     :text-decoration underline
     :font-style italic
@@ -163,7 +163,7 @@ table
         &:hover .module_name
           :color #ddd
   
-div.header
+#header
   :font-size 80%
   :padding .5em 2%
   :font-family Arial, Helvetica, sans-serif
@@ -187,72 +187,62 @@ div.header
       :font-weight normal
       :color = !light_text - 30
 
-#content
-  :padding 12px 2%
-  div.class &
-    :position relative
-    :width 72%
-  
-  pre, .method .synopsis
+pre, .method .synopsis
+  :font = !code_font
+pre
+  :color black
+  :background #eee
+  :border 1px solid silver
+  :padding .5em .8em
+  :overflow auto
+p, li, dl
+  code, tt
     :font = !code_font
-  pre
-    :color black
-    :background #eee
-    :border 1px solid silver
-    :padding .5em .8em
-    :overflow auto
-  p, li, dl
-    code, tt
-      :font = !code_font
-      :background #ffffe3
-      :padding 2px 3px
-      :line-height 1.4
-  h1, h2, h3, h4, h5, h6
-    code, tt
-      :font-size 1.1em
-
-  #text
-    :position relative
+    :background #ffffe3
+    :padding 2px 3px
+    :line-height 1.4
+h1, h2, h3, h4, h5, h6
+  code, tt
+    :font-size 1.1em
   
-  #description
-    // :max-width 60em
-    p
-      :margin-top .5em
-    h1, h2, h3, h4, h5, h6
-      :font-family = !title_font
-    h1
-      :font-size 2.2em
-      :margin-bottom .2em
-      :border-bottom 3px double #d8d8d8
-      :padding-bottom .1em
-    h2
-      :font-size 1.8em
-      :color = !dark_blue_text
-      :margin .8em 0 .3em 0
-    h3
-      :font-size 1.6em
-      :margin .8em 0 .3em 0
-      :color = !light_text
-    h4
-      :font-size 1.4em
-      :margin .8em 0 .3em 0
-    h5
-      :font-size 1.2em
-      :margin .8em 0 .3em 0
-      :color = !dark_blue_text
-    h6
-      :font-size 1.0em
-      :margin .8em 0 .3em 0
-      :color = !light_text
-
-  #description, .method .description
-    ul, ol
-      :margin .8em 0
-      :padding-left 1.5em
-    ol
-      :list-style decimal
-      li
-        :white-space normal
+.description
+  #main&
+    :padding 2em
+  p
+    :margin-top .5em
+  h1, h2, h3, h4, h5, h6
+    :font-family = !title_font
+  h1
+    :font-size 2.2em
+    :margin-bottom .2em
+    :border-bottom 3px double #d8d8d8
+    :padding-bottom .1em
+  h2
+    :font-size 1.8em
+    :color = !dark_blue_text
+    :margin .8em 0 .3em 0
+  h3
+    :font-size 1.6em
+    :margin .8em 0 .3em 0
+    :color = !light_text
+  h4
+    :font-size 1.4em
+    :margin .8em 0 .3em 0
+  h5
+    :font-size 1.2em
+    :margin .8em 0 .3em 0
+    :color = !dark_blue_text
+  h6
+    :font-size 1.0em
+    :margin .8em 0 .3em 0
+    :color = !light_text
+  ul, ol
+    :margin .8em 0
+    :padding-left 1.5em
+  ol
+    :list-style decimal
+    li
+      :white-space normal
 
 #method-list
   :position absolute
