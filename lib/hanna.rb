@@ -61,7 +61,23 @@ class Hanna
       index.vars.classes = @classes
       index.vars.main_page = find_main_page
       
-      index.vars.path_to_base = @output_dir.relative_path_from(index.target.dirname)
+      index.vars.path_to_base = '.'
+    end
+    
+    tm = nil
+    for klass in @classes
+      unless tm
+        tm = template('class_module.haml', klass.path)
+        tm.vars.page_encoding = @options.charset
+        tm.vars.path_to_base = @output_dir.relative_path_from(tm.target)
+      else
+        tm.set_target klass.path
+      end
+      
+      tm.vars.page_title = klass.full_name
+      tm.vars.klass = klass
+      tm.target.dirname.mkpath
+      tm.write!
     end
     
     template('styles.sass', 'styles.css').write!
