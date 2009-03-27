@@ -12,6 +12,8 @@ class Hanna
   end
   
   class Template
+    attr_reader :target
+    
     def initialize(base_dir, output_dir)
       @base_dir = base_dir
       @output_dir = output_dir

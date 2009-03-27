@@ -23,6 +23,10 @@ class Hanna
       method_name, module_name = $1, $2
       link_to %Q(<span class="method_name">#{h method_name}</span> <span class="module_name">(#{h module_name})</span>), url, classname
     end
+    
+    def relative_path(file)
+      [path_to_base, file].join('/')
+    end
 
     def debug(text)
       "<pre>#{h YAML::dump(text)}</pre>"

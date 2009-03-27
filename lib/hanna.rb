@@ -60,6 +60,8 @@ class Hanna
       index.vars.methods = @methods
       index.vars.classes = @classes
       index.vars.main_page = find_main_page
+      
+      index.vars.path_to_base = @output_dir.relative_path_from(index.target.dirname)
     end
     
     template('styles.sass', 'styles.css').write!
