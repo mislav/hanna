@@ -12,8 +12,9 @@ class Hanna
   end
   
   class Template
-    def initialize(base_dir)
+    def initialize(base_dir, output_dir)
       @base_dir = base_dir
+      @output_dir = output_dir
       @templates = []
     end
     
@@ -36,11 +37,17 @@ class Hanna
         end
       end
     end
+    
+    def set_target(file)
+      @target = @output_dir + file
+    end
   
-    def write(io)
-      io.write render
+    def write!
+      File.open(@target, 'w') do |file|
+        file.write(render)
+      end
     rescue
-      $stderr.puts "error writing to #{io.inspect}"
+      $stderr.puts "error writing to #{@target}"
       raise
     end
   

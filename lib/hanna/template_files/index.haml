@@ -4,24 +4,30 @@
   #main.description
     ~ sanitize_code_blocks main_page.description.sub(%r{^\s*<h1.*?/h1>}, '')
 
-%ol
-  - for klass in classes
-    %li
-      %h3= klass.full_name
-      = klass.path
-      %pre&= klass.description
-      %ol
-        - for section in klass.sections
-          %li
-            %pre&= section.description
-%h2 Files
-%ol#files
-  - for file in files
-    %li&= file.relative_name
+.list_box
+  %h2 Files
+  - any_hidden = false
+  %ol#files
+    - for file in files
+      - hide = file.name =~ /\.(rb|c)$/
+      - any_hidden = true if hide
+      %li{ :class => hide ? 'other' : nil }= link_to file.relative_name, file.path
+    - if any_hidden
+      %li
+        %a.show_hidden{ :href => '#', :onclick => 'this.parentNode.parentNode.className += " expanded"; this.parentNode.removeChild(this); return false' } show all
 
-%h2 Methods
-%ol#methods
-  - for method in methods
-    %li{ :class => method.visibility }
-      %span.name= method.name
-      %span.classmod== (#{method.parent.full_name})
+.list_box
+  %h2 Classes
+  %ol#classes
+    - for klass in classes
+      %li
+        %a{ :href => klass.path }= klass.full_name
+
+.list_box      
+  %h2 Methods
+  %ol#methods
+    - for method in methods
+      %li{ :class => method.visibility }
+        %a{ :href => method.path }
+          %span.name= method.name
+          %span.classmod== (#{method.parent.full_name})

@@ -53,7 +53,13 @@ body
 h1, h2, h3, h4, h5, h6
   :margin 0
   :font-weight normal
-
+h1
+  :font-family = !title_font
+  :font-size 2.2em
+  /:margin-bottom .2em
+  :border-bottom 3px double #d8d8d8
+  :padding .2em 1em .1em 1em
+  
 a
   :color = !link
   &:hover
@@ -83,8 +89,17 @@ ol
     :white-space nowrap
     &.other
       :display none
-ol.expanded li.other
-  :display list-item
+  a.show_hidden
+    :text-decoration underline
+    :font-style italic
+    :color = !light_text
+    &:after
+      :content " ..."
+    &:hover
+      :color black
+      :background #ffe
+  &.expanded li.other
+    :display list-item
       
 table
   :margin-bottom 1em
@@ -99,23 +114,13 @@ table
       :color = !light_text
   tr
     :border-bottom 1px solid silver
-
-#index, #header
-  a.show
-    :text-decoration underline
-    :font-style italic
-    :color = !light_text
-    &:after
-      :content " ..."
-    &:hover
-      :color black
-      :background #ffe
       
-#index
+.list_box
+  :margin 2em
   :font 85%/1.2 Arial, Helvetica, sans-serif
   a
     :text-decoration none
-  h1
+  h2
     :padding .2em .5em .1em
     :background #ccc
     :font = "small-caps 1.2em" !title_font
@@ -212,11 +217,6 @@ h1, h2, h3, h4, h5, h6
     :margin-top .5em
   h1, h2, h3, h4, h5, h6
     :font-family = !title_font
-  h1
-    :font-size 2.2em
-    :margin-bottom .2em
-    :border-bottom 3px double #d8d8d8
-    :padding-bottom .1em
   h2
     :font-size 1.8em
     :color = !dark_blue_text
