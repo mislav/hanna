@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby -w
-if ARGV.size == 1 and ARGV.first == '-h'
+if ARGV.size == 1 and (ARGV.first == '-h' || ARGV.first == '--help')
   puts <<-HELP
 Hanna -- a better RDoc template
 Synopsis:
