@@ -1,8 +1,11 @@
-!title_font = Georgia, serif
+!rhythm = 20px
+!title_font = "Kozuka Gothic Pro B", "Gill Sans", "sans-serif"
 !body_font = "Lucida Grande", Helvetica, "sans-serif"
-!code_font_family = Monaco, "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Courier New", monospace
+!code_font_family = Monaco, "Dejavu Sans Mono", "Bitstream Vera Sans Mono", "Courier New", monospace
 !code_font_size   = 14px
 !code_font = !code_font_size !code_font_family
+!text_color = #000
+!code_color = !text_color
 
 !light_link = #369
 !link = !light_link - 40
@@ -16,14 +19,17 @@ body
   :font-size 90%
   :margin 0
   :padding 0
-  :background white
-  :color black
+  :background white url(../rhythm.png)
+  :color = !text_color
     
 #wrapper
   :min-height 100%
   :height auto !important
   :height 100%
   :margin 0 auto -43px
+#content
+  :padding = !rhythm + 4px 2%
+  :width 72%
 #footer-push
   :height 43px
 #header, #footer
@@ -37,12 +43,12 @@ body
   :font-variant small-caps
   :font-size 95%
 
-// self-clearing
-.clearing
+=clearing
   &:after
     :content "."
     :visibility hidden
     :height 0
+    :font-size 0
     :display block
     :clear both
   * html &
@@ -51,15 +57,62 @@ body
     :overflow hidden
 
 h1, h2, h3, h4, h5, h6
-  :margin 0
-  :font-weight normal
-h1
   :font-family = !title_font
-  :font-size 2.2em
-  /:margin-bottom .2em
-  :border-bottom 3px double #d8d8d8
-  :padding .2em 1em .1em 1em
+  :margin 0
+  :padding 0
+  :font-weight normal
+  p + &
+    :margin-top = !rhythm
+h1
+  :font-weight bold
+h1, h2, h3, h4, h5, h6
+  :line-height = 2 * !rhythm
+h3, h4, h5, h6
+  :color = !text_color + 50
+h1
+  :font-size 2.4em
+h2
+  :font-size 2em
+h3
+  :font-size 1.8em
+h4
+  :font-size 1.6em
+h5
+  :font-size 1.4em
+h6
+  :font-size 1.3em
+
+p, pre, .description ol, .description li, .breadcrumbs, .included_modules
+  :line-height = !rhythm
+  :margin-bottom 0
+p, .description ol, .description li
+  :margin-top = !rhythm
+.description hr
+  :margin-top = !rhythm - 1
   
+pre, .method .synopsis
+  :font = !code_font
+pre
+  :color = !code_color
+  :line-height = !rhythm
+  :background #eee
+  :border 1px solid silver
+  :padding 6px .8em
+  :margin 14px 0 12px
+  :overflow auto
+  & + p
+    :margin-top 12px
+
+p, li, dl
+  code, tt
+    :font = !code_font
+    :background #ffffe3
+    :padding 2px 3px
+    :line-height 1.4
+h1, h2, h3, h4, h5, h6
+  code, tt
+    :font-size 1.05em
+
 a
   :color = !link
   &:hover
@@ -67,10 +120,16 @@ a
     :text-decoration none
     :color #eef
 
-#diagram
-  img
-    :border = 0
-
+.breadcrumbs a
+  :text-decoration none
+.included_modules
+  :text-transform uppercase
+  :color = !light_text
+  :font-size 75%
+  .module
+    :font-size 1.2em
+    :text-transform none
+    
 .description, #header
   a
     :color = !light_link
@@ -79,7 +138,20 @@ a
   h1, h2, h3, h4, h5, h6
     a
       :color = !link
-
+      
+.description
+  ul, ol
+    :margin = !rhythm 0
+    :padding-left 1.5em
+    li
+      :margin 0
+  ol
+    :list-style decimal
+    li
+      :white-space normal
+  #main&
+    :padding-bottom = !rhythm * 2
+      
 ol
   :margin 0
   :padding 0
@@ -96,17 +168,20 @@ ol
     &:after
       :content " ..."
     &:hover
-      :color black
+      :color = !text_color
       :background #ffe
   &.expanded li.other
     :display list-item
       
 table
-  :margin-bottom 1em
+  :margin 10px 0 10px 0
   :font-size 1em
   :border-collapse collapse
   td, th
-    :padding .4em .8em
+    :padding 0 .8em
+    :padding-top = !rhythm/2 + 1
+    :padding-bottom = !rhythm/2
+    :height = !rhythm
   thead
     :background-color #e8e8e8
     th
@@ -114,6 +189,8 @@ table
       :color = !light_text
   tr
     :border-bottom 1px solid silver
+    &:first-child
+      :border-top 1px solid silver
       
 .list_box
   :margin 2em
@@ -191,81 +268,34 @@ table
     strong
       :font-weight normal
       :color = !light_text - 30
-
-pre, .method .synopsis
-  :font = !code_font
-pre
-  :color black
-  :background #eee
-  :border 1px solid silver
-  :padding .5em .8em
-  :overflow auto
-p, li, dl
-  code, tt
-    :font = !code_font
-    :background #ffffe3
-    :padding 2px 3px
-    :line-height 1.4
-h1, h2, h3, h4, h5, h6
-  code, tt
-    :font-size 1.1em
   
-.description
-  #main&
-    :padding 2em
-  p
-    :margin-top .5em
-  h1, h2, h3, h4, h5, h6
-    :font-family = !title_font
-  h1
-    :border none
-    :padding 0 0 .1em
-  h2
-    :font-size 1.8em
-    :color = !dark_blue_text
-    :margin .8em 0 .3em 0
-  h3
-    :font-size 1.6em
-    :margin .8em 0 .3em 0
-    :color = !light_text
-  h4
-    :font-size 1.4em
-    :margin .8em 0 .3em 0
-  h5
-    :font-size 1.2em
-    :margin .8em 0 .3em 0
-    :color = !dark_blue_text
-  h6
-    :font-size 1.0em
-    :margin .8em 0 .3em 0
-    :color = !light_text
-  ul, ol
-    :margin .8em 0
-    :padding-left 1.5em
-  ol
-    :list-style decimal
-    li
-      :white-space normal
-
 #method-list
   :position absolute
-  :top 0px
-  :right -33%
-  :width 28%
+  :top 24px
+  :right 2%
+  :width 20%
   :background #eee
   :border 1px solid silver
   :padding .4em 1%
   :overflow hidden
+  h2, h3
+    :line-height 24px
   h2
     :font-size 1.3em
   h3
-    :font-variant small-caps
-    :text-transform capitalize
-    :font-family = !title_font
-    :color #666
     :font-size 1.1em
   ol
     :padding 0 0 .5em .5em
+#method-list h3, #methods h2
+  :font-variant small-caps
+  :text-transform capitalize
+  :font-family = !title_font
+  :color #666
+#methods h2
+  :font-size 1.4em
+  :margin-bottom 0
+  & + .method
+    :margin-top 0
 
 #context
   :border-top 1px dashed silver
@@ -284,7 +314,7 @@ h1, h2, h3, h4, h5, h6
     :margin-top .5em
     :background #eee
     .synopsis
-      :color black
+      :color = !text_color
       :background silver
       :padding .2em 1em
       .name
@@ -295,18 +325,26 @@ h1, h2, h3, h4, h5, h6
       :padding 0 1em
       pre
         :background #f8f8f8
+      p:first-child
+        :margin-top .5em
     .source
       :margin .5em 0
     .source-toggle
       :font-size 85%
       :margin-left 1em
-  .public-class
-    :background #ffffe4
-  .public-instance .synopsis
-    :color #eee
-    :background = !light_link
+      &:before
+        :content "["
+      &:after
+        :content "]"
+    &.instance .synopsis
+      :color #eee
+      :background = !light_link
+    &.alias p
+      :margin .4em 0
+      :font-style italic
+      :font-size 85%
 
-#content .method .source pre
+.method .source pre
   :background #262626
   :color #ffdead
   :margin 1em
@@ -350,3 +388,21 @@ h1, h2, h3, h4, h5, h6
   .ruby-value
     :color #7fffd4
     :background transparent
+
+!guides_info = #D5E9F6
+!guides_note = #FFF9D8
+!guides_link = #ee3f3f
+!guides_link_darker = #980905
+!guides_header = #C52F24
+!guides_header_darker = !guides_link_darker
+!guides_dark = #565656
+
+body, .description, #header, h1, h2, h3, h4, h5, h6
+  a
+    :color = !guides_link_darker
+    &:hover
+      :background = !guides_link
+      :text-decoration none
+      :color #eef
+#method-list
+  :background = !guides_info

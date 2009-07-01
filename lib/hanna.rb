@@ -46,7 +46,8 @@ class Hanna
   
   def generate(top_levels)
     @output_dir = Pathname.new(@options.op_dir).expand_path(@base_dir)
-
+    
+    # TODO: figure out what's with the duplicates?!
     @files = top_levels.sort
     @classes = RDoc::TopLevel.all_classes_and_modules.sort
     @methods = @classes.map { |m| m.method_list }.flatten.sort
@@ -60,24 +61,15 @@ class Hanna
       index.vars.methods = @methods
       index.vars.classes = @classes
       index.vars.main_page = find_main_page
-      
-      index.vars.path_to_base = '.'
     end
     
-    tm = nil
     for klass in @classes
-      unless tm
-        tm = template('class_module.haml', klass.path)
+      template('class_module.haml', klass.path) do |tm|
         tm.vars.page_encoding = @options.charset
-        tm.vars.path_to_base = @output_dir.relative_path_from(tm.target)
-      else
-        tm.set_target klass.path
+        tm.vars.page_title = klass.full_name
+        tm.vars.klass = klass
+        tm.target.dirname.mkpath
       end
-      
-      tm.vars.page_title = klass.full_name
-      tm.vars.klass = klass
-      tm.target.dirname.mkpath
-      tm.write!
     end
     
     template('styles.sass', 'styles.css').write!
@@ -86,25 +78,23 @@ class Hanna
   protected
   
   def find_main_page
-    main = if @options.main_page 
+    if @options.main_page 
       @files.find { |f| f.full_name == @options.main_page }
     else
       @files.find { |f| f.name =~ /^README(\.|$)/i }
     end
-    
-    if main
-      def main.path    # hack to fix relative linking when
-        http_url(nil)  # this file is rendered in index.html
-      end
-    end
-    return main
   end
   
   private
   
   def template(*names)
     tm = Template.new(@template_dir, @output_dir)
-    tm.set_target names.pop
+    target = names.pop
+    tm.set_target target
+
+    depth = target.scan('/').size
+    tm.vars.path_to_base = depth > 0 ? (['..'] * depth).join('/') : nil
+    
     tm.load_template 'layout.haml' if names.first =~ /\.haml$/
     tm.load_template *names
     

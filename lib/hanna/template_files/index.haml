@@ -2,7 +2,7 @@
 
 - if main_page
   #main.description
-    ~ sanitize_code_blocks main_page.description.sub(%r{^\s*<h1.*?/h1>}, '')
+    ~ sanitize_code_blocks strip_main_heading(main_page.description)
 
 .list_box
   %h2 Files

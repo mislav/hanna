@@ -26,7 +26,7 @@ Rake::RDocTask.class_eval do
     directory @rdoc_dir
     task name => [rdoc_target]
     file rdoc_target => @rdoc_files + [Rake.application.rakefile] do
-      require 'hanna/rdoc_version'
+      require 'hanna/version'
       Hanna::require_rdoc
       require 'hanna'
       

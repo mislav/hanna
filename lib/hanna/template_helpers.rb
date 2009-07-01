@@ -25,7 +25,11 @@ class Hanna
     end
     
     def relative_path(file)
-      [path_to_base, file].join('/')
+      if path_to_base and !path_to_base.empty?
+        "#{path_to_base}/#{file}"
+      else
+        file.to_s
+      end
     end
 
     def debug(text)
@@ -51,15 +55,6 @@ class Hanna
       end
       result << "]"
       result
-    end
-
-    def methods_from_sections(sections)
-      sections.inject(Hash.new {|h, k| h[k] = []}) do |methods, section|
-        section[:method_list].each do |ml|
-          methods["#{ml[:type]} #{ml[:category]}".downcase].concat ml[:methods]
-        end if section[:method_list]
-        methods
-      end
     end
 
     def make_class_tree(entries)
@@ -101,5 +96,36 @@ class Hanna
         "<pre>#{code}</pre>"
       end
     end
+    
+    def strip_main_heading(text)
+      text.sub(%r{^\s*<h1.*?/h1>}, '')
+    end
+    
+    def group_methods(methods_by_type)
+      grouped_methods = []
+      for type in RDoc::Context::TYPES
+        for visibility in RDoc::Context::VISIBILITIES
+          method_group = methods_by_type[type][visibility]
+          grouped_methods << method_group unless method_group.empty?
+        end
+      end
+      
+      grouped_methods
+    end
+    
+    def method_attributes(method)
+      attrs = { :id => method.aref, :class => "#{method.visibility} #{method.type}" }
+      attrs[:class] << ' alias' if method.is_alias_for
+      attrs
+    end
+    
+    def show_include(inc)
+      unless String === inc.module
+        link_to inc.module.full_name, klass.aref_to(inc.module.path), 'module'
+      else
+        %(<span class="module">#{inc.name}</span>)
+      end
+    end
+    
   end
 end

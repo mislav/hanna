@@ -1,4 +1,64 @@
-/ %h1&= page_title
+.breadcrumbs
+  = link_to "← main", relative_path('index.html')
+  
+%h1&= page_title
 
-#main.description
-  ~ sanitize_code_blocks klass.description
+- unless klass.includes.empty?
+  .included_modules
+    Included modules:
+    - klass.each_include do |inc|
+      = show_include inc
+
+- if klass.comment
+  #main.description
+    ~ sanitize_code_blocks klass.description
+
+- unless klass.attributes.empty?
+  .attributes
+    %h2 Attributes
+    %dl
+      - klass.each_attribute do |attrib|
+        %dt
+          == [#{attrib.rw}]
+          &= attrib.name
+        %dd= attrib.description
+
+- unless klass.constants.empty?
+  .constants
+    %h2 Constants
+    %dl
+    - klass.each_constant do |const|
+      %dt= const.name
+      %dd= const.description
+
+- unless klass.method_list.empty?
+  - method_groups = group_methods(klass.methods_by_type)
+  #method-list
+    %h2 Methods
+    - for method_group in method_groups
+      %h3== #{method_group.first.visibility} #{method_group.first.type}
+      %ol
+        - for method in method_group
+          %li= link_to method.name, '#' + method.aref
+
+  #methods
+    - for method_group in method_groups
+      %h2== #{method_group.first.visibility} #{method_group.first.type} methods
+      
+      - for method in method_group
+        .method{ method_attributes(method) }
+          .synopsis
+            %span.name&= method.name
+            - if method.params and method.params != '()'
+              %span.arguments&= method.params
+            - if method.block_params
+              %span.block_arguments== { |#{h method.block_params}| … }
+          - if method.description
+            .description
+              ~ sanitize_code_blocks method.description
+          - if method.token_stream
+            .source
+              - name = "source_#{method.aref}"
+              %a.source-toggle{ :href => "#", :onclick => "document.getElementById('#{name}').style.display = 'block'; return false" } show source
+              %pre{ :id => name, :style => 'display:none' }&= method.markup_code
+            

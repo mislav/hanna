@@ -1,4 +1,5 @@
 class Hanna
+  VERSION = '0.2.0'
   RDOC_VERSION = '2.4.2'
   RDOC_VERSION_REQUIREMENT = "~> #{RDOC_VERSION}"
 
