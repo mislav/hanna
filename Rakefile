@@ -17,8 +17,9 @@ task :gemspec do
     p.add_dependency 'haml', '~> 2.0.4'
     p.add_dependency 'rake', '~> 0.8.2'
     
-    p.files = FileList.new('Rakefile', '{bin,lib,rdoc,sample}/**/*', 'README*', 'LICENSE*').
-                exclude('sample/rhythm.png', 'sample/output/**/*')
+    p.files = FileList.new('Rakefile', '{bin,lib,sample}/**/*', 'README*', 'LICENSE*').
+                exclude('sample/rhythm.png', 'sample/output').reject { |f| File.directory?(f) }
+                
     p.executables = Dir['bin/*'].map { |f| File.basename(f) }
 
     p.rubyforge_project = nil

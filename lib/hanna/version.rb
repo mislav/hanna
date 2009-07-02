@@ -3,7 +3,7 @@ class Hanna
   RDOC_VERSION = '2.4.2'
   RDOC_VERSION_REQUIREMENT = "~> #{RDOC_VERSION}"
 
-  def self.require_rdoc
+  def self.activate_rdoc_gem
     begin
       gem 'rdoc', RDOC_VERSION_REQUIREMENT
     rescue Gem::LoadError

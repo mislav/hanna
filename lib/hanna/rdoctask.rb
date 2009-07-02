@@ -27,7 +27,7 @@ Rake::RDocTask.class_eval do
     task name => [rdoc_target]
     file rdoc_target => @rdoc_files + [Rake.application.rakefile] do
       require 'hanna/version'
-      Hanna::require_rdoc
+      Hanna::activate_rdoc_gem
       require 'hanna'
       
       options = option_list + @rdoc_files

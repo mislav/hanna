@@ -39,6 +39,7 @@ class Hanna
   
   def initialize(options)
     @options = options
+    # TODO: make template directory configurable
     template_files = File.join(File.dirname(__FILE__), 'hanna', 'template_files')
     @template_dir = Pathname.new(template_files).expand_path
     @base_dir = Pathname.pwd.expand_path
