@@ -24,19 +24,17 @@ There is a command-line tool installed with the Hanna gem:
 This is a wrapper over `rdoc` and it forwards all the parameters to it. Manual usage
 would require specifying Hanna as a template when invoking RDoc on the command-line:
 
-    rdoc -o doc --inline-source --format=html -T hanna lib/*.rb
+    rdoc -o doc --format=hanna lib/*.rb
     
-Hanna requires the `--inline-source` (or `-S`) flag.
-
 An alternative is to set the `RDOCOPT` environment variable:
 
-    RDOCOPT="-S -f html -T hanna"
+    RDOCOPT="-f hanna"
 
 This will make RDoc always use Hanna unless it is explicitly overridden.
 
 Another neat trick is to put the following line in your .gemrc:
 
-    rdoc: --inline-source --line-numbers --format=html --template=hanna
+    rdoc: --format=hanna
 
 This will make RubyGems use Hanna when generating documentation for installed gems.
 
@@ -99,4 +97,4 @@ This is git. Fork it, hack away, tell me about it!
 [wiki]: http://github.com/mislav/hanna/wikis/home "Hanna wiki"
 [GitHub]: http://gems.github.com/ "GitHub gem server"
 [wp]: http://github.com/mislav/will_paginate/tree/master/Rakefile
-[Mislav]: http://mislav.caboo.se/ "Mislav Marohnić"
+[Mislav]: http://mislav.uniqpath.com/ "Mislav Marohnić"

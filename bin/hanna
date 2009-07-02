@@ -13,7 +13,7 @@ Example usage:
 Hanna passes all arguments to RDoc. To find more about RDoc options, see
 "rdoc -h". Default options are:
 
-  -o doc --inline-source --charset=UTF-8
+  -o doc --charset=UTF-8
 
 The second form, with the "--gems" argument, serves the same purpose as
 the "gem rdoc" command: it generates documentation for installed gems.
