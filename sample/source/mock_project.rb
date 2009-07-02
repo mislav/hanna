@@ -1,6 +1,8 @@
 # A Mock Project!
 #
 # You guessed it — this is all your fake goodiness right here, baby.
+#
+# This line mentions MockProject::FunkyClass to test cross-referencing.
 module MockProject
   # FunkyClass is the base of all funky.
   #
@@ -11,6 +13,8 @@ module MockProject
     
     # source of all foo!
     attr_accessor :footastic_setting
+    
+    attr_reader :undocd, :double_undocd
     
     include EnterpriseProtocol
     include Enumerable
@@ -46,6 +50,20 @@ module MockProject
     # this method yields a block
     def each
       yield foo, bar
+    end
+    
+    protected
+    
+    # a protected method
+    def mr_president
+      "Obama! Obama!"
+    end
+    
+    private
+    
+    # a private method
+    def all_yr_passwords
+      []
     end
   end
   

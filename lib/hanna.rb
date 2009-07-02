@@ -5,37 +5,36 @@ require 'rdoc/rdoc'
 require 'rdoc/generator'
 require 'rdoc/generator/markup'
 
+require 'hanna/rdoc_patch'
 require 'hanna/template'
 
+# In RDoc terms, Hanna is in fact both <em>generator</em> and template.
+# The role of an RDoc generator is to render output documentation in a
+# certain format when given the raw data that was the result of parsing
+# source files.
+# 
+# The <em>template</em> is only a set of template files in a directory.
+# RDoc default generator, Darkfish, allows users to write their own
+# template files, which is much easier than writing a complete generator.
+# Hanna could not be implemented this way because Darkfish
+# only renders ERB templates, and Hanna is in Haml/Sass.
 class Hanna
   
   RDoc::RDoc.add_generator(self)
   
+  # Factory method for getting a generator instance based on rdoc options.
+  # Currently equivalent to <tt>Hanna.new(options)</tt>
   def self.for(options)
     new(options)
   end
   
-  def class_dir
+  def class_dir # :nodoc:
     'classes'
   end
   
-  def file_dir
+  def file_dir # :nodoc:
     'files'
   end
-  
-  # STYLE = read('styles.sass')
-  # 
-  # CLASS_PAGE  = read('page.haml')
-  # FILE_PAGE   = CLASS_PAGE
-  # METHOD_LIST = read('method_list.haml', 'sections.haml')
-  # 
-  # FR_INDEX_BODY = BODY = read('layout.haml')
-  # 
-  # FILE_INDEX   = read('file_index.haml')
-  # CLASS_INDEX  = read('class_index.haml')
-  # METHOD_INDEX = read('method_index.haml')
-  # 
-  # INDEX = read('index.haml')
   
   def initialize(options)
     @options = options
@@ -45,31 +44,45 @@ class Hanna
     @base_dir = Pathname.pwd.expand_path
   end
   
+  PRIMARY_PARSERS = [RDoc::Parser::Simple, Hanna::MarkdownParser]
+  
+  # Does the heavy lifting.
+  #
+  # RDoc invokes this method with an array of "top_levels", i.e. metadata
+  # about files that it parsed.
   def generate(top_levels)
     @output_dir = Pathname.new(@options.op_dir).expand_path(@base_dir)
     
-    # TODO: figure out what's with the duplicates?!
     @files = top_levels.sort
-    @classes = RDoc::TopLevel.all_classes_and_modules.sort
+    @main_page = find_main_page
+    @rendered_files = @files.select { |file|
+      file != @main_page and PRIMARY_PARSERS.include?(file.parser)
+    }
+    @classes = RDoc::TopLevel.all_classes_and_modules.select { |mod| mod.document_self }.sort
     @methods = @classes.map { |m| m.method_list }.flatten.sort
-    # @modsort = get_sorted_module_list( @classes )
 
-    template('index.haml', 'index.html') do |index|
+    template('index.haml', 'project_index.haml', 'index.html') do |index|
       index.vars.page_title = @options.title
-      index.vars.page_encoding = @options.charset
-    
-      index.vars.files = @files
+      index.vars.page_type = :main
+      index.vars.current_page = @main_page
+      index.vars.files = @rendered_files
       index.vars.methods = @methods
       index.vars.classes = @classes
-      index.vars.main_page = find_main_page
     end
     
     for klass in @classes
       template('class_module.haml', klass.path) do |tm|
-        tm.vars.page_encoding = @options.charset
         tm.vars.page_title = klass.full_name
+        tm.vars.page_type = :class_module
         tm.vars.klass = klass
-        tm.target.dirname.mkpath
+      end
+    end
+    
+    for file in @rendered_files
+      template('index.haml', file.path) do |file_page|
+        file_page.vars.page_title = file.full_name
+        file_page.vars.page_type = :file
+        file_page.vars.current_page = file
       end
     end
     
@@ -79,11 +92,13 @@ class Hanna
   protected
   
   def find_main_page
-    if @options.main_page 
+    page = if @options.main_page 
       @files.find { |f| f.full_name == @options.main_page }
     else
-      @files.find { |f| f.name =~ /^README(\.|$)/i }
+      @files.find { |f| f.name =~ /\bREADME\b/i }
     end
+    page.formatter.from_path = '' if page
+    page
   end
   
   private
@@ -92,11 +107,16 @@ class Hanna
     tm = Template.new(@template_dir, @output_dir)
     target = names.pop
     tm.set_target target
-
-    depth = target.scan('/').size
-    tm.vars.path_to_base = depth > 0 ? (['..'] * depth).join('/') : nil
     
-    tm.load_template 'layout.haml' if names.first =~ /\.haml$/
+    if names.first =~ /\.haml$/
+      tm.load_template 'layout.haml'
+      
+      depth = target.scan('/').size
+      tm.vars.path_to_base = depth > 0 ? (['..'] * depth).join('/') : nil
+      tm.vars.page_encoding = @options.charset
+      tm.vars.show_private = @options.show_all
+    end
+    
     tm.load_template *names
     
     if block_given?

@@ -1,58 +1,78 @@
-.breadcrumbs
-  = link_to "← main", relative_path('index.html')
+- content_for :header do
+  .breadcrumbs
+    = link_to "← main", relative_path('index.html')
   
-%h1&= page_title
+  %h1
+    - if RDoc::ClassModule === klass.parent
+      == #{link_to klass.parent.full_name, relative_path(klass.parent.path)}::#{klass.name}
+    - else
+      = klass.name
 
-- unless klass.includes.empty?
-  .included_modules
-    Included modules:
-    - klass.each_include do |inc|
-      = show_include inc
+  - unless klass.includes.empty?
+    .included_modules
+      Included modules:
+      - klass.each_include do |inc|
+        = show_include inc
 
-- if klass.comment
-  #main.description
+- unless klass.comment.strip.empty?
+  #main.section.description
     ~ sanitize_code_blocks klass.description
 
+- nested = klass.classes_and_modules.select { |mod| mod.document_self }
+- unless nested.empty?
+  .section.nested_modules
+    %h2 Nested classes and modules
+    %ol
+      = list_of nested do |classmod|
+        = link_to classmod.full_name, relative_path(classmod.path)
+
 - unless klass.attributes.empty?
-  .attributes
+  .section.attributes
     %h2 Attributes
     %dl
       - klass.each_attribute do |attrib|
         %dt
           == [#{attrib.rw}]
-          &= attrib.name
+          %b&= attrib.name
         %dd= attrib.description
 
 - unless klass.constants.empty?
-  .constants
+  .section.constants
     %h2 Constants
     %dl
     - klass.each_constant do |const|
-      %dt= const.name
+      %dt
+        %code
+          = const.name
+          - if const.value
+            == = #{const.value}
       %dd= const.description
 
 - unless klass.method_list.empty?
   - method_groups = group_methods(klass.methods_by_type)
-  #method-list
+  - content_for :sidebar do
     %h2 Methods
     - for method_group in method_groups
       %h3== #{method_group.first.visibility} #{method_group.first.type}
       %ol
-        - for method in method_group
+        = list_of method_group do |method|
           %li= link_to method.name, '#' + method.aref
 
-  #methods
+  #methods.section
     - for method_group in method_groups
       %h2== #{method_group.first.visibility} #{method_group.first.type} methods
       
       - for method in method_group
         .method{ method_attributes(method) }
           .synopsis
-            %span.name&= method.name
-            - if method.params and method.params != '()'
-              %span.arguments&= method.params
-            - if method.block_params
-              %span.block_arguments== { |#{h method.block_params}| … }
+            - if method.call_seq
+              = method.call_seq.gsub("\n", '<br>').gsub(' -> ', ' &rarr; ')
+            - else
+              %span.name>&= method.name
+              - if method.params and method.params != '()'
+                %span.arguments&= method.params
+              - if method.block_params
+                %span.block_arguments== { |#{html_escape method.block_params}| … }
           - if method.description
             .description
               ~ sanitize_code_blocks method.description
@@ -60,5 +80,6 @@
             .source
               - name = "source_#{method.aref}"
               %a.source-toggle{ :href => "#", :onclick => "document.getElementById('#{name}').style.display = 'block'; return false" } show source
-              %pre{ :id => name, :style => 'display:none' }&= method.markup_code
+              %pre{ :id => name, :style => 'display:none' }
+                %code<>= method.markup_code
             

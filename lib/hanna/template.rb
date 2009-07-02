@@ -5,13 +5,20 @@ require 'ostruct'
 require 'hanna/template_helpers'
 
 class Hanna
-  class TemplateValues < OpenStruct
+  class TemplateValues < OpenStruct # :nodoc:
+    def initialize(*args)
+      super
+      @content_for = {}
+    end
+    
     include TemplateHelpers
     public :binding
     undef :methods
   end
   
+  # This class handles reading and rendering Haml, Sass or ERB templates.
   class Template
+    # Target path to write out the rendered file to (see #write!)
     attr_reader :target
     
     def initialize(base_dir, output_dir)
@@ -20,10 +27,15 @@ class Hanna
       @templates = []
     end
     
+    # Struct of local variables that will be available in the template
+    # at the time of rendering
     def vars
       @vars ||= TemplateValues.new
     end
-  
+    
+    # Loads one or multiple template files into a template object. Multiple files
+    # are concatenated into one object of the same types. Template types are
+    # recognized by extension: .haml, .sass and other for ERB templates.
     def load_template(*names)
       content = names.inject('') { |all, name| all << File.read(@base_dir + name) }
       extension = names.first =~ /\.(\w+)$/ && $1
@@ -40,11 +52,15 @@ class Hanna
       end
     end
     
+    # Sets the target path relative to <tt>output_dir</tt>
     def set_target(file)
       @target = @output_dir + file
     end
-  
+    
+    # Renders and writes out the resulting content to target (see #set_target)
     def write!
+      target.dirname.mkpath
+      
       File.open(@target, 'w') do |file|
         file.write(render)
       end
@@ -52,22 +68,28 @@ class Hanna
       $stderr.puts "error writing to #{@target}"
       raise
     end
-  
-    protected
-  
+    
+    # Renders currenly loaded templates in the reverse order of which they
+    # were added by #load_template. This allows one template to wrap the second,
+    # acting as a layout.
     def render
       @templates.reverse.inject(nil) do |previous, template|
+        context = vars.binding do |*args|
+          what = args.first
+          what ? vars.content_for(what) : previous
+        end
+        
         case template
         when Haml::Engine
           silence_warnings do
-            template.to_html(vars.binding { previous })
+            template.to_html(context)
           end
         when Sass::Engine
           silence_warnings do
             template.to_css
           end
         when String
-          ERB.new(template).result(vars.binding { previous })
+          ERB.new(template).result(context)
         else
           raise "don't know how to handle templates of class #{template.class.name.inspect}"
         end

@@ -72,24 +72,18 @@ Here is an example of a task for the [will_paginate library][wp]:
 
 ### Generating documentation for installed gems
 
-You can generate documentation for installed gems, which might be more convenient than the
-`gem rdoc` command with the +RDOCOPT+ environment variable set as described. For instance,
-to generate docs for "actionpack" and "activerecord" type:
+You can generate documentation for installed gems with the `--gems` flag.
+For instance, to generate docs for "actionpack" and "activerecord" type:
 
     [sudo] hanna --gems actionpack activerecord
 
+If you don't specify any gem names, Hanna is going to generate docs for your
+**entire** gem collection. This might take some time.
 
 ## You can help
 
-Don't like something? Think you can design better? (You probably can.)
-
-I think of Hanna as the first RDoc template that's actually _maintainable_. First thing I
-have done is converted the original HTML template to Haml and Sass, cleaning up and
-removing the (ridiculous amount of) duplication. Also, the template fragments are now in
-_separate files_.
-
-Ultimately, I'd like to lose the frameset. Currently that is far from possible because the
-whole RDoc HTML Generator is built for frames. Still, that is my goal.
+I think of Hanna as the first RDoc template that's actually _maintainable_. Template parts
+are neatly organized in separate files and Haml/Sass ensure that everything is kept clean.
 
 This is git. Fork it, hack away, tell me about it!
 

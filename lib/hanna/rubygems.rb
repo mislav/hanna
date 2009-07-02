@@ -1,7 +1,13 @@
 require 'rubygems/doc_manager'
 
 class Hanna
+  # A set of helpers for using the Gem::DocManager to generate Hanna documentation
+  # for installed gems. It is used by <tt>hanna</tt> command-line tool.
   module Rubygems
+    # Triggers gem documentation generation. If +gem_names+ is a non-empty array,
+    # documentation for specified gems will be generated.
+    # If the argument is an empty array, this will generate documentation for
+    # <tt>all</tt> installed gems.
     def self.document(gem_names, options = {})
       Gem::DocManager.configured_args = options
 
@@ -17,6 +23,8 @@ class Hanna
         Gem::DocManager.new(spec).generate_rdoc
       end
     end
+    
+    protected
     
     def self.find_gems(names)
       names.inject([]) do |all, name|

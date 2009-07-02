@@ -3,6 +3,14 @@ require 'cgi'
 
 class Hanna
   module TemplateHelpers
+    def content_for(what, text = nil, &block)
+      if text or block_given?
+        @content_for[what.to_sym] = text || capture_haml(&block)
+      else
+        @content_for[what.to_sym]
+      end
+    end
+    
     protected
 
     def link_to(text, url = nil, classname = nil)
@@ -10,10 +18,8 @@ class Hanna
       
       if url
         %[<a href="#{url}"#{class_attr}>#{text}</a>]
-      elsif classname
-        %[<span#{class_attr}>#{text}</span>]
       else
-        text
+        %[<span#{class_attr}>#{text}</span>]
       end
     end
     
@@ -57,13 +63,13 @@ class Hanna
       result
     end
 
-    def make_class_tree(entries)
-      entries.inject({}) do |tree, entry|
-        if entry[:href]
-          leaf = entry[:name].split('::').inject(tree) do |branch, klass|
-            branch[klass] ||= {}
+    def make_class_tree(classes)
+      classes.inject({}) do |tree, klass|
+        if path = klass.path
+          leaf = klass.full_name.split('::').inject(tree) do |branch, mod|
+            branch[mod] ||= {}
           end
-          leaf['_href'] = entry[:href]
+          leaf['_href'] = path
         end
         tree
       end
@@ -86,31 +92,27 @@ class Hanna
       end
     end
     
-    # primarily for removing leading whitespace in <pre> tags
+    # remove extra whitespace in <pre> tags
     def sanitize_code_blocks(text)
       text.gsub(/<pre>(.+?)<\/pre>/m) do
         code = $1.sub(/^ *\n/, '').rstrip
-        indent = code.gsub(/\n\s*\n/, "\n").scan(/^ +/).map{ |i| i.size }.min
-        code.gsub!(/^#{' ' * indent}/m, '') if indent > 0
+        indent = code.gsub(/\n\s*\n/, "\n").scan(/^ */).map{ |i| i.size }.min
+        code.gsub!(/^#{' ' * indent}/, '') if indent > 0
         
         "<pre>#{code}</pre>"
       end
     end
     
-    def strip_main_heading(text)
-      text.sub(%r{^\s*<h1.*?/h1>}, '')
-    end
-    
     def group_methods(methods_by_type)
-      grouped_methods = []
-      for type in RDoc::Context::TYPES
+      RDoc::Context::TYPES.inject([]) do |grouped_methods, type|
         for visibility in RDoc::Context::VISIBILITIES
-          method_group = methods_by_type[type][visibility]
-          grouped_methods << method_group unless method_group.empty?
+          if show_private or visibility == :public
+            method_group = methods_by_type[type][visibility]
+            grouped_methods << method_group unless method_group.empty?
+          end
         end
+        grouped_methods
       end
-      
-      grouped_methods
     end
     
     def method_attributes(method)
@@ -123,9 +125,15 @@ class Hanna
       unless String === inc.module
         link_to inc.module.full_name, klass.aref_to(inc.module.path), 'module'
       else
-        %(<span class="module">#{inc.name}</span>)
+        haml_tag :span, inc.name, :class => 'module'
       end
     end
     
+    def extract_main_heading(text)
+      if text.sub!(/^\s*<h1>(.+?)<\/h1>\s*/, '')
+        self.page_title = $1
+      end
+      text
+    end
   end
 end

@@ -30,6 +30,8 @@ body
 #content
   :padding = !rhythm + 4px 2%
   :width 72%
+  .section
+    :margin-bottom = !rhythm
 #footer-push
   :height 43px
 #header, #footer
@@ -45,7 +47,7 @@ body
 
 =clearing
   &:after
-    :content "."
+    :content " "
     :visibility hidden
     :height 0
     :font-size 0
@@ -82,15 +84,23 @@ h5
 h6
   :font-size 1.3em
 
+=small_caps
+  :font-variant small-caps
+  :text-transform capitalize
+  :font-family = !title_font
+  :color #666
+
 p, pre, .description ol, .description li, .breadcrumbs, .included_modules
   :line-height = !rhythm
   :margin-bottom 0
-p, .description ol, .description li
+p, .description ol, .description li, dl
   :margin-top = !rhythm
+  &:first-child
+    :margin-top 0
 .description hr
   :margin-top = !rhythm - 1
   
-pre, .method .synopsis
+pre, .method .synopsis, code span
   :font = !code_font
 pre
   :color = !code_color
@@ -120,15 +130,31 @@ a
     :text-decoration none
     :color #eef
 
-.breadcrumbs a
-  :text-decoration none
-.included_modules
-  :text-transform uppercase
-  :color = !light_text
-  :font-size 75%
-  .module
-    :font-size 1.2em
-    :text-transform none
+.attributes, .constants
+  dd
+    :margin = 0 0 !rhythm 1.5em
+    :color = !text_color + 50
+.constants dt code
+  :font-size 1.2em
+
+  
+#header
+  :padding 9px 2%
+  :border-bottom 1px solid silver
+
+  .breadcrumbs a
+    :text-decoration none
+  h1
+    :text-shadow = 2px 1px 0px (!text_color + 160)
+    #main &
+      :margin = !rhythm 0
+  .included_modules
+    :text-transform uppercase
+    :color = !light_text
+    :font-size 75%
+    .module
+      :font-size 1.2em
+      :text-transform none
     
 .description, #header
   a
@@ -149,9 +175,7 @@ a
     :list-style decimal
     li
       :white-space normal
-  #main&
-    :padding-bottom = !rhythm * 2
-      
+
 ol
   :margin 0
   :padding 0
@@ -193,16 +217,6 @@ table
       :border-top 1px solid silver
       
 .list_box
-  :margin 2em
-  :font 85%/1.2 Arial, Helvetica, sans-serif
-  a
-    :text-decoration none
-  h2
-    :padding .2em .5em .1em
-    :background #ccc
-    :font = "small-caps 1.2em" !title_font
-    :color #333
-    :border-bottom 1px solid gray
   form
     :margin 0
     :padding 0
@@ -222,6 +236,8 @@ table
     :padding .4em .5em
     li
       :white-space nowrap
+    ol
+      :padding 0
   #index-entries li a
     :padding 1px 2px
   #index-entries.classes
@@ -244,32 +260,8 @@ table
           :color #666666
         &:hover .module_name
           :color #ddd
-  
-#header
-  :font-size 80%
-  :padding .5em 2%
-  :font-family Arial, Helvetica, sans-serif
-  :border-bottom 1px solid silver
-  .name
-    :font-size 1.6em
-    :font-family = !title_font
-    .type
-      :color = !light_text
-      :font-size 80%
-      :font-variant small-caps
-  h1.name
-    :font-size 2.2em
-  .paths, .last-update, .parent
-    :color = !light_text
-  .last-update .datetime
-    :color = !light_text - 30
-  .parent
-    :margin-top .3em
-    strong
-      :font-weight normal
-      :color = !light_text - 30
-  
-#method-list
+
+.sidebar  
   :position absolute
   :top 24px
   :right 2%
@@ -283,32 +275,22 @@ table
   h2
     :font-size 1.3em
   h3
-    :font-size 1.1em
-  ol
-    :padding 0 0 .5em .5em
-#method-list h3, #methods h2
-  :font-variant small-caps
-  :text-transform capitalize
-  :font-family = !title_font
-  :color #666
-#methods h2
-  :font-size 1.4em
-  :margin-bottom 0
-  & + .method
-    :margin-top 0
-
-#context
-  :border-top 1px dashed silver
-  :margin-top 1em
-  :margin-bottom 1em
-
-#context, #section
-  h2
-    :font = "small-caps 1.2em" !title_font
-    :color #444
-    :margin 1em 0 .2em 0
+    :font-size 1em
+  
+  #class_module &
+    h3
+      +small_caps
+    ol
+      :padding 0 0 0 .5em
+      :margin 0 0 .5em 0
 
 #methods
+  h2
+    +small_caps
+    :font-size 1.1em
+    :margin-bottom 0
+    & + .method
+      :margin-top 0
   .method
     :border 1px solid silver
     :margin-top .5em
@@ -323,12 +305,37 @@ table
         :text-decoration none
     .description
       :padding 0 1em
-      pre
-        :background #f8f8f8
       p:first-child
         :margin-top .5em
+      pre
+        :background #f8f8f8
     .source
       :margin .5em 0
+      pre
+        :background #262626 !important
+        :color #ffdead
+        :margin 1em
+        :border 1px dashed #999
+        .ruby-constant
+          :color #7fffd4
+        .ruby-keyword
+          :color #00ffff
+        .ruby-ivar
+          :color #eedd82
+        .ruby-operator
+          :color #00ffee
+        .ruby-identifier
+          :color #ffdead
+        .ruby-node
+          :color #ffa07a
+        .ruby-comment
+          :color #b22222
+          :font-weight bold
+        .ruby-regexp
+          :color #ffa07a
+        .ruby-value
+          :color #7fffd4
+      
     .source-toggle
       :font-size 85%
       :margin-left 1em
@@ -339,70 +346,10 @@ table
     &.instance .synopsis
       :color #eee
       :background = !light_link
+      .name
+        :text-shadow = 1px 1px 1px (!light_link - 60)
+        
     &.alias p
       :margin .4em 0
       :font-style italic
       :font-size 85%
-
-.method .source pre
-  :background #262626
-  :color #ffdead
-  :margin 1em
-  :padding 0.5em
-  :border 1px dashed #999
-  :overflow auto
-
-  .ruby-constant
-    :color #7fffd4
-    :background transparent
-
-  .ruby-keyword
-    :color #00ffff
-    :background transparent
-
-  .ruby-ivar
-    :color #eedd82
-    :background transparent
-
-  .ruby-operator
-    :color #00ffee
-    :background transparent
-
-  .ruby-identifier
-    :color #ffdead
-    :background transparent
-
-  .ruby-node
-    :color #ffa07a
-    :background transparent
-
-  .ruby-comment
-    :color #b22222
-    :font-weight bold
-    :background transparent
-
-  .ruby-regexp
-    :color #ffa07a
-    :background transparent
-
-  .ruby-value
-    :color #7fffd4
-    :background transparent
-
-!guides_info = #D5E9F6
-!guides_note = #FFF9D8
-!guides_link = #ee3f3f
-!guides_link_darker = #980905
-!guides_header = #C52F24
-!guides_header_darker = !guides_link_darker
-!guides_dark = #565656
-
-body, .description, #header, h1, h2, h3, h4, h5, h6
-  a
-    :color = !guides_link_darker
-    &:hover
-      :background = !guides_link
-      :text-decoration none
-      :color #eef
-#method-list
-  :background = !guides_info

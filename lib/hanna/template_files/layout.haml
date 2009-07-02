@@ -5,9 +5,12 @@
     %meta{ 'http-equiv' => "Content-Type", :content => "text/html; charset=#{page_encoding}" }
     %link{ :rel => "stylesheet", :href => relative_path('styles.css'), :type => "text/css", :media => "screen" }
         
-  %body
+  %body{ :id => page_type }
     #wrapper
+      #header= yield :header
       #content= yield
+      - if sidebar_content = yield(:sidebar)
+        .sidebar= sidebar_content
       #footer-push
     #footer
       = link_to '<strong>Hanna</strong> RDoc template', 'http://github.com/mislav/hanna/tree/master'

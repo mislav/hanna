@@ -6,7 +6,7 @@ Rake::RDocTask.class_eval do
   undef :external=, :template=
   
   # Create the tasks defined by this task lib.
-  def define
+  def define # :nodoc:
     options << '--format=hanna'
     options << '--charset=UTF-8' if options.grep(/^(--charset\b|-c\b)/).empty?
     
