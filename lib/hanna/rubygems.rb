@@ -46,3 +46,11 @@ class Hanna
     end
   end
 end
+
+Gem::Specification.class_eval do
+  alias extra_rdoc_files_original extra_rdoc_files
+  
+  def extra_rdoc_files
+    extra_rdoc_files_original | files.grep(/^README\b/)
+  end
+end

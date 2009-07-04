@@ -95,7 +95,7 @@ class Hanna
     page = if @options.main_page 
       @files.find { |f| f.full_name == @options.main_page }
     else
-      @files.find { |f| f.name =~ /\bREADME\b/i }
+      @files.find { |f| f.name =~ /\bREADME\b/i } || @files.first
     end
     page.formatter.from_path = '' if page
     page
