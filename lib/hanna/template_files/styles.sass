@@ -353,3 +353,27 @@ table
       :margin .4em 0
       :font-style italic
       :font-size 85%
+
+!guides_info = #D5E9F6
+!guides_note = #FFF9D8
+!guides_link = #ee3f3f
+!guides_link_darker = #980905
+!guides_header = #C52F24
+!guides_header_darker = !guides_link_darker
+!guides_dark = #565656
+
+body, .description, #header, h1, h2, h3, h4, h5, h6
+  a
+    :color = !guides_link_darker
+    &:hover
+      :background = !guides_link
+      :text-decoration none
+      :color #eef
+#header
+  :background = !guides_info
+  :border-color white
+#class_module .sidebar
+  :background white
+  :border-color white
+  ol
+    :border-left 1px dotted silver
