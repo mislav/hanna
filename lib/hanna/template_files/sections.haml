@@ -49,7 +49,7 @@
               %tr.top-aligned-row.context-row
                 %td.context-item-name= attr[:name]
                 %td.context-item-value= attr[:rw] ? "[#{attr[:rw]}]" : '&nbsp;'
-                %td.context-item-desc= attr[:a_desc]
+                %td.context-item-desc~ sanitize_code_blocks(attr[:a_desc])
     
     - if section[:method_list]
       #methods
