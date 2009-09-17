@@ -1,23 +1,18 @@
 unless defined?(Hanna) or defined?(RDoc)
   require 'rubygems/doc_manager'
   require 'rubygems/requirement'
-  require 'hanna/rdoc_version'
+  require 'hanna/version'
 
   class << Gem::DocManager
     alias load_rdoc_without_version_constraint load_rdoc
 
     # overwrite load_rdoc to load the exact version of RDoc that Hanna works with
     def load_rdoc
-      requirement = Gem::Requirement.create Hanna::RDOC_VERSION_REQUIREMENT
-      
-      begin
-        gem 'rdoc', requirement.to_s
-      rescue Gem::LoadError
-        # ignore
-      end
+      Hanna::require_rdoc(false) # don't terminate if failed
 
       # call the original method
       load_rdoc_without_version_constraint
+      requirement = Gem::Requirement.create Hanna::RDOC_VERSION_REQUIREMENT
 
       unless requirement.satisfied_by? rdoc_version
         raise Gem::DocumentError, "ERROR: RDoc version #{requirement} not installed"

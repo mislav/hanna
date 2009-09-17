@@ -35,7 +35,7 @@ end
 $:.unshift(hanna_dir) unless $:.include?(hanna_dir)
 
 require 'rubygems'
-require 'hanna/rdoc_version'
+require 'hanna/version'
 Hanna::require_rdoc
 require 'rdoc/rdoc'
 

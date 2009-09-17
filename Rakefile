@@ -1,10 +1,10 @@
 desc "generates .gemspec file"
 task :gemspec do
-  require 'lib/hanna/rdoc_version'
+  require 'lib/hanna/version'
   
   spec = Gem::Specification.new do |gem|
     gem.name = 'hanna'
-    gem.version = '0.1.9'
+    gem.version = Hanna::VERSION
     
     gem.summary = "An RDoc template that scales"
     gem.description = "Hanna is an RDoc implemented in Haml, making its source clean and maintainable. It's built with simplicity, beauty and ease of browsing in mind."

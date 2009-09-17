@@ -1,4 +1,4 @@
-require 'hanna/rdoc_version'
+require 'hanna/version'
 require 'rake'
 require 'rake/rdoctask'
 
