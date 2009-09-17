@@ -1,20 +1,34 @@
-require 'echoe'
-require 'lib/hanna/rdoc_version'
-
-Echoe.new('hanna') do |p|
-  p.version = '0.1.9'
+desc "generates .gemspec file"
+task :gemspec do
+  require 'lib/hanna/rdoc_version'
   
-  p.summary     = "An RDoc template that scales"
-  p.description = "Hanna is an RDoc implemented in Haml, making its source clean and maintainable. It's built with simplicity, beauty and ease of browsing in mind."
+  spec = Gem::Specification.new do |gem|
+    gem.name = 'hanna'
+    gem.version = '0.1.9'
+    
+    gem.summary = "An RDoc template that scales"
+    gem.description = "Hanna is an RDoc implemented in Haml, making its source clean and maintainable. It's built with simplicity, beauty and ease of browsing in mind."
+    
+    gem.add_dependency 'rdoc', Hanna::RDOC_VERSION_REQUIREMENT
+    gem.add_dependency 'haml', '~> 2.0.4'
+    gem.add_dependency 'rake', '~> 0.8.2'
+    
+    gem.email = 'mislav.marohnic@gmail.com'
+    gem.homepage = 'http://github.com/mislav/' + gem.name
+    gem.authors = ['Mislav Marohnić']
+    gem.has_rdoc = false
+    
+    gem.files = FileList['Rakefile', '{bin,lib,rails,spec}/**/*', 'README*', 'LICENSE*'] & `git ls-files`.split("\n")
+    gem.executables = Dir['bin/*'].map { |f| File.basename(f) }
+  end
   
-  p.author = 'Mislav Marohnić'
-  p.email  = 'mislav.marohnic@gmail.com'
-  p.url    = 'http://github.com/mislav/hanna'
+  spec_string = spec.to_ruby
   
-  p.project = nil
-  p.has_rdoc = false
-  
-  p.runtime_dependencies << ['rdoc', Hanna::RDOC_VERSION_REQUIREMENT]
-  p.runtime_dependencies << ['haml', '~> 2.0.4']
-  p.runtime_dependencies << ['rake', '~> 0.8.2']
+  begin
+    Thread.new { eval("$SAFE = 3\n#{spec_string}", binding) }.join 
+  rescue
+    abort "unsafe gemspec: #{$!}"
+  else
+    File.open("#{spec.name}.gemspec", 'w') { |file| file.write spec_string }
+  end
 end
