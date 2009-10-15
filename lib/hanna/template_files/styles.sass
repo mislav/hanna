@@ -1,10 +1,11 @@
 !rhythm = 20px
-!title_font = "Kozuka Gothic Pro B", "Gill Sans", "sans-serif"
-!body_font = "Lucida Grande", Helvetica, "sans-serif"
-!code_font_family = Monaco, "Dejavu Sans Mono", "Bitstream Vera Sans Mono", "Courier New", monospace
-!code_font_size   = 14px
+!title_font = "Helvetica", "Arial", "sans-serif"
+!body_font = "Helvetica", "Arial", "sans-serif"
+!code_font_family = "Monaco", "Dejavu Sans Mono", "Bitstream Vera Sans Mono", "Courier", "monospace"
+!font_size = 14px
+!code_font_size = !font_size
 !code_font = !code_font_size !code_font_family
-!text_color = #000
+!text_color = #222
 !code_color = !text_color
 
 !light_link = #369
@@ -15,8 +16,7 @@
 html, body
   :height 100%
 body
-  :font-family = !body_font
-  :font-size 90%
+  :font = !font_size !body_font
   :margin 0
   :padding 0
   :background white url(../rhythm.png)
@@ -60,23 +60,24 @@ body
 
 h1, h2, h3, h4, h5, h6
   :font-family = !title_font
-  :margin 0
-  :padding 0
   :font-weight normal
-  p + &
-    :margin-top = !rhythm
+  :line-height = 2 * !rhythm
+  :padding 0
+  :margin 0
 h1
   :font-weight bold
-h1, h2, h3, h4, h5, h6
-  :line-height = 2 * !rhythm
 h3, h4, h5, h6
   :color = !text_color + 50
 h1
   :font-size 2.4em
 h2
   :font-size 2em
+  :position relative
+  :top 5px
 h3
   :font-size 1.8em
+  :position relative
+  :top 7px
 h4
   :font-size 1.6em
 h5
@@ -90,11 +91,11 @@ h6
   :font-family = !title_font
   :color #666
 
-p, pre, .description ol, .description li, .breadcrumbs, .included_modules
+p, pre, .description ol, .description li
   :line-height = !rhythm
-  :margin-bottom 0
-p, .description ol, .description li, dl
   :margin-top = !rhythm
+  :margin-bottom = !rhythm
+p, .description ol, .description li, dl
   &:first-child
     :margin-top 0
 .description hr
@@ -106,12 +107,12 @@ pre
   :color = !code_color
   :line-height = !rhythm
   :background #eee
-  :border 1px solid silver
   :padding 6px .8em
-  :margin 14px 0 12px
+  :margin-top -6px
+  :margin-bottom 14px
   :overflow auto
   & + p
-    :margin-top 12px
+    :margin-top 14px
 
 p, li, dl
   code, tt
@@ -141,20 +142,15 @@ a
 #header
   :padding 9px 2%
   :border-bottom 1px solid silver
-
+  .breadcrumbs, .module-info
+    :line-height = !rhythm
   .breadcrumbs a
     :text-decoration none
-  h1
-    :text-shadow = 2px 1px 0px (!text_color + 160)
-    #main &
-      :margin = !rhythm 0
-  .included_modules
+    :margin 0
+  .module-info
     :text-transform uppercase
     :color = !light_text
     :font-size 75%
-    .module
-      :font-size 1.2em
-      :text-transform none
     
 .description, #header
   a

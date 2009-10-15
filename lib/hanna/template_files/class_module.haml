@@ -7,15 +7,18 @@
       == #{link_to klass.parent.full_name, relative_path(klass.parent.path)}::#{klass.name}
     - else
       = klass.name
-
-  - unless klass.includes.empty?
-    .included_modules
-      Included modules:
-      - klass.each_include do |inc|
-        - show_include inc
+  
+  .module-info
+    Subclasses Object
 
 - unless klass.comment.strip.empty?
   #main.section.description
+    - unless klass.includes.empty?
+      %p.included_modules
+        Included modules:
+        - klass.each_include do |mod|
+          - show_include mod
+          
     ~ sanitize_code_blocks klass.description
 
 - nested = klass.classes_and_modules.select { |mod| mod.document_self }
