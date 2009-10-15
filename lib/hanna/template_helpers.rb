@@ -123,7 +123,7 @@ class Hanna
     
     def show_include(inc)
       unless String === inc.module
-        link_to inc.module.full_name, klass.aref_to(inc.module.path), 'module'
+        haml_concat link_to(inc.module.full_name, klass.aref_to(inc.module.path), 'module')
       else
         haml_tag :span, inc.name, :class => 'module'
       end
