@@ -6,7 +6,7 @@ module Hanna
     protected
 
     def link_to(text, url = nil, classname = nil)
-      class_attr = classname ? %[ class="#{classname}"] : ''
+      class_attr = classname ? ' class="%s"' % classname : ''
       
       if url
         %[<a href="#{url}"#{class_attr}>#{text}</a>]
@@ -93,7 +93,7 @@ module Hanna
       tree.keys.sort.inject('') do |out, name|
         unless name == '_href'
           subtree = tree[name]
-          text = parent ? %[<span class="parent">#{parent}</span>#{name}] : name
+          text = parent ? '<span class="parent">%s</span>%s' % [parent, name] : name
           out << '<li>'
           out << (subtree['_href'] ? link_to(text, subtree['_href']) : %[<span class="nodoc">#{text}</span>])
           if subtree.keys.size > 1 || (subtree.keys.size == 1 && !subtree['_href'])
