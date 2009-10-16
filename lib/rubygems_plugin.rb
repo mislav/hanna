@@ -3,14 +3,16 @@ unless defined?(::Hanna) or defined?(::RDoc)
   require 'rubygems/requirement'
 
   # define the Hanna namespace to prevent actions of rubygems_plugin from older versions
-  module Hanna; end
+  module ::Hanna; end
 
   class << Gem::DocManager
     alias load_rdoc_without_version_constraint load_rdoc
 
     # overwrite load_rdoc to load the exact version of RDoc that Hanna works with
     def load_rdoc
-      load File.expand_path(File.join(File.dirname(__FILE__), 'hanna', 'version.rb'))
+      unless defined? ::Hanna::VERSION
+        load File.expand_path(File.join(File.dirname(__FILE__), 'hanna', 'version.rb'))
+      end
 
       Hanna::require_rdoc(false) # don't terminate if failed
 
