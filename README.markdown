@@ -1,12 +1,12 @@
-# Hanna -- a better RDoc template
+# Hanna — a better RDoc template
 
 Hanna is an RDoc template that scales. It's implemented in Haml, making the sources clean
 and readable. It's built with simplicity, beauty and ease of browsing in mind. (See more
 in [the wiki][wiki].)
 
-Hanna gem is available from [GitHub][]:
+Hanna gem is available from [Gemcutter][]:
 
-    gem install mislav-hanna
+    gem install hanna
 
 The template was created by [Mislav][] and since then has seen contributions from:
 
@@ -97,6 +97,6 @@ This is git. Fork it, hack away, tell me about it!
 
 
 [wiki]: http://github.com/mislav/hanna/wikis/home "Hanna wiki"
-[GitHub]: http://gems.github.com/ "GitHub gem server"
+[gemcutter]: http://gemcutter.org/ "Gemcutter gem server"
 [wp]: http://github.com/mislav/will_paginate/tree/master/Rakefile
 [Mislav]: http://mislav.caboo.se/ "Mislav Marohnić"
