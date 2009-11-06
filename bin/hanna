@@ -1,4 +1,4 @@
-#!/usr/bin/ruby
+#!/usr/bin/env ruby -w
 if ARGV.size == 1 and ARGV.first == '-h'
   puts <<-HELP
 Hanna -- a better RDoc template
