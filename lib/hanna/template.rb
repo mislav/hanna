@@ -44,7 +44,7 @@ class Hanna
         when 'sass'
           Sass::Engine.new(content)
         when 'haml'
-          Haml::Engine.new(content, :format => :html4, :filename => names.join(','))
+          Haml::Engine.new(content, :format => :html5, :filename => names.join(','))
         else
           content
         end
