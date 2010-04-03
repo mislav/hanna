@@ -1,9 +1,9 @@
 !!!
-%html{ :lang => "en" }
+%html{ :lang => 'en' }
   %head
     %title&= page_title
-    %meta{ 'http-equiv' => "Content-Type", :content => "text/html; charset=#{page_encoding}" }
-    %link{ :rel => "stylesheet", :href => relative_path('styles.css'), :type => "text/css", :media => "screen" }
+    %meta{ 'http-equiv' => 'Content-Type', :content => "text/html; charset=#{page_encoding}" }
+    %link{ :rel => 'stylesheet', :href => relative_path('styles.css'), :type => 'text/css', :media => 'screen' }
         
   %body{ :id => page_type }
     #wrapper
@@ -13,4 +13,6 @@
         .sidebar= sidebar_content
       #footer-push
     #footer
-      = link_to '<strong>Hanna</strong> RDoc template', 'http://github.com/mislav/hanna/tree/master'
+      = link_to 'http://github.com/mislav/hanna' do
+        %strong Hanna
+        RDoc template

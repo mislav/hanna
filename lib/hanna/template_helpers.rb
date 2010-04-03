@@ -13,7 +13,12 @@ class Hanna
     
     protected
 
-    def link_to(text, url = nil, classname = nil)
+    def link_to(text, url = nil, classname = nil, &block)
+      if block_given?
+        url = text
+        classname = url
+        text = capture_haml(&block)
+      end
       class_attr = classname ? %[ class="#{classname}"] : ''
       
       if url
