@@ -2,8 +2,9 @@ namespace :sample do
   task :doc do
     puts "generating sample output"
     files = FileList.new('sample/source/**/*')
-    `rm -r sample/output`
-    system %(bin/hanna -o sample/output #{files.join(' ')})
+    libdir = File.expand_path('../lib', __FILE__)
+    ENV['RUBYOPT'] = "-w -I#{libdir.gsub(' ', '\ ')} #{ENV['RUBYOPT']}"
+    exec 'rdoc', '--format', 'hanna', '--all', '--force-update', '-o', 'sample/output', *files
   end
   
   task :css do
