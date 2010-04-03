@@ -16,8 +16,8 @@ require 'hanna/template'
 # The <em>template</em> is only a set of template files in a directory.
 # RDoc default generator, Darkfish, allows users to write their own
 # template files, which is much easier than writing a complete generator.
-# Hanna could not be implemented this way because Darkfish
-# only renders ERB templates, and Hanna is in Haml/Sass.
+# Hanna could not be implemented this way because Darkfish only renders
+# ERB templates, while Hanna is written in Haml/Sass.
 class Hanna
   
   RDoc::RDoc.add_generator(self)
@@ -106,7 +106,7 @@ class Hanna
   def template(*names)
     tm = Template.new(@template_dir, @output_dir)
     target = names.pop
-    tm.set_target target
+    tm.target = target
     
     if names.first =~ /\.haml$/
       tm.load_template 'layout.haml'
@@ -117,7 +117,7 @@ class Hanna
       tm.vars.show_private = @options.show_all
     end
     
-    tm.load_template *names
+    tm.load_template(*names)
     
     if block_given?
       yield tm

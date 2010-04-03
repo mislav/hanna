@@ -1,6 +1,6 @@
 # this file is auto-loaded from Hanna gem by RDoc
 unless defined?(::Hanna)
-  hanna_lib = File.expand_path(File.join(File.dirname(__FILE__), '..'))
-  $:.unshift(hanna_lib) unless $:.include?(hanna_lib)
+  libdir = File.expand_path('../..', __FILE__)
+  $:.unshift(libdir) unless $:.include?(libdir)
   require 'hanna'
 end

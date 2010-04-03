@@ -1,6 +1,9 @@
 require 'rdoc/parser'
 
 RDoc::Parser::Ruby.class_eval do
+  alias broken_extract_call_seq extract_call_seq
+  
+  # properly extract the call-seq without messing up rest of the comment
   def extract_call_seq(comment, meth) # :nodoc:
     if comment.sub!(/:?call-seq:(.*?)(\Z|\n\s*#?\s*\n)/m, '\2') then
       seq = $1

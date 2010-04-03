@@ -1,4 +1,3 @@
-require 'hanna'
 require 'haml'
 require 'sass'
 require 'ostruct'
@@ -53,11 +52,11 @@ class Hanna
     end
     
     # Sets the target path relative to <tt>output_dir</tt>
-    def set_target(file)
+    def target=(file)
       @target = @output_dir + file
     end
     
-    # Renders and writes out the resulting content to target (see #set_target)
+    # Renders and writes out the resulting content to `target`
     def write!
       target.dirname.mkpath
       
