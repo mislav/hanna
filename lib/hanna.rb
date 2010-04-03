@@ -6,6 +6,7 @@ require 'rdoc/generator'
 require 'rdoc/generator/markup'
 
 require 'hanna/rdoc_patch'
+require 'hanna/parsers'
 require 'hanna/template'
 
 # In RDoc terms, Hanna is in fact both <em>generator</em> and template.
@@ -44,8 +45,6 @@ class Hanna
     @base_dir = Pathname.pwd.expand_path
   end
   
-  PRIMARY_PARSERS = [RDoc::Parser::Simple, Hanna::MarkdownParser]
-  
   # Does the heavy lifting.
   #
   # RDoc invokes this method with an array of "top_levels", i.e. metadata
@@ -55,9 +54,9 @@ class Hanna
     
     @files = top_levels.sort
     @main_page = find_main_page
-    @rendered_files = @files.select { |file|
-      file != @main_page and PRIMARY_PARSERS.include?(file.parser)
-    }
+    @text_files = @files.select do |file|
+      file != @main_page and file.text_content?
+    end
     @classes = RDoc::TopLevel.all_classes_and_modules.select { |mod| mod.document_self }.sort
     @methods = @classes.map { |m| m.method_list }.flatten.sort
 
@@ -65,7 +64,7 @@ class Hanna
       index.vars.page_title = @options.title
       index.vars.page_type = :main
       index.vars.current_page = @main_page
-      index.vars.files = @rendered_files
+      index.vars.files = @text_files
       index.vars.methods = @methods
       index.vars.classes = @classes
     end
@@ -78,7 +77,7 @@ class Hanna
       end
     end
     
-    for file in @rendered_files
+    for file in @text_files
       template('index.haml', file.path) do |file_page|
         file_page.vars.page_title = file.full_name
         file_page.vars.page_type = :file

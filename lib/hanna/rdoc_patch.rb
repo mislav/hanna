@@ -1,4 +1,5 @@
 require 'rdoc/parser'
+require 'rdoc/markup/to_html_crossref'
 
 RDoc::Parser::Ruby.class_eval do
   alias broken_extract_call_seq extract_call_seq
@@ -16,29 +17,6 @@ RDoc::Parser::Ruby.class_eval do
 end
 
 RDoc::Markup::ToHtmlCrossref.class_eval do
+  # expose the instance variable
   attr_accessor :from_path
-end
-  
-RDoc::TopLevel.class_eval do
-  def description # :nodoc:
-    parser == Hanna::MarkdownParser ? @comment : super
-  end
-end
-
-class Hanna
-  class MarkdownParser < RDoc::Parser # :nodoc:
-
-    parse_files_matching(/\.(md(own)?|markdown)$/)
-
-    def initialize(top_level, file_name, content, options, stats)
-      super
-      require 'bluecloth' unless defined?(::BlueCloth)
-    end
-
-    def scan
-      @top_level.comment = ::BlueCloth.new(@content).to_html
-      @top_level.parser = self.class
-      @top_level
-    end
-  end
 end
