@@ -1,5 +1,3 @@
-require 'haml'
-require 'sass'
 require 'ostruct'
 require 'hanna/template_helpers'
 
@@ -17,6 +15,17 @@ class Hanna
   
   # This class handles reading and rendering Haml, Sass or ERB templates.
   class Template
+    # used while loading/processing haml and sass
+    def self.silence_warnings
+      saved, $-w = $-w, false
+  
+      begin
+        yield
+      ensure
+        $-w = saved
+      end
+    end
+    
     # Target path to write out the rendered file to (see #write!)
     attr_reader :target
     
@@ -39,7 +48,7 @@ class Hanna
       content = names.inject('') { |all, name| all << File.read(@base_dir + name) }
       extension = names.first =~ /\.(\w+)$/ && $1
 
-      @templates << silence_warnings do
+      @templates << self.class.silence_warnings do
         case extension
         when 'sass'
           Sass::Engine.new(content)
@@ -80,11 +89,11 @@ class Hanna
         
         case template
         when Haml::Engine
-          silence_warnings do
+          self.class.silence_warnings do
             template.to_html(context)
           end
         when Sass::Engine
-          silence_warnings do
+          self.class.silence_warnings do
             template.to_css
           end
         when String
@@ -94,17 +103,10 @@ class Hanna
         end
       end
     end
-  
-    private
-  
-    def silence_warnings
-      saved, $-w = $-w, false
-    
-      begin
-        yield
-      ensure
-        $-w = saved
-      end
-    end
   end 
+end
+
+Hanna::Template.silence_warnings do
+  require 'haml'
+  require 'sass'
 end
