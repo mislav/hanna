@@ -1,55 +1,43 @@
 #!/usr/bin/env ruby -w
-if ARGV.size == 1 and (ARGV.first == '-h' || ARGV.first == '--help')
+if ARGV.first == '-h' or ARGV.first == '--help'
   puts <<-HELP
 Hanna -- a better RDoc template
 Synopsis:
   hanna [options]  [file names...]
-  [sudo] hanna --gems  [gem names...]
+  [sudo] hanna --gem <name>
   
 Example usage:
 
-  hanna lib/**/*.rb
+  $ hanna
+  $ hanna src/
+  $ hanna lib/*.rb
 
-Hanna passes all arguments to RDoc. To find more about RDoc options, see
-"rdoc -h". Default options are:
+  $ hanna --gem hashie
+  $ hanna --gem hashie -v 0.2.0
+  $ hanna --gem all
 
-  -o doc --charset=UTF-8
+Hanna passes all arguments to RDoc. See `rdoc --help`.
 
-The second form, with the "--gems" argument, serves the same purpose as
-the "gem rdoc" command: it generates documentation for installed gems.
-When no gem names are given, "hanna --gems" will install docs for EACH of
-the gems, which can, uh, take a little while.
+With the `--gem` option, Hanna generates documentation for installed gems.
+When "all" is specified it will install docs for all installed gems, which
+can take a long time. `hanna --gem` command should be prefixed with `sudo`
+if special permissions are needed to write to the gems directory.
 
 HELP
   exit 0
 end
 
-unless RUBY_PLATFORM =~ /(:?mswin|mingw)/
-  require 'pathname'
-  hanna_dir = Pathname.new(__FILE__).realpath.dirname + '../lib'
-else
-  # windows
-  hanna_dir = File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib'))
-end
-
-$:.unshift(hanna_dir) unless $:.include?(hanna_dir)
-
-require 'rubygems'
-require 'hanna/version'
-Hanna::activate_rdoc_gem
-require 'hanna'
-
-options = []
-
-options << '--format' << 'hanna'
-options << '--charset=UTF-8'
+ENV['RDOCOPT'] = '--format hanna'
 
 if ARGV.first == '--gems'
-  require 'hanna/rubygems'
-  Hanna::Rubygems.document(ARGV[1..-1], options)
+  warn "Aborted: The `--gems` option has been renamed to `--gem`.\nSee `hanna --help` for more info."
+  exit(1)
+elsif ARGV.first == '--gem'
+  args = ARGV[1..-1]
+  args << '--all' if args.delete('all')
+  args << '--overwrite' unless args.include?('--all')
+  args << '--no-ri' << '--rdoc'
+  exec 'gem', 'rdoc', *args
 else
-  options << '--output' << 'doc' if ARGV.grep(/^(--output|--op|-o)\b/).empty?
-  options.concat ARGV
-
-  RDoc::RDoc.new.document(options)
+  exec 'rdoc', *ARGV
 end
