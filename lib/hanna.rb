@@ -2,12 +2,8 @@ require 'pathname'
 require 'fileutils'
 
 require 'rdoc/rdoc'
-require 'rdoc/generator'
-require 'rdoc/generator/markup'
-
 require 'hanna/rdoc_patch'
 require 'hanna/parsers'
-require 'hanna/template'
 
 # In RDoc terms, Hanna is in fact both <em>generator</em> and template.
 # The role of an RDoc generator is to render output documentation in a
@@ -22,6 +18,8 @@ require 'hanna/template'
 class Hanna
   
   RDoc::RDoc.add_generator(self)
+  
+  autoload :Template, 'hanna/template'
   
   # Factory method for getting a generator instance based on rdoc options.
   # Currently equivalent to <tt>Hanna.new(options)</tt>
