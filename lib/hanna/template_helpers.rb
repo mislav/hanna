@@ -36,11 +36,7 @@ class Hanna
     end
     
     def relative_path(file)
-      if path_to_base and !path_to_base.empty?
-        "#{path_to_base}/#{file}"
-      else
-        file.to_s
-      end
+      path_to_base + file
     end
 
     def debug(text)

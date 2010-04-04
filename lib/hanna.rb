@@ -110,8 +110,7 @@ class Hanna
     if names.first =~ /\.haml$/
       tm.load_template 'layout.haml'
       
-      depth = target.scan('/').size
-      tm.vars.path_to_base = depth > 0 ? (['..'] * depth).join('/') : nil
+      tm.vars.path_to_base = @output_dir.relative_path_from(tm.target.dirname)
       tm.vars.page_encoding = @options.charset
       tm.vars.show_private = @options.show_all
     end
