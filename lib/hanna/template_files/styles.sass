@@ -58,6 +58,30 @@ body
   *:first-child + html
     :overflow hidden
 
+=rounded(!n)
+  :border-radius = !n
+  :-moz-border-radius = !n
+  :-webkit-border-radius = !n
+
+=box-shadow(!params)
+  :box-shadow = !params
+  :-webkit-box-shadow = !params
+  :-moz-box-shadow = !params
+
+=transform(!params)
+  :-webkit-transform = !params
+  :-moz-transform = !params
+  :transform = !params
+
+=gradient(!from, !to)
+  :background-image = "-webkit-gradient(linear, left top, left bottom, from(#{!from}), to(#{!to}))"
+  :background-image = "-moz-linear-gradient(#{!from}, #{!to})"
+=gradient-top(!color)
+  +gradient(!color, fade_out(!color,1))
+=gradient-bottom(!color)
+  +gradient(fade_out(!color,1), !color)
+
+
 h1, h2, h3, h4, h5, h6
   :font-family = !title_font
   :font-weight normal
@@ -111,6 +135,7 @@ pre
   :margin-top -6px
   :margin-bottom 14px
   :overflow auto
+  +rounded(4px)
   & + p
     :margin-top 14px
 
@@ -142,6 +167,8 @@ a
 #header
   :padding 9px 2%
   :border-bottom 1px solid silver
+  +gradient-top(rgba(black, .2))
+  
   .breadcrumbs, .module-info
     :line-height = !rhythm
   .breadcrumbs a
