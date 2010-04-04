@@ -1,378 +1,371 @@
-!rhythm = 20px
-!title_font = "Helvetica", "Arial", "sans-serif"
-!body_font = "Helvetica", "Arial", "sans-serif"
-!code_font_family = "Monaco", "Dejavu Sans Mono", "Bitstream Vera Sans Mono", "Courier", "monospace"
-!font_size = 14px
-!code_font_size = !font_size
-!code_font = !code_font_size !code_font_family
-!text_color = #222
-!code_color = !text_color
+$rhythm: 20px
+$body_font: Helvetica, Arial, sans-serif
+$title_font: $body_font
+$code_font_family: Monaco, "Dejavu Sans Mono", "Bitstream Vera Sans Mono", Courier, monospace
+$font_size: 14px
+$code_font_size: $font_size
+$code_font: $code_font_size $code_font_family
 
-!light_link = #369
-!link = !light_link - 40
-!light_text = #666
-!dark_blue_text = #0E3062
+$text_color: #222
+$code_color: $text_color
+$light_background: #eee
+$light_link: #336699
+$link: $light_link - 40
+$light_text: #666
+$dark_blue_text: #0e3062
 
 html, body
-  :height 100%
+  height: 100%
+
 body
-  :font = !font_size !body_font
-  :margin 0
-  :padding 0
-  :background white url(../rhythm.png)
-  :color = !text_color
-    
+  font: $font_size $body_font
+  margin: 0
+  padding: 0
+  background: white url(../rhythm.png)
+  color: $text_color
+
 #wrapper
-  :min-height 100%
-  :height auto !important
-  :height 100%
-  :margin 0 auto -43px
+  min-height: 100%
+  height: auto !important
+  height: 100%
+  margin: 0 auto -43px
 #content
-  :padding = !rhythm + 4px 2%
-  :width 72%
+  padding: $rhythm + 4px 2%
+  width: 72%
   .section
-    :margin-bottom = !rhythm
+    margin-bottom: $rhythm
 #footer-push
-  :height 43px
+  height: 43px
 #header, #footer
-  :background #eee
+  background: $light_background
 #footer
-  :border-top 1px solid silver
-  :margin-top 12px
-  :padding 0 2em
-  :line-height 30px
-  :text-align center
-  :font-variant small-caps
-  :font-size 95%
+  border-top: 1px solid silver
+  margin-top: 12px
+  padding: 0 2em
+  line-height: 30px
+  text-align: center
+  font-variant: small-caps
+  font-size: 95%
 
 =clearing
   &:after
-    :content " "
-    :visibility hidden
-    :height 0
-    :font-size 0
-    :display block
-    :clear both
+    content: " "
+    visibility: hidden
+    height: 0
+    font-size: 0
+    display: block
+    clear: both
   * html &
-    :height 1px
+    height: 1px
   *:first-child + html
-    :overflow hidden
+    overflow: hidden
 
-=rounded(!n)
-  :border-radius = !n
-  :-moz-border-radius = !n
-  :-webkit-border-radius = !n
-
-=box-shadow(!params)
-  :box-shadow = !params
-  :-webkit-box-shadow = !params
-  :-moz-box-shadow = !params
-
-=transform(!params)
-  :-webkit-transform = !params
-  :-moz-transform = !params
-  :transform = !params
-
-=gradient(!from, !to)
-  :background-image = "-webkit-gradient(linear, left top, left bottom, from(#{!from}), to(#{!to}))"
-  :background-image = "-moz-linear-gradient(#{!from}, #{!to})"
-=gradient-top(!color)
-  +gradient(!color, fade_out(!color,1))
-=gradient-bottom(!color)
-  +gradient(fade_out(!color,1), !color)
-
-
-h1, h2, h3, h4, h5, h6
-  :font-family = !title_font
-  :font-weight normal
-  :line-height = 2 * !rhythm
-  :padding 0
-  :margin 0
-h1
-  :font-weight bold
-h3, h4, h5, h6
-  :color = !text_color + 50
-h1
-  :font-size 2.4em
-h2
-  :font-size 2em
-  :position relative
-  :top 5px
-h3
-  :font-size 1.8em
-  :position relative
-  :top 7px
-h4
-  :font-size 1.6em
-h5
-  :font-size 1.4em
-h6
-  :font-size 1.3em
+=rounded($n)
+  border-radius: $n
+  -moz-border-radius: $n
+  -webkit-border-radius: $n
+=box-shadow($params)
+  box-shadow: $params
+  -webkit-box-shadow: $params
+  -moz-box-shadow: $params
+=transform($params)
+  -webkit-transform: $params
+  -moz-transform: $params
+  transform: $params
+=gradient($from, $to)
+  background-image: -webkit-gradient(linear, left top, left bottom, from($from), to($to))
+  background-image: -moz-linear-gradient($from, $to)
+=gradient-top($color)
+  +gradient($color, fade_out($color, 1))
+=gradient-bottom($color)
+  +gradient(fade_out($color, 1), $color)
 
 =small_caps
-  :font-variant small-caps
-  :text-transform capitalize
-  :font-family = !title_font
-  :color #666
+  font-variant: small-caps
+  text-transform: capitalize
+  font-family: $title_font
+  color: #666
+
+h1, h2, h3, h4, h5, h6
+  font-family: $title_font
+  font-weight: normal
+  line-height: 2 * $rhythm
+  padding: 0
+  margin: 0
+h1
+  font-weight: bold
+h3, h4, h5, h6
+  color: $text_color + 50
+h1
+  font-size: 2.4em
+h2
+  font-size: 2em
+  position: relative
+  top: 5px
+h3
+  font-size: 1.8em
+  position: relative
+  top: 7px
+h4
+  font-size: 1.6em
+h5
+  font-size: 1.4em
+h6
+  font-size: 1.3em
 
 p, pre, .description ol, .description li
-  :line-height = !rhythm
-  :margin-top = !rhythm
-  :margin-bottom = !rhythm
+  line-height: $rhythm
+  margin-top: $rhythm
+  margin-bottom: $rhythm
 p, .description ol, .description li, dl
   &:first-child
-    :margin-top 0
+    margin-top: 0
 .description hr
-  :margin-top = !rhythm - 1
-  
+  margin-top: $rhythm - 1
+
 pre, .method .synopsis, code span
-  :font = !code_font
+  font: $code_font
 pre
-  :color = !code_color
-  :line-height = !rhythm
-  :background #eee
-  :padding 6px .8em
-  :margin-top -6px
-  :margin-bottom 14px
-  :overflow auto
+  color: $code_color
+  line-height: $rhythm
+  background: $light_background
+  padding: 6px 0.8em
+  margin-top: -6px
+  margin-bottom: 14px
+  overflow: auto
   +rounded(4px)
   & + p
-    :margin-top 14px
-
+    margin-top: 14px
 p, li, dl
   code, tt
-    :font = !code_font
-    :background #ffffe3
-    :padding 2px 3px
-    :line-height 1.4
+    font: $code_font
+    background: #ffffe3
+    padding: 2px 3px
+    line-height: 1.4
 h1, h2, h3, h4, h5, h6
   code, tt
-    :font-size 1.05em
+    font-size: 1.05em
 
 a
-  :color = !link
+  color: $link
   &:hover
-    :background = !light_link
-    :text-decoration none
-    :color #eef
+    background: $light_link
+    text-decoration: none
+    color: #eeeeff
 
 .attributes, .constants
   dd
-    :margin = 0 0 !rhythm 1.5em
-    :color = !text_color + 50
-.constants dt code
-  :font-size 1.2em
+    margin: 0 0 $rhythm 1.5em
+    color: $text_color + 50
 
-  
+.constants dt code
+  font-size: 1.2em
+
 #header
-  :padding 9px 2%
-  :border-bottom 1px solid silver
-  +gradient-top(rgba(black, .2))
-  
+  padding: 9px 2%
+  border-bottom: 1px solid silver
+  +gradient-top(rgba(black, 0.2))
   .breadcrumbs, .module-info
-    :line-height = !rhythm
+    line-height: $rhythm
   .breadcrumbs a
-    :text-decoration none
-    :margin 0
+    text-decoration: none
+    margin: 0
   .module-info
-    :text-transform uppercase
-    :color = !light_text
-    :font-size 75%
-    
+    text-transform: uppercase
+    color: $light_text
+    font-size: 75%
+
 .description, #header
   a
-    :color = !light_link
+    color: $light_link
     &:hover
-      :color #eee
+      color: #eee
   h1, h2, h3, h4, h5, h6
     a
-      :color = !link
-      
+      color: $link
+
 .description
   ul, ol
-    :margin = !rhythm 0
-    :padding-left 1.5em
+    margin: $rhythm 0
+    padding-left: 1.5em
     li
-      :margin 0
+      margin: 0
   ol
-    :list-style decimal
+    list-style: decimal
     li
-      :white-space normal
+      white-space: normal
 
 ol
-  :margin 0
-  :padding 0
-  :list-style none
+  margin: 0
+  padding: 0
+  list-style: none
   li
-    :margin-left 0
-    :white-space nowrap
+    margin-left: 0
+    white-space: nowrap
     &.other
-      :display none
+      display: none
   a.show_hidden
-    :text-decoration underline
-    :font-style italic
-    :color = !light_text
+    text-decoration: underline
+    font-style: italic
+    color: $light_text
     &:after
-      :content " ..."
+      content: " ..."
     &:hover
-      :color = !text_color
-      :background #ffe
+      color: $text_color
+      background: #ffffee
   &.expanded li.other
-    :display list-item
-      
+    display: list-item
+
 table
-  :margin 10px 0 10px 0
-  :font-size 1em
-  :border-collapse collapse
+  margin: 10px 0 10px 0
+  font-size: 1em
+  border-collapse: collapse
   td, th
-    :padding 0 .8em
-    :padding-top = !rhythm/2 + 1
-    :padding-bottom = !rhythm/2
-    :height = !rhythm
+    padding: 0 0.8em
+    padding-top: $rhythm / 2 + 1
+    padding-bottom: $rhythm / 2
+    height: $rhythm
   thead
-    :background-color #e8e8e8
+    background-color: #e8e8e8
     th
-      :font-variant small-caps
-      :color = !light_text
+      font-variant: small-caps
+      color: $light_text
   tr
-    :border-bottom 1px solid silver
+    border-bottom: 1px solid silver
     &:first-child
-      :border-top 1px solid silver
-      
+      border-top: 1px solid silver
+
 .list_box
   form
-    :margin 0
-    :padding 0
+    margin: 0
+    padding: 0
     input
-      :margin .4em 3px 0 .4em
-      :width 80%
+      margin: 0.4em 3px 0 0.4em
+      width: 80%
     #search.untouched
-      :color #777777
+      color: #777777
     .clear_button
-      :-moz-border-radius 7px
-      :-webkit-border-radius 7px
-      :background #AAA
-      :color white
-      :padding 0 5px 1px 5px
-      :cursor pointer
+      -moz-border-radius: 7px
+      -webkit-border-radius: 7px
+      background: #aaaaaa
+      color: white
+      padding: 0 5px 1px 5px
+      cursor: pointer
   ol
-    :padding .4em .5em
+    padding: 0.4em 0.5em
     li
-      :white-space nowrap
+      white-space: nowrap
     ol
-      :padding 0
+      padding: 0
   #index-entries li a
-    :padding 1px 2px
+    padding: 1px 2px
   #index-entries.classes
-    :font-size 1.1em
+    font-size: 1.1em
     ol
-      :padding 0
+      padding: 0
     span.nodoc
-      :display none
+      display: none
     span.nodoc, a
-      :font-weight bold
+      font-weight: bold
     .parent
-      :font-weight normal
+      font-weight: normal
   #index-entries.methods, #search-results.methods
     li
-      :margin-bottom 0.2em
+      margin-bottom: 0.2em
       a
         .method_name
-          :margin-right 0.25em
+          margin-right: 0.25em
         .module_name
-          :color #666666
+          color: #666
         &:hover .module_name
-          :color #ddd
+          color: #ddd
 
-.sidebar  
-  :position absolute
-  :top 24px
-  :right 2%
-  :width 20%
-  :background #eee
-  :border 1px solid silver
-  :padding .4em 1%
-  :overflow hidden
+.sidebar
+  position: absolute
+  top: 24px
+  right: 2%
+  width: 20%
+  background: $light_background
+  border: 1px solid silver
+  padding: 0.4em 1%
+  overflow: hidden
   h2, h3
-    :line-height 24px
+    line-height: 24px
   h2
-    :font-size 1.3em
+    font-size: 1.3em
   h3
-    :font-size 1em
-  
+    font-size: 1em
   #class_module &
     h3
       +small_caps
     ol
-      :padding 0 0 0 .5em
-      :margin 0 0 .5em 0
+      padding: 0 0 0 0.5em
+      margin: 0 0 0.5em 0
 
 #methods
   h2
     +small_caps
-    :font-size 1.1em
-    :margin-bottom 0
+    font-size: 1.1em
+    margin-bottom: 0
     & + .method
-      :margin-top 0
+      margin-top: 0
   .method
-    :border 1px solid silver
-    :margin-top .5em
-    :background #eee
+    border: 1px solid silver
+    margin-top: 0.5em
+    background: $light_background
     .synopsis
-      :color = !text_color
-      :background silver
-      :padding .2em 1em
+      color: $text_color
+      background: silver
+      padding: 0.2em 1em
       .name
-        :font-weight bold
+        font-weight: bold
       a
-        :text-decoration none
+        text-decoration: none
     .description
-      :padding 0 1em
+      padding: 0 1em
       p:first-child
-        :margin-top .5em
+        margin-top: 0.5em
       pre
-        :background #f8f8f8
+        background: #f8f8f8
     .source
-      :margin .5em 0
+      margin: 0.5em 0
       pre
-        :background #262626 !important
-        :color #ffdead
-        :margin 1em
-        :border 1px dashed #999
+        background: #262626 !important
+        color: #ffdead
+        margin: 1em
+        border: 1px dashed #999
         .ruby-constant
-          :color #7fffd4
+          color: #7fffd4
         .ruby-keyword
-          :color #00ffff
+          color: aqua
         .ruby-ivar
-          :color #eedd82
+          color: #eedd82
         .ruby-operator
-          :color #00ffee
+          color: #00ffee
         .ruby-identifier
-          :color #ffdead
+          color: #ffdead
         .ruby-node
-          :color #ffa07a
+          color: #ffa07a
         .ruby-comment
-          :color #b22222
-          :font-weight bold
+          color: #b22222
+          font-weight: bold
         .ruby-regexp
-          :color #ffa07a
+          color: #ffa07a
         .ruby-value
-          :color #7fffd4
-      
+          color: #7fffd4
     .source-toggle
-      :font-size 85%
-      :margin-left 1em
+      font-size: 85%
+      margin-left: 1em
       &:before
-        :content "["
+        content: "["
       &:after
-        :content "]"
+        content: "]"
     &.instance .synopsis
-      :color #eee
-      :background = !light_link
+      color: $light_background
+      background: $light_link
       .name
-        :text-shadow = 1px 1px 1px (!light_link - 60)
-        
+        text-shadow: 1px 1px 1px $light_link - 60
     &.alias p
-      :margin .4em 0
-      :font-style italic
-      :font-size 85%
+      margin: 0.4em 0
+      font-style: italic
+      font-size: 85%

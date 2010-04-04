@@ -6,7 +6,7 @@ Gem::Specification.new do |gem|
   gem.date    = Date.today.to_s
   
   gem.add_dependency 'rdoc', Hanna::RDOC_VERSION_REQUIREMENT
-  gem.add_dependency 'haml', '~> 2.2.22'
+  gem.add_dependency 'haml', '3.0.0.beta1'
   
   gem.summary = "An RDoc template that scales"
   gem.description = "Hanna is an RDoc implemented in Haml, making its source clean and maintainable. It's built with simplicity, beauty and ease of browsing in mind."
