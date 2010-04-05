@@ -14,5 +14,5 @@ namespace :sample do
 end
 
 task :rspactor do
-  system %(ruby -I~/.coral/rspactor/mislav/lib sample/rspactor_hook.rb)
+  system %(/usr/bin/ruby -I~/.coral/rspactor-mislav/lib sample/rspactor_hook.rb)
 end
