@@ -53,7 +53,7 @@ class Hanna
         when 'sass'
           Sass::Engine.new(content)
         when 'haml'
-          Haml::Engine.new(content, :format => :html5, :filename => names.join(','))
+          Haml::Engine.new(content, :filename => names.join(','), :format => :html5, :ugly => true)
         else
           content
         end
@@ -68,10 +68,7 @@ class Hanna
     # Renders and writes out the resulting content to `target`
     def write!
       target.dirname.mkpath
-      
-      File.open(@target, 'w') do |file|
-        file.write(render)
-      end
+      File.open(target, 'w') {|file| file.write(render) }
     rescue
       $stderr.puts "error writing to #{@target}"
       raise
@@ -80,6 +77,8 @@ class Hanna
     # Renders currenly loaded templates in the reverse order of which they
     # were added by #load_template. This allows one template to wrap the second,
     # acting as a layout.
+    #
+    # TODO: use def_method
     def render
       @templates.reverse.inject(nil) do |previous, template|
         context = vars.binding do |*args|
