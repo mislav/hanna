@@ -3,10 +3,10 @@ require File.expand_path('../lib/hanna/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.name    = 'hanna'
   gem.version = Hanna::VERSION
-  gem.date    = Date.today.to_s
+  gem.date    = Time.now.strftime('%Y-%m-%d')
   
   gem.add_dependency 'rdoc', Hanna::RDOC_VERSION_REQUIREMENT
-  gem.add_dependency 'haml', '3.0.0.beta1'
+  gem.add_dependency 'haml', '~> 3.0.10'
   
   gem.summary = "An RDoc template that scales"
   gem.description = "Hanna is an RDoc implemented in Haml, making its source clean and maintainable. It's built with simplicity, beauty and ease of browsing in mind."

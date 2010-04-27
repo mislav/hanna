@@ -1,6 +1,6 @@
 class Hanna
   VERSION = '0.2.pre'
-  RDOC_VERSION = '2.5.0'
+  RDOC_VERSION = '2.5.8'
   RDOC_VERSION_REQUIREMENT = "~> #{RDOC_VERSION}"
 
   def self.activate_rdoc_gem
