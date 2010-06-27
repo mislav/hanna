@@ -1,5 +1,4 @@
 require 'pathname'
-require 'fileutils'
 
 require 'rdoc/rdoc'
 require 'hanna/rdoc_patch'
