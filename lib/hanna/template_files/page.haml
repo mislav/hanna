@@ -28,7 +28,8 @@
   - if values[:entry].parent 
     .parent
       Parent:
-      %strong= link_to values[:entry].parent, values[:entry].parent.name
+      -# FIXME helper method
+      %strong= link_to values[:entry].parent.name, Pathname.new(class_dir) + Pathname.new(values[:entry].parent.path).relative_path_from(Pathname.new values[:entry].path)
 
   - if values[:entry].respond_to?(:last_modified) and values[:entry].last_modified
     .last-update

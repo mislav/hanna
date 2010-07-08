@@ -120,7 +120,7 @@ class RDoc::Generator::Hanna
         :stylesheet => stylesheet,
         :classmod => nil, 
         :title => file.base_name, 
-        :list_title => file.base_name,
+        :list_title => nil,
         :description => file.description
       } 
 
