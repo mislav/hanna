@@ -17,6 +17,7 @@ class RDoc::Generator::Hanna
 
   INDEX_PAGE       = 'index.haml'
   CLASS_PAGE       = 'page.haml'
+  METHOD_LIST_PAGE = 'method_list.haml'
   FILE_PAGE        = CLASS_PAGE
 
   FILE_INDEX       = 'file_index.haml'
@@ -138,6 +139,7 @@ class RDoc::Generator::Hanna
 
   def generate_class_files
     class_page = haml_file(templjoin(CLASS_PAGE))
+    method_list_page = haml_file(templjoin(METHOD_LIST_PAGE))
     # FIXME refactor
 
     @classes.each do |klass|
@@ -154,7 +156,7 @@ class RDoc::Generator::Hanna
         :description => klass.description
       } 
 
-      result = with_layout(values) { class_page.to_html(binding, :values => values) { '' } }
+      result = with_layout(values) { class_page.to_html(binding, :values => values) { method_list_page.to_html(binding, :values => values) } }
 
       # FIXME XXX sanity check
       dir = outfile.dirname

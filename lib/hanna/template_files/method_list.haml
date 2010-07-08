@@ -1,37 +1,51 @@
-- methods = methods_from_sections values[:sections]
+- methods = values[:entry].method_list + values[:entry].attributes
 - unless methods.empty?
   #method-list
     %h2 Methods
-    - for type in ['public class', 'protected class', 'public instance', 'protected instance']
-      - unless (list = methods[type]).empty?
-        %h3= type
-        %ol
-          - for method in list
-            - if method[:name].to_s.empty? && method[:callseq]
-              %li= link_to method[:callseq].gsub(/<br\s*\/?>/, "").split(/[\r\n]+/).map{ |s| s.split(/([({]+|\[\{|\s+(#?=>|&rarr;)\s+)/).first.sub(/^[A-Za-z0-9_:]+\./, "").sub(/\s+=\s+.*/, "=").strip }.uniq.join("<br />\n"), '#' + method[:aref]
-            - else
-              %li= link_to method[:name], '#' + method[:aref]
+    - types = %w[attr_reader attr_writer attr_accessor class instance]
+    - visibilities = [:public, :protected, :private]
+    - types.each do |type|
+      - visibilities.each do |vis|
+        - list = methods.select { |x| x.visibility == vis && x.type == type }
+        - unless list.empty?
+          - type_result = ""
+          - if type =~ /^attr_/
+            - type_result += type.sub(/^attr_/, '').capitalize
+          - else
+            - type_result += type.capitalize
+          - type_result = "#{vis.to_s.capitalize} #{type_result}"
+          %h3= type_result
+          %ol
+            - list.each do |method|
+              - if method.respond_to?(:aref)
+                - if method.name.to_s.empty? && method.call_seq
+                  %li= link_to method.call_seq.gsub(/<br\s*\/?>/, "").split(/[\r\n]+/).map{ |s| s.split(/([({]+|\[\{|\s+(#?=>|&rarr;)\s+)/).first.sub(/^[A-Za-z0-9_:]+\./, "").sub(/\s+=\s+.*/, "=").strip }.uniq.join("<br />\n"), '#' + method.aref
+                - else
+                  %li= link_to method.name, '#' + method.aref
+              - else
+                %li= method.name
 
-- if values[:requires] or values[:toc] or values[:includes]
+- if values[:entry].requires or values[:entry].sections or values[:entry].includes
   #context
-    - if values[:requires]
+    - if values[:entry].requires
       #requires
         %h2 Required files
         %ol
-          - for req in values[:requires]
-            %li= link_to req[:name], req[:aref]
-            
-    - if values[:toc]
-      #contents
-        %h2 Contents
-        %ol
-          - for item in values[:toc]
-            %li= link_to values[:secname], values[:href]
+          - values[:entry].requires do |req|
+            %li= link_to req, req
 
-    - if values[:includes]
+    -# FIXME reenable
+    -#- if values[:entry].sections
+      -##contents
+        -#%h2 Contents
+        -#%ol
+          -#- values[:entry].sections.each do |item|
+            -#%li= link_to values[:secname], values[:href]
+
+    - if values[:entry].includes
       #includes
         %h2 Included modules
         %ol
-          - for inc in values[:includes]
-            %li= link_to inc[:name], inc[:aref]
+          - values[:entry].includes do |inc|
+            %li= link_to inc, inc
 
