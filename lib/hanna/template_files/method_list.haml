@@ -4,7 +4,8 @@
     %h2 Methods
     - %w[attr attr_accessor attr_reader attr_writer class instance].each do |type|
       - RDoc::Context::VISIBILITIES.each do |vis|
-        - list = methods.select { |x| x.visibility == vis && x.type == type.to_s }
+        -# FIXME ugly
+        - list = methods.reject { |x| x.respond_to?(:is_alias_for) && x.is_alias_for }.select { |x| x.visibility == vis && x.type == type.to_s }
         - unless list.empty?
           - type_result = ""
           - if type =~ /^attr_/

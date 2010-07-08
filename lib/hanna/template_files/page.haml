@@ -21,7 +21,6 @@
       - values[:entry].in_files.each_with_index do |file, index|
         %li{ :class => index > 0 ? 'other' : nil }
           -# FIXME cleanup
-          - p [file.path, values[:entry].path]
           = link_to file.full_name, Pathname.new(file.path).relative_path_from(Pathname.new(values[:entry].path).dirname)
       - if values[:entry].in_files.size > 1
         %li
