@@ -19,6 +19,7 @@ class RDoc::Generator::Hanna
   CLASS_PAGE       = 'page.haml'
   METHOD_LIST_PAGE = 'method_list.haml'
   FILE_PAGE        = CLASS_PAGE
+  SECTIONS_PAGE    = 'sections.haml'
 
   FILE_INDEX       = 'file_index.haml'
   CLASS_INDEX      = 'class_index.haml'
@@ -109,6 +110,7 @@ class RDoc::Generator::Hanna
 
   def generate_file_files
     file_page = haml_file(templjoin(FILE_PAGE))
+    method_list_page = haml_file(templjoin(METHOD_LIST_PAGE))
 
     # FIXME non-Ruby files
     @files.each do |file|
@@ -125,7 +127,11 @@ class RDoc::Generator::Hanna
         :description => file.description
       } 
 
-      result = with_layout(values) { file_page.to_html(binding, :values => values) { '' } }
+      result = with_layout(values) do 
+        file_page.to_html(binding, :values => values) do 
+          method_list_page.to_html(binding, values) 
+        end
+      end
 
       # FIXME XXX sanity check
       dir = path.dirname
@@ -138,8 +144,9 @@ class RDoc::Generator::Hanna
   end
 
   def generate_class_files
-    class_page = haml_file(templjoin(CLASS_PAGE))
+    class_page       = haml_file(templjoin(CLASS_PAGE))
     method_list_page = haml_file(templjoin(METHOD_LIST_PAGE))
+    sections_page    = haml_file(templjoin(SECTIONS_PAGE))
     # FIXME refactor
 
     @classes.each do |klass|
@@ -153,10 +160,23 @@ class RDoc::Generator::Hanna
         :classmod => klass.type,
         :title => klass.full_name,
         :list_title => nil,
-        :description => klass.description
+        :description => klass.description,
+        :section => {
+          # FIXME linkify
+          :classlist => '<ol>' + klass.classes_and_modules.inject('') { |x,y| x << '<li>' + y.name + '</li>' } + '</ol>',
+          :constants => klass.constants,
+          :aliases   => klass.aliases,
+          :attributes => klass.attributes,
+          :method_list => klass.method_list
+        }
       } 
 
-      result = with_layout(values) { class_page.to_html(binding, :values => values) { method_list_page.to_html(binding, :values => values) } }
+      result = with_layout(values) do 
+        class_page.to_html(binding, :values => values) do 
+          method_list_page.to_html(binding, :values => values) +
+            sections_page.to_html(binding, :values => values)
+        end
+      end
 
       # FIXME XXX sanity check
       dir = outfile.dirname
