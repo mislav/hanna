@@ -86,35 +86,33 @@ class RDoc::Generator::Hanna
     @main_page_uri = @files.find { |f| f.name == @options.main_page }.path
     File.open(outjoin(INDEX_OUT), 'w') { |f| f << haml_file(templjoin(INDEX_PAGE)).to_html(binding) }
 
-    file_index = haml_file(templjoin(FILE_INDEX))
-
-    values = {
+    generate_index FILE_INDEX_OUT, FILE_INDEX, {
       :files => @files,
       :stylesheet => STYLE_OUT,
       :list_title => "File Index"
     }
 
-    File.open(outjoin(FILE_INDEX_OUT), 'w') { |f| f << with_layout(values) { file_index.to_html(binding, values) } }
-
-    class_index = haml_file(templjoin(CLASS_INDEX))
-
-    values = {
+    generate_index CLASS_INDEX_OUT, CLASS_INDEX, {
       :classes => @classes,
       :stylesheet => STYLE_OUT,
       :list_title => "Class Index"
     }
 
-    File.open(outjoin(CLASS_INDEX_OUT), 'w') { |f| f << with_layout(values) { class_index.to_html(binding, values) } }
-    
-    method_index = haml_file(templjoin(METHOD_INDEX))
-
-    values = {
+    generate_index METHOD_INDEX_OUT, METHOD_INDEX, {
       :methods => @methods,
       :stylesheet => STYLE_OUT,
       :list_title => "Method Index"
     }
+  end
 
-    File.open(outjoin(METHOD_INDEX_OUT), 'w') { |f| f << with_layout(values) { method_index.to_html(binding, values) } }
+  def generate_index(outfile, templfile, values)
+    index = haml_file(templjoin(templfile))
+
+    File.open(outjoin(outfile), 'w') do |f| 
+      f << with_layout(values) do
+             index.to_html(binding, values)
+           end
+    end
   end
 
   def generate_file_files
