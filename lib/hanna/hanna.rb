@@ -85,7 +85,7 @@ class RDoc::Generator::Hanna
 
   # FIXME refactor
   def generate_indexes
-    @main_page_uri = @files.find { |f| f.name == @options.main_page }.path
+    @main_page_uri = @files.find { |f| f.name == @options.main_page }.path rescue ''
     File.open(outjoin(INDEX_OUT), 'w') { |f| f << haml_file(templjoin(INDEX_PAGE)).to_html(binding) }
 
     generate_index(FILE_INDEX_OUT, FILE_INDEX, 'File', { :files => @files})
