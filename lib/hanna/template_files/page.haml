@@ -15,7 +15,7 @@
     
   - if file_page
     .paths
-      = values[:file].path
+      = values[:file].relative_name
       -#- if values[:cvsurl]
         -#== (#{link_to 'view online', values[:cvsurl]})
   - else
@@ -29,10 +29,10 @@
         %li
           %a.show{ :href => '#', :onclick => 'this.parentNode.parentNode.className += " expanded"; this.parentNode.removeChild(this); return false' } show all
           
-  - if values[:file].respond_to?(:parent) then
+  - if values[:file].parent 
     .parent
       Parent:
-      %strong= link_to values[:parent], values[:par_url]
+      %strong= link_to values[:file].parent, values[:file].parent.name
 
   - if values[:dtm_modified]
     .last-update
@@ -40,11 +40,8 @@
       %span.datetime= values[:dtm_modified]
     
 #content
-  -#- if values[:diagram]
-    -##diagram= values[:diagram]
-
   #text
     - if values[:description]
       #description~ sanitize_code_blocks frame_link values[:description]
 
-    = frame_link yield
+    = sanitize_code_blocks frame_link yield
