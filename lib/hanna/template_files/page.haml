@@ -45,6 +45,6 @@
 
   #text
     - if values[:description]
-      #description~ sanitize_code_blocks values[:description]
+      #description~ sanitize_code_blocks frame_link values[:description]
 
     = frame_link yield

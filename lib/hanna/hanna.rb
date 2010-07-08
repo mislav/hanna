@@ -119,10 +119,11 @@ class RDoc::Generator::Hanna
         :stylesheet => stylesheet,
         :classmod => nil, 
         :title => file.base_name, 
-        :list_title => nil 
+        :list_title => nil,
+        :description => file.description
       } 
 
-      result = with_layout(values) { file_page.to_html(binding, :values => values) { file.description } } 
+      result = with_layout(values) { file_page.to_html(binding, :values => values) { '' } }
 
       # FIXME XXX sanity check
       dir = path.dirname
@@ -137,6 +138,16 @@ class RDoc::Generator::Hanna
   def with_layout(values)
     layout = haml_file(templjoin(LAYOUT))
     layout.to_html(binding, :values => values) { yield }
+  end
+
+  def sanitize_code_blocks(text)
+    text.gsub(/<pre>(.+?)<\/pre>/m) do
+      code = $1.sub(/^\s*\n/, '')
+      indent = code.gsub(/\n[ \t]*\n/, "\n").scan(/^ */).map{ |i| i.size }.min
+      code.gsub!(/^#{' ' * indent}/, '') if indent > 0
+
+        "<pre>#{code}</pre>"
+    end
   end
 
   # probably should bring in nokogiri/libxml2 to do this right.. not sure if
