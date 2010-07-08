@@ -8,27 +8,29 @@ require 'pathname'
 require 'haml'
 require 'sass'
 require 'rdoc/rdoc'
-require 'rdoc/generator/darkfish'
-#require 'hanna/template_page_patch'
-require 'hanna/version' unless ::Hanna
+require 'rdoc/generator'
+require 'hanna/version' unless ::Hanna # meh
 
 class RDoc::Generator::Hanna 
-  STYLE        = 'styles.sass'
-  INDEX        = 'index.haml'
-  LAYOUT       = 'layout.haml'
-  CLASS_PAGE   = 'page.haml'
-  FILE_INDEX   = 'file_index.haml'
-  CLASS_INDEX  = 'class_index.haml'
-  METHOD_INDEX = 'method_index.haml'
-  FILE_PAGE    = CLASS_PAGE
-  CLASS_DIR    = 'classes'
-  FILE_DIR     = 'files'
+  STYLE            = 'styles.sass'
+  LAYOUT           = 'layout.haml'
 
-  INDEX_OUT      = 'index.html'
-  FILE_INDEX_OUT = 'fr_file_index.html'
-  CLASS_INDEX_OUT = 'fr_class_index.html'
+  INDEX_PAGE       = 'index.haml'
+  CLASS_PAGE       = 'page.haml'
+  FILE_PAGE        = CLASS_PAGE
+
+  FILE_INDEX       = 'file_index.haml'
+  CLASS_INDEX      = 'class_index.haml'
+  METHOD_INDEX     = 'method_index.haml'
+
+  CLASS_DIR        = 'classes'
+  FILE_DIR         = 'files'
+
+  INDEX_OUT        = 'index.html'
+  FILE_INDEX_OUT   = 'fr_file_index.html'
+  CLASS_INDEX_OUT  = 'fr_class_index.html'
   METHOD_INDEX_OUT = 'fr_method_index.html'
-  STYLE_OUT      = File.join('css', 'style.css')
+  STYLE_OUT        = File.join('css', 'style.css')
 
   # EPIC CUT AND PASTE TIEM NAO -- GG
   RDoc::RDoc.add_generator( self )
@@ -40,14 +42,12 @@ class RDoc::Generator::Hanna
   def initialize( options )
     @options = options
 
-    template = 'hanna'
-
     @templatedir = Pathname.new File.join(File.expand_path(File.dirname(__FILE__)), 'template_files')
 
     @files      = nil
     @classes    = nil
     @methods    = nil
-    @modsort    = nil
+    #@modsort    = nil
 
     @basedir = Pathname.pwd.expand_path
   end
@@ -58,7 +58,7 @@ class RDoc::Generator::Hanna
     @files = top_levels.sort
     @classes = RDoc::TopLevel.all_classes_and_modules.sort
     @methods = @classes.map { |m| m.method_list }.flatten.sort
-    @modsort = get_sorted_module_list( @classes )
+    #@modsort = get_sorted_module_list( @classes )
 
     # Now actually write the output
     write_static_files
@@ -84,7 +84,7 @@ class RDoc::Generator::Hanna
   # FIXME refactor
   def generate_indexes
     @main_page_uri = @files.find { |f| f.name == @options.main_page }.path
-    File.open(outjoin(INDEX_OUT), 'w') { |f| f << haml_file(templjoin(INDEX)).to_html(binding) }
+    File.open(outjoin(INDEX_OUT), 'w') { |f| f << haml_file(templjoin(INDEX_PAGE)).to_html(binding) }
 
     file_index = haml_file(templjoin(FILE_INDEX))
 
@@ -107,8 +107,6 @@ class RDoc::Generator::Hanna
     File.open(outjoin(CLASS_INDEX_OUT), 'w') { |f| f << with_layout(values) { class_index.to_html(binding, values) } }
     
     method_index = haml_file(templjoin(METHOD_INDEX))
-
-    p @methods
 
     values = {
       :methods => @methods,
