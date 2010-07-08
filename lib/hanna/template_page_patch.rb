@@ -32,7 +32,7 @@ RDoc::TemplatePage.class_eval do
 
   private
 
-    def get_binding(values = nil)
-      binding
-    end
+  def get_binding(values = nil)
+    binding
+  end
 end

@@ -2,10 +2,10 @@
 - any_hidden = false
 
 %ol#index-entries{ :class => 'files' }
-  - for entry in values[:entries]
-    - hide = entry[:name] =~ /\.rb$/
+  - values[:files].each do |file|
+    - hide = file.name =~ /\.rb$/
     - any_hidden = true if hide
-    %li{ :class => hide ? 'other' : nil }= link_to entry[:name], entry[:href]
+    %li{ :class => hide ? 'other' : nil }= link_to file.name, file.path
 
   - if any_hidden
     %li

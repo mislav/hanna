@@ -8,7 +8,7 @@ Gem::Specification.new do |gem|
   gem.summary = "An RDoc template that scales"
   gem.description = "Hanna is an RDoc implemented in Haml, making its source clean and maintainable. It's built with simplicity, beauty and ease of browsing in mind."
   
-  gem.files = Dir['Rakefile', '{bin,lib,rails,spec}/**/*', 'README*', 'LICENSE*'] & `git ls-files`.split("\n")
+  gem.files = Dir['Rakefile', '{bin,lib,rails,spec}/**/*', 'README*', 'LICENSE*']
   gem.executables = Dir['bin/*'].map { |f| File.basename(f) }
   
   gem.add_dependency 'rdoc', Hanna::RDOC_VERSION_REQUIREMENT
