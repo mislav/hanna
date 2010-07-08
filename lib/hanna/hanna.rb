@@ -31,45 +31,45 @@ class RDoc::Generator::Hanna
   STYLE_OUT      = File.join('css', 'style.css')
 
   # EPIC CUT AND PASTE TIEM NAO -- GG
-	RDoc::RDoc.add_generator( self )
+  RDoc::RDoc.add_generator( self )
 
-	def self::for( options )
-		new( options )
-	end
+  def self::for( options )
+    new( options )
+  end
 
-	def initialize( options )
-		@options = options
+  def initialize( options )
+    @options = options
 
-		template = 'hanna'
+    template = 'hanna'
 
-		@templatedir = Pathname.new File.join(File.expand_path(File.dirname(__FILE__)), 'template_files')
+    @templatedir = Pathname.new File.join(File.expand_path(File.dirname(__FILE__)), 'template_files')
 
-		@files      = nil
-		@classes    = nil
+    @files      = nil
+    @classes    = nil
     @methods    = nil
     @modsort    = nil
 
-		@basedir = Pathname.pwd.expand_path
-	end
+    @basedir = Pathname.pwd.expand_path
+  end
 
-	def generate( top_levels )
-		@outputdir = Pathname.new( @options.op_dir ).expand_path( @basedir )
+  def generate( top_levels )
+    @outputdir = Pathname.new( @options.op_dir ).expand_path( @basedir )
 
-		@files = top_levels.sort
-		@classes = RDoc::TopLevel.all_classes_and_modules.sort
-		@methods = @classes.map { |m| m.method_list }.flatten.sort
-		@modsort = get_sorted_module_list( @classes )
+    @files = top_levels.sort
+    @classes = RDoc::TopLevel.all_classes_and_modules.sort
+    @methods = @classes.map { |m| m.method_list }.flatten.sort
+    @modsort = get_sorted_module_list( @classes )
 
-		# Now actually write the output
-		write_static_files
-		generate_indexes
-		generate_class_files
-		generate_file_files
+    # Now actually write the output
+    write_static_files
+    generate_indexes
+    generate_class_files
+    generate_file_files
 
-	rescue StandardError => err
-		p [ err.class.name, err.message, err.backtrace.join("\n  ") ]
-		raise
-	end
+  rescue StandardError => err
+    p [ err.class.name, err.message, err.backtrace.join("\n  ") ]
+    raise
+  end
 
   def write_static_files
     css_dir = outjoin('css')
@@ -162,13 +162,13 @@ class RDoc::Generator::Hanna
     end
   end
 
-	def class_dir
-		CLASS_DIR
-	end
+  def class_dir
+    CLASS_DIR
+  end
 
-	def file_dir
-		FILE_DIR
-	end
+  def file_dir
+    FILE_DIR
+  end
 
   def method_missing(sym, *args)
     p [sym, args]
@@ -239,10 +239,10 @@ class RDoc::Generator::Hanna
     module_name = entry.parent_name
     link_to %Q(<span class="method_name">#{h method_name}</span> <span class="module_name">(#{h module_name})</span>), url, classname
   end
-	
+  
   #########
-	protected
-	#########
+  protected
+  #########
 
   def outjoin(name)
     File.join(@outputdir, name)
