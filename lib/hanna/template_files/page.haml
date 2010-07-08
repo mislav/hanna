@@ -1,5 +1,5 @@
 - file_page = !values[:classmod]
-- title_in_description = values[:file].description && values[:file].description =~ /^\s*<h1>/m
+- title_in_description = values[:entry].description && values[:entry].description =~ /^\s*<h1>/m
 
 .header
   - title = capture_haml do
@@ -7,7 +7,7 @@
       = values[:file].name
     - else
       %span.type= values[:classmod]
-      = values[:file].path
+      = values[:entry].full_name
   - if title_in_description
     .name= title
   - else
@@ -16,32 +16,28 @@
   - if file_page
     .paths
       = values[:file].relative_name
-      -#- if values[:cvsurl]
-        -#== (#{link_to 'view online', values[:cvsurl]})
   - else
     %ol.paths
-      - values[:infiles].each_with_index do |file, index|
+      - values[:entry].in_files.each_with_index do |file, index|
         %li{ :class => index > 0 ? 'other' : nil }
-          = link_to file[:full_path], file[:full_path_url]
-          - if file[:cvsurl]
-            == (#{link_to 'view online', file[:cvsurl]})
-      - if values[:infiles].size > 1
+          = link_to file.full_name, file.full_name
+      - if values[:entry].in_files.size > 1
         %li
           %a.show{ :href => '#', :onclick => 'this.parentNode.parentNode.className += " expanded"; this.parentNode.removeChild(this); return false' } show all
           
-  - if values[:file].parent 
+  - if values[:entry].parent 
     .parent
       Parent:
-      %strong= link_to values[:file].parent, values[:file].parent.name
+      %strong= link_to values[:entry].parent, values[:entry].parent.name
 
-  - if values[:dtm_modified]
+  - if values[:entry].respond_to?(:last_modified) and values[:entry].last_modified
     .last-update
       Last Update:
-      %span.datetime= values[:dtm_modified]
+      %span.datetime= values[:entry].last_modified
     
 #content
   #text
     - if values[:description]
       #description~ sanitize_code_blocks frame_link values[:description]
 
-    = sanitize_code_blocks frame_link yield
+    = frame_link yield

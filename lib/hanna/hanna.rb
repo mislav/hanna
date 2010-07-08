@@ -116,10 +116,11 @@ class RDoc::Generator::Hanna
       
       values = { 
         :file => file, 
+        :entry => file,
         :stylesheet => stylesheet,
         :classmod => nil, 
         :title => file.base_name, 
-        :list_title => nil,
+        :list_title => file.base_name,
         :description => file.description
       } 
 
@@ -132,6 +133,36 @@ class RDoc::Generator::Hanna
       end
 
       File.open(outjoin(file.path), 'w') { |f| f << result }
+    end
+  end
+
+  def generate_class_files
+    class_page = haml_file(templjoin(CLASS_PAGE))
+    # FIXME refactor
+
+    @classes.each do |klass|
+      outfile = classfile(klass)
+      stylesheet = Pathname.new(STYLE_OUT).relative_path_from(outfile.dirname)
+
+      values = { 
+        :file => klass.path, 
+        :entry => klass,
+        :stylesheet => stylesheet,
+        :classmod => klass.type,
+        :title => klass.full_name,
+        :list_title => nil,
+        :description => klass.description
+      } 
+
+      result = with_layout(values) { class_page.to_html(binding, :values => values) { '' } }
+
+      # FIXME XXX sanity check
+      dir = outfile.dirname
+      unless File.directory? dir
+        FileUtils.mkdir_p dir
+      end
+
+      File.open(outfile, 'w') { |f| f << result }
     end
   end
 
@@ -190,7 +221,7 @@ class RDoc::Generator::Hanna
 
         out << '<li>'
 
-        out << link_to(text, File.join(CLASS_DIR, klass.full_name.split('::')) + '.html')
+        out << link_to(text, classfile(klass))
 
         if subentries = @classes.select { |x| x.full_name =~ /^#{klass.full_name}::/ }
           subentries.each { |x| namespaces[x.full_name] = true }
@@ -237,10 +268,11 @@ class RDoc::Generator::Hanna
     module_name = entry.parent_name
     link_to %Q(<span class="method_name">#{h method_name}</span> <span class="module_name">(#{h module_name})</span>), url, classname
   end
-  
-  #########
-  protected
-  #########
+
+  def classfile(klass)
+    # FIXME sloooooooow
+    Pathname.new(File.join(CLASS_DIR, klass.full_name.split('::')) + '.html')
+  end
 
   def outjoin(name)
     File.join(@outputdir, name)
