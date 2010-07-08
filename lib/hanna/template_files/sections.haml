@@ -28,13 +28,13 @@
     #aliases-list
       %h2 External Aliases
       .name-list
-        %table{ :summary => "External aliases" }
+        %table{ :summary => "Aliases" }
           - section[:aliases].each do |alia|
             %tr.top-aligned-row.context-row
-              %td.context-item-name= alia.old_name
+              %td.context-item-name= alia.name
               %td -&gt;
-              %td.context-item-value= alia.new_name
-            - if alia[:desc] then
+              %td.context-item-value= link_to alia.is_alias_for.name, "##{alia.is_alias_for.aref}"
+            - unless alia.description.empty?
               %tr.top-aligned-row.context-row
                 %td &nbsp;
                 %td.context-item-desc{ :colspan => "2" }

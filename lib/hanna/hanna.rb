@@ -165,9 +165,9 @@ class RDoc::Generator::Hanna
           # FIXME linkify
           :classlist => '<ol>' + klass.classes_and_modules.inject('') { |x,y| x << '<li>' + y.name + '</li>' } + '</ol>',
           :constants => klass.constants,
-          :aliases   => klass.aliases,
+          :aliases   => klass.method_list.select { |x| x.is_alias_for },
           :attributes => klass.attributes,
-          :method_list => klass.method_list
+          :method_list => klass.method_list.select { |x| !x.is_alias_for }
         }
       } 
 
@@ -221,10 +221,6 @@ class RDoc::Generator::Hanna
     FILE_DIR
   end
 
-  def method_missing(sym, *args)
-    p [sym, args]
-  end
-
   def h(html)
     CGI::escapeHTML(html)
   end
@@ -263,7 +259,7 @@ class RDoc::Generator::Hanna
       method_name = entry.name
       module_name = entry.parent_name
       # FIXME link
-      html = link_to_method(entry, '')
+      html = link_to_method(entry, [classfile(entry.parent), entry.aref].join('#'))
       result << "  { method: '#{method_name.downcase}', " +
                       "module: '#{module_name.downcase}', " +
                       "html: '#{html}' },\n"

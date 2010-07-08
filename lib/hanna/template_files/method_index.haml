@@ -11,4 +11,4 @@
 %ol#index-entries{ :class => 'methods' }
   - values[:methods].each do |entry|
     -# FIXME link
-    %li= link_to_method entry, ''
+    %li= link_to_method entry, [classfile(entry.parent), entry.aref].join('#')
