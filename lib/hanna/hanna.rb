@@ -9,7 +9,7 @@ require 'haml'
 require 'sass'
 require 'rdoc/rdoc'
 require 'rdoc/generator'
-require 'hanna/version' unless ::Hanna # meh
+require 'hanna/version'
 
 class RDoc::Generator::Hanna 
   STYLE            = 'styles.sass'
