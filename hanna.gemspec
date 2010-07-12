@@ -1,4 +1,5 @@
-require File.expand_path('../lib/hanna/version', __FILE__)
+$:.unshift 'lib'
+require 'hanna'
 
 Gem::Specification.new do |gem|
   gem.name    = 'hanna'
