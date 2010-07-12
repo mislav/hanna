@@ -1,8 +1,15 @@
 # = A better RDoc HTML template
 #
-# Authors: Mislav Marohnić <mislav.marohnic@gmail.com>
-#          Tony Strauss (http://github.com/DesigningPatterns)
-#          Michael Granger <ged@FaerieMUD.org>, who had maintained the original RDoc template
+# Code rewritten by:
+#   Erik Hollensbe <erik@hollensbe.org>
+#
+# RubyGems integration properly done by:
+#   James Tucker (aka raggi)
+#
+# Original Authors:
+#   Mislav Marohnić <mislav.marohnic@gmail.com>
+#   Tony Strauss (http://github.com/DesigningPatterns)
+#   Michael Granger <ged@FaerieMUD.org>, who had maintained the original RDoc template
 
 require 'pathname'
 require 'haml'
