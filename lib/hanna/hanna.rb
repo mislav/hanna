@@ -56,7 +56,7 @@ class RDoc::Generator::Hanna
     @files      = nil
     @classes    = nil
     @methods    = nil
-    #@modsort    = nil
+    @attributes = nil
 
     @basedir = Pathname.pwd.expand_path
   end
@@ -64,10 +64,10 @@ class RDoc::Generator::Hanna
   def generate( top_levels )
     @outputdir = Pathname.new( @options.op_dir ).expand_path( @basedir )
 
-    @files = top_levels.sort
-    @classes = RDoc::TopLevel.all_classes_and_modules.sort
-    @methods = @classes.map { |m| m.method_list }.flatten.sort
-    #@modsort = get_sorted_module_list( @classes )
+    @files      = top_levels.sort
+    @classes    = RDoc::TopLevel.all_classes_and_modules.sort
+    @methods    = @classes.map(&:method_list).flatten.sort
+    @attributes = @classes.map(&:attributes).flatten.sort
 
     # Now actually write the output
     write_static_files
@@ -95,9 +95,9 @@ class RDoc::Generator::Hanna
     @main_page_uri = @files.find { |f| f.name == @options.main_page }.path rescue ''
     File.open(outjoin(INDEX_OUT), 'w') { |f| f << haml_file(templjoin(INDEX_PAGE)).to_html(binding) }
 
-    generate_index(FILE_INDEX_OUT, FILE_INDEX, 'File', { :files => @files})
-    generate_index(CLASS_INDEX_OUT, CLASS_INDEX, 'Class', { :classes => @classes })
-    generate_index(METHOD_INDEX_OUT, METHOD_INDEX, 'Method', { :methods => @methods })
+    generate_index(FILE_INDEX_OUT,   FILE_INDEX,   'File',   { :files => @files})
+    generate_index(CLASS_INDEX_OUT,  CLASS_INDEX,  'Class',  { :classes => @classes })
+    generate_index(METHOD_INDEX_OUT, METHOD_INDEX, 'Method', { :methods => @methods, :attributes => @attributes })
   end
 
   def generate_index(outfile, templfile, index_name, values)
@@ -266,7 +266,7 @@ class RDoc::Generator::Hanna
       method_name = entry.name
       module_name = entry.parent_name
       # FIXME link
-      html = link_to_method(entry, [classfile(entry.parent), entry.aref].join('#'))
+      html = link_to_method(entry, [classfile(entry.parent), (entry.aref rescue "method-#{entry.html_name}")].join('#'))
       result << "  { method: '#{method_name.downcase}', " +
                       "module: '#{module_name.downcase}', " +
                       "html: '#{html}' },\n"
@@ -289,8 +289,8 @@ class RDoc::Generator::Hanna
 
   # +method_text+ is in the form of "ago (ActiveSupport::TimeWithZone)".
   def link_to_method(entry, url = nil, classname = nil)
-    method_name = entry.pretty_name
-    module_name = entry.parent_name
+    method_name = entry.pretty_name rescue entry.name
+    module_name = entry.parent_name rescue entry.name
     link_to %Q(<span class="method_name">#{h method_name}</span> <span class="module_name">(#{h module_name})</span>), url, classname
   end
 
