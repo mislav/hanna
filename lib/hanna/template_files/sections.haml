@@ -47,7 +47,8 @@
         %table
           - section[:attributes].each do |attrib|
             %tr.top-aligned-row.context-row
-              %td.context-item-name= attrib.name
+              %td.context-item-name
+                %a{:name => "method-#{attrib.html_name}"}=attrib.name
               %td.context-item-value= attrib.rw ? "[#{attrib.rw}]" : '&nbsp;'
               %td.context-item-desc~ sanitize_code_blocks(attrib.description)
   
