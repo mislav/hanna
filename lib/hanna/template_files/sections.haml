@@ -63,7 +63,9 @@
               .synopsis
                 - method_html = capture_haml do
                   - if method.call_seq
-                    %span.name= method.call_seq
+                    %span.name
+                      - method.call_seq.split(/\r?\n/).each do |seq|
+                        %div=seq
                   - else
                     %span.name= method.name
                     %span.arguments= method.params
