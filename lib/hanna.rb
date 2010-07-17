@@ -76,7 +76,7 @@ class Hanna
     
     for file in @text_files
       template('index.haml', file.path) do |file_page|
-        file_page.vars.page_title = file.full_name
+        file_page.vars.page_title = file.base_name
         file_page.vars.page_type = :file
         file_page.vars.current_page = file
       end

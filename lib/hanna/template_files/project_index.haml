@@ -6,7 +6,8 @@
       - for file in files
         - hide = file.name =~ /\.(rb|c)$/
         - any_hidden = true if hide
-        %li{ :class => hide ? 'other' : nil }= link_to file.relative_name, file.path
+        %li{ :class => hide ? 'other' : nil }
+          = link_to file.base_name, file.path
       - if any_hidden
         %li
           %a.show_hidden{ :href => '#', :onclick => 'this.parentNode.parentNode.className += " expanded"; this.parentNode.removeChild(this); return false' } show all
