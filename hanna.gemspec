@@ -1,3 +1,4 @@
+# encoding: utf-8
 require File.expand_path('../lib/hanna/version', __FILE__)
 
 Gem::Specification.new do |gem|
@@ -18,5 +19,6 @@ Gem::Specification.new do |gem|
   gem.rubyforge_project = nil
   gem.has_rdoc = true
   
-  gem.files = Dir['Rakefile', '{bin,lib,man,test,spec}/**/*', 'README*', 'LICENSE*'] & `git ls-files -z`.split("\0")
+  gem.files = Dir['Rakefile', '{bin,lib,man,test,spec}/**/*', 'README*', 'LICENSE*']
+  gem.files &= `git ls-files -z`.split("\0") if `type -t git 2>/dev/null || which git 2>/dev/null` && $?.success?
 end
