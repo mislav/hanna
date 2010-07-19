@@ -67,7 +67,7 @@ class RDoc::Generator::Hanna
   def initialize( options )
     @options = options
 
-    @templatedir = Pathname.new File.join(File.expand_path(File.dirname(__FILE__)), 'template_files')
+    @templatedir = Pathname.new File.expand_path('../hanna/template_files', __FILE__)
 
     @files      = nil
     @classes    = nil
