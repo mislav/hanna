@@ -1,10 +1,10 @@
 # Hanna — a better RDoc template
 
-Hanna is an RDoc template that scales. It's implemented in Haml, making the sources clean
+Hanna is an RDoc generator that scales. It's implemented in Haml, making the sources clean
 and readable. It's built with simplicity, beauty and ease of browsing in mind. (See more
 in [the wiki][wiki].)
 
-Hanna gem is available from [Gemcutter][]:
+Hanna gem is available from [rubygems.org][]:
 
     gem install hanna
 
@@ -13,72 +13,67 @@ The template was created by [Mislav][] and since then has seen contributions fro
 1. [Tony Strauss](http://github.com/DesigningPatterns), who participated from the early
    start and made tons of fixes and enhancements to the template;
 2. [Hongli Lai](http://blog.phusion.nl/) with the search filter for methods.
-
+3. [Erik Hollensbe](http://github.com/erikh) a serious refactoring and up to
+   date with RDoc 2.5.x.
+4. [James Tucker](http://github.com/raggi) minor cleanups for Erik.
 
 ## Usage
 
-There is a command-line tool installed with the Hanna gem:
-
-    hanna -h
-
-This is a wrapper over `rdoc` and it forwards all the parameters to it. Manual usage
-would require specifying Hanna as a template when invoking RDoc on the command-line:
-
-    rdoc -o doc --inline-source --format=html -T hanna lib/*.rb
-    
-Hanna requires the `--inline-source` (or `-S`) flag.
+    rdoc -o doc -f hanna lib/*.rb
 
 An alternative is to set the `RDOCOPT` environment variable:
 
-    RDOCOPT="-S -f html -T hanna"
+    RDOCOPT="-f hanna"
 
 This will make RDoc always use Hanna unless it is explicitly overridden.
 
 Another neat trick is to put the following line in your .gemrc:
 
-    rdoc: --inline-source --line-numbers --format=html --template=hanna
+    rdoc: -f hanna
 
 This will make RubyGems use Hanna when generating documentation for installed gems.
 
 ### Rake task
 
-For repeated generation of API docs, it's better to set up a Rake task. If you already
-have an `RDocTask` set up in your Rakefile, the only thing you need to change is this:
+For repeated generation of API docs, it's better to set up a Rake task. Simply
+add the hanna format argument to your RDoc::Task options:
 
-    # replace this:
-    require 'rake/rdoctask'
-    # with this:
-    require 'hanna/rdoctask'
+    require 'hanna'
+    require 'rdoc/task'
+    RDoc::Task.new do |rdoc|
+      rdoc.options.push '-f', 'hanna'
+    end
 
 Tip: you can do this in the Rakefile of your Rails project before running `rake doc:rails`.
 
-Here is an example of a task for the [will_paginate library][wp]:
+Here is an example of a task for the [rdbi library][rdbi]:
 
-    # instead of 'rake/rdoctask':
-    require 'hanna/rdoctask'
-    
-    desc 'Generate RDoc documentation for the will_paginate plugin.'
-    Rake::RDocTask.new(:rdoc) do |rdoc|
-      rdoc.rdoc_files.include('README.rdoc', 'LICENSE', 'CHANGELOG').
-        include('lib/**/*.rb').
-        exclude('lib/will_paginate/named_scope*').
-        exclude('lib/will_paginate/array.rb').
-        exclude('lib/will_paginate/version.rb')
-      
-      rdoc.main = "README.rdoc" # page to start on
-      rdoc.title = "will_paginate documentation"
-      
-      rdoc.rdoc_dir = 'doc' # rdoc output folder
-      rdoc.options << '--webcvs=http://github.com/mislav/will_paginate/tree/master/'
+    require 'hanna'
+    require 'rdoc/task'
+    RDoc::Task.new do |rdoc|
+      version = File.exist?('VERSION') ? File.read('VERSION') : ""
+
+      rdoc.options.push '-f', 'hanna'
+      rdoc.main = 'README.rdoc'
+      rdoc.rdoc_dir = 'rdoc'
+      rdoc.title = "RDBI #{version} Documentation"
+      rdoc.rdoc_files.include('README*')
+      rdoc.rdoc_files.include('lib/**/*.rb')
     end
 
 ### Generating documentation for installed gems
 
-You can generate documentation for installed gems, which might be more convenient than the
-`gem rdoc` command with the +RDOCOPT+ environment variable set as described. For instance,
-to generate docs for "actionpack" and "activerecord" type:
+The gem comes with a RubyGems plugin that overrides the gem default arguments
+to RDoc to use Hanna.
 
-    [sudo] hanna --gems actionpack activerecord
+To regenerate documentation for a specific gem (say one you installed before
+installing hanna):
+
+    gem rdoc mygem
+
+To regenerate documentation for all gems:
+
+    gem rdoc --all
 
 
 ## You can help
@@ -97,6 +92,6 @@ This is git. Fork it, hack away, tell me about it!
 
 
 [wiki]: http://github.com/mislav/hanna/wikis/home "Hanna wiki"
-[gemcutter]: http://gemcutter.org/ "Gemcutter gem server"
-[wp]: http://github.com/mislav/will_paginate/tree/master/Rakefile
+[rubygems.org]: http://rubygems.org/ "RubyGems gem server"
+[rdbi]: http://github.com/rdbi/rdbi/tree/master/Rakefile
 [Mislav]: http://mislav.caboo.se/ "Mislav Marohnić"
