@@ -21,6 +21,11 @@ require 'sass'
 require 'rdoc/rdoc'
 require 'rdoc/generator'
 
+module RDoc #:nodoc:
+  module Generator #:nodoc:
+  end
+end
+
 class RDoc::Generator::Hanna 
   STYLE            = 'styles.sass'
   LAYOUT           = 'layout.haml'
@@ -247,16 +252,18 @@ class RDoc::Generator::Hanna
           text = klass.name
         end
 
-        out << '<li>'
-
-        out << link_to(text, classfile(klass))
-
-        if subentries = @classes.select { |x| x.full_name =~ /^#{klass.full_name}::/ }
-          subentries.each { |x| namespaces[x.full_name] = true }
-          out << "\n<ol>" + render_class_tree(subentries, klass) + "\n</ol>"
+        if klass.document_self
+          out << '<li>'
+          out << link_to(text, classfile(klass))
         end
 
-        out << '</li>'
+        subentries = @classes.select { |x| x.full_name[/^#{klass.full_name}::/] }
+        subentries.each { |x| namespaces[x.full_name] = true }
+        out << "\n<ol>" + render_class_tree(subentries, klass) + "\n</ol>"
+
+        if klass.document_self
+          out << '</li>'
+        end
       end
 
       out
