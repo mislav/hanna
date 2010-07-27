@@ -12,7 +12,7 @@ Gem::Specification.new do |gem|
   gem.files = Dir['Rakefile', '{bin,lib,rails,spec}/**/*', 'README*', 'LICENSE*']
   gem.executables = Dir['bin/*'].map { |f| File.basename(f) }
   
-  gem.add_dependency 'rdoc', Hanna::RDOC_VERSION_REQUIREMENT
+  gem.add_dependency 'rdoc', '~> 2.5.9'
   gem.add_dependency 'haml', '~> 2.2.8'
   gem.add_dependency 'rake', '~> 0.8.2'
   

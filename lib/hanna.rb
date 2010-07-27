@@ -13,20 +13,7 @@
 
 module Hanna
   VERSION = '0.1.13'
-
-  # The version of RDoc that Hanna should use
-  RDOC_VERSION = '2.5.9'
-  RDOC_VERSION_REQUIREMENT = "~> #{RDOC_VERSION}"
 end
-
-require 'rubygems'
-
-begin
-  gem 'rdoc', Hanna::RDOC_VERSION_REQUIREMENT
-rescue Gem::LoadError
-  $stderr.puts "Hanna requires the RDoc #{Hanna::RDOC_VERSION} gem"
-  exit 1 if terminate
-end 
 
 require 'pathname'
 require 'haml'
