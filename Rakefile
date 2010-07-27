@@ -10,12 +10,14 @@ end
 
 ENV['RUBYOPT'] = (ENV['RUBYOPT']||'') + ' -Ilib'
 
+gemspec = eval(File.read('hanna.gemspec'))
+
 require 'rdoc/task'
 RDoc::Task.new do |t|
   t.rdoc_dir = 'doc'
   t.options.push('-f', 'hanna')
   t.main = Dir['README*'].first
-  t.rdoc_files.include(*eval(File.read('hanna.gemspec')).files)
+  t.rdoc_files.include(*gemspec.files)
   t.rdoc_files.exclude('Rakefile')
 end
 
