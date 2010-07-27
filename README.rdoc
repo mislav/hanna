@@ -1,23 +1,25 @@
-# Hanna — a better RDoc template
+= Hanna — a better RDoc template
 
 Hanna is an RDoc generator that scales. It's implemented in Haml, making the
 sources clean and readable. It's built with simplicity, beauty and ease of
-browsing in mind. (See more in [the wiki][wiki].)
+browsing in mind. (See more in {the
+wiki}[http://github.com/mislav/hanna/wikis/home].)
 
-Hanna gem is available from [rubygems.org][]:
+Hanna gem is available from http://rubygems.org:
 
     gem install hanna
 
-The template was created by [Mislav][] and since then has seen contributions from:
+The template was created by {Mislav}[http://mislav.caboo.se/] and since then
+has seen contributions from:
 
-1. [Tony Strauss](http://github.com/DesigningPatterns), who participated from
+1. {Tony Strauss}[http://github.com/DesigningPatterns], who participated from
    the early start and made tons of fixes and enhancements to the template;
-2. [Hongli Lai](http://blog.phusion.nl/) with the search filter for methods.
-3. [Erik Hollensbe](http://github.com/erikh) a serious refactoring and up to
+2. {Hongli Lai}[http://blog.phusion.nl/] with the search filter for methods.
+3. {Erik Hollensbe}[http://github.com/erikh] a serious refactoring and up to
    date with RDoc 2.5.x.
-4. [James Tucker](http://github.com/raggi) minor cleanups for Erik.
+4. {James Tucker}[http://github.com/raggi] minor cleanups for Erik.
 
-## Usage
+== Usage
 
     rdoc -o doc -f hanna lib/*.rb
 
@@ -27,7 +29,7 @@ An alternative is to set the `RDOCOPT` environment variable:
 
 This will make RDoc always use Hanna unless it is explicitly overridden.
 
-## Integrating with RubyGems
+== Integrating with RubyGems
 
 Another neat trick is to put the following line in your .gemrc, this will make
 RubyGems use Hanna for all rdoc generation:
@@ -37,7 +39,7 @@ RubyGems use Hanna for all rdoc generation:
 This will make RubyGems use Hanna when generating documentation for installed
 gems.
 
-### Rake task
+== Rake task
 
 For repeated generation of API docs, it's better to set up a Rake task. Simply
 add the hanna format argument to your RDoc::Task options:
@@ -51,7 +53,8 @@ add the hanna format argument to your RDoc::Task options:
 Tip: you can do this in the Rakefile of your Rails project before running
 `rake doc:rails`.
 
-Here is an example of a task for the [rdbi library][rdbi]:
+Here is an example of a task for the {rdbi
+library}[http://github.com/rdbi/rdbi/tree/master/Rakefile]:
 
     require 'hanna'
     require 'rdoc/task'
@@ -66,7 +69,7 @@ Here is an example of a task for the [rdbi library][rdbi]:
       rdoc.rdoc_files.include('lib/**/*.rb')
     end
 
-### Generating documentation for installed gems
+== Generating documentation for installed gems
 
 The gem comes with a RubyGems plugin that overrides the gem default arguments
 to RDoc to use Hanna.
@@ -86,7 +89,7 @@ To regenerate documentation for all gems:
 
 To easily browse your newly created documentation, use `gem server`.
 
-## You can help
+== You can help
 
 Don't like something? Think you can design better? (You probably can.)
 
@@ -101,8 +104,3 @@ goal.
 
 This is git. Fork it, hack away, tell me about it!
 
-
-[wiki]: http://github.com/mislav/hanna/wikis/home "Hanna wiki"
-[rubygems.org]: http://rubygems.org/ "RubyGems gem server"
-[rdbi]: http://github.com/rdbi/rdbi/tree/master/Rakefile
-[Mislav]: http://mislav.caboo.se/ "Mislav Marohnić"
