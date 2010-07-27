@@ -19,13 +19,14 @@ RDoc::Task.new do |t|
   t.rdoc_files.exclude('Rakefile')
 end
 
+desc "Generate then open docs"
 task :docs => :rerdoc do
   case RUBY_PLATFORM
   when /mswin|mingw/
-    sh "start", "html/index.html"
+    sh "start", "doc/index.html"
   when /darwin/
-    sh "open", "html/index.html"
+    sh "open", "doc/index.html"
   else
-    sh "firefox", "html/index.html"
+    sh "firefox", "doc/index.html"
   end
 end
