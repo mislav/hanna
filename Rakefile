@@ -8,7 +8,16 @@ task :install => [:gem] do
   sh "gem install hanna*.gem"
 end
 
-ENV['RUBYOPT'] = (ENV['RUBYOPT']||'') + ' -Ilib'
+# We do the following so that RDoc will pick up our plugin now, and also in
+# any subshells.
+path = File.expand_path('../lib', __FILE__)
+$LOAD_PATH.unshift path
+ENV['RUBYLIB'] = begin
+  libs = ENV['RUBYLIB'] || ''
+  libs = libs.split(File::PATH_SEPARATOR)
+  libs << path
+  libs.join(File::PATH_SEPARATOR)
+end
 
 gemspec = eval(File.read('hanna.gemspec'))
 
