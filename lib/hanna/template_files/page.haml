@@ -1,13 +1,13 @@
 - file_page = !values[:classmod]
-- title_in_description = values[:description] && values[:description] =~ /^\s*<h1>/m
+- title_in_description = values[:entry].description && values[:entry].description =~ /^\s*<h1>/m
 
 .header
   - title = capture_haml do
     - if file_page
-      = values[:short_name]
+      = values[:file].name
     - else
       %span.type= values[:classmod]
-      = values[:full_name]
+      = values[:entry].full_name
   - if title_in_description
     .name= title
   - else
@@ -15,36 +15,31 @@
     
   - if file_page
     .paths
-      = values[:full_path]
-      - if values[:cvsurl]
-        == (#{link_to 'view online', values[:cvsurl]})
+      = values[:file].relative_name
   - else
     %ol.paths
-      - values[:infiles].each_with_index do |file, index|
+      - values[:entry].in_files.each_with_index do |file, index|
         %li{ :class => index > 0 ? 'other' : nil }
-          = link_to file[:full_path], file[:full_path_url]
-          - if file[:cvsurl]
-            == (#{link_to 'view online', file[:cvsurl]})
-      - if values[:infiles].size > 1
+          -# FIXME cleanup
+          = link_to file.full_name, Pathname.new(file.path).relative_path_from(Pathname.new(values[:entry].path).dirname)
+      - if values[:entry].in_files.size > 1
         %li
           %a.show{ :href => '#', :onclick => 'this.parentNode.parentNode.className += " expanded"; this.parentNode.removeChild(this); return false' } show all
           
-  - if values[:parent] then
+  - if values[:entry].parent 
     .parent
       Parent:
-      %strong= link_to values[:parent], values[:par_url]
+      -# FIXME helper method
+      %strong= link_to values[:entry].parent.name, Pathname.new(class_dir) + Pathname.new(values[:entry].parent.path).relative_path_from(Pathname.new values[:entry].path)
 
-  - if values[:dtm_modified]
+  - if values[:entry].respond_to?(:last_modified) and values[:entry].last_modified
     .last-update
       Last Update:
-      %span.datetime= values[:dtm_modified]
+      %span.datetime= values[:entry].last_modified
     
 #content
-  - if values[:diagram]
-    #diagram= values[:diagram]
-
   #text
     - if values[:description]
-      #description~ sanitize_code_blocks values[:description]
+      #description~ sanitize_code_blocks frame_link values[:description]
 
-    = yield
+    = frame_link yield
